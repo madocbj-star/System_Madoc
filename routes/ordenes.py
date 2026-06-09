@@ -5,7 +5,8 @@ from flask import (
     redirect,
     url_for,
     flash,
-    send_file
+    send_file,
+    current_app
 )
 
 from flask_login import login_required
@@ -23,6 +24,7 @@ from datetime import datetime
 
 import os
 import io
+import base64
 
 from weasyprint import HTML
 
@@ -238,6 +240,35 @@ def pdf_orden(id):
         float(orden.valor_servicio) + total_repuestos
     )
 
+    # =========================================
+    # LEER EL CSS PARA INCRUSTARLO EN EL PDF
+    # =========================================
+    ruta_css = os.path.join(
+        current_app.root_path,
+        'static', 'css', 'pdf.css'
+    )
+
+    try:
+        with open(ruta_css, 'r', encoding='utf-8') as f:
+            pdf_css = f.read()
+    except FileNotFoundError:
+        pdf_css = ''
+
+    # =========================================
+    # LOGO EN BASE64 (para que weasyprint lo lea seguro)
+    # =========================================
+    ruta_logo = os.path.join(
+        current_app.root_path,
+        'static', 'img', 'logo2.png'
+    )
+
+    try:
+        with open(ruta_logo, 'rb') as f:
+            logo_b64 = base64.b64encode(f.read()).decode('utf-8')
+        logo_url = f'data:image/png;base64,{logo_b64}'
+    except FileNotFoundError:
+        logo_url = ''
+
     html = render_template(
 
         'pdf/orden_pdf.html',
@@ -252,7 +283,9 @@ def pdf_orden(id):
             '%d/%m/%Y %H:%M:%S'
         ),
 
-        os=os
+        pdf_css=pdf_css,
+
+        logo_url=logo_url
 
     )
 

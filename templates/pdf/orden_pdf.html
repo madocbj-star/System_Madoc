@@ -6,15 +6,9 @@
     <meta charset="UTF-8">
     <title>Orden PDF</title>
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/pdf.css') }}"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    >
+    <style>
+        {{ pdf_css | safe }}
+    </style>
 
 </head>
 
@@ -34,7 +28,7 @@
                     <!-- LOGO -->
                     <td class="header-logo-cell">
                         <img
-                            src="file:///{{ os.getcwd() }}/static/img/logo2.png"
+                            src="{{ logo_url }}"
                             class="logo"
                         >
                         <div class="logo-subtext">Soluciones Tecnológicas</div>
