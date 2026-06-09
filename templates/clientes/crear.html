@@ -1,0 +1,164 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Nuevo Cliente | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- TITULO -->
+
+    <div class="mb-4">
+
+        <h2 class="fw-bold">
+            Registrar Cliente
+        </h2>
+
+        <p class="text-secondary">
+            Registro de nuevos clientes
+        </p>
+
+    </div>
+
+    <!-- FORMULARIO -->
+
+    <div class="card shadow">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <!-- NOMBRE -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Nombre completo
+                        </label>
+
+                        <input type="text"
+                            name="nombre"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <!-- DOCUMENTO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Documento
+                        </label>
+
+                        <input type="text"
+                            name="documento"
+                            class="form-control">
+
+                    </div>
+
+                    <!-- TELEFONO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Teléfono
+                        </label>
+
+                        <input type="text"
+                            name="telefono"
+                            class="form-control">
+
+                    </div>
+
+                    <!-- CORREO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Correo
+                        </label>
+
+                        <input type="email"
+                            name="correo"
+                            class="form-control">
+
+                    </div>
+
+                    <!-- DIRECCION -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Dirección
+                        </label>
+
+                        <input type="text"
+                            name="direccion"
+                            class="form-control">
+
+                    </div>
+
+                    <!-- EMPRESA -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Empresa
+                        </label>
+
+                        <input type="text"
+                            name="empresa"
+                            class="form-control">
+
+                    </div>
+
+                    <!-- OBSERVACIONES -->
+
+                    <div class="col-12 mb-4">
+
+                        <label class="form-label">
+                            Observaciones
+                        </label>
+
+                        <textarea name="observaciones"
+                            rows="4"
+                            class="form-control"></textarea>
+
+                    </div>
+
+                </div>
+
+                <!-- BOTONES -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                        class="btn btn-info">
+
+                        Guardar Cliente
+
+                    </button>
+
+                    <a href="/clientes"
+                        class="btn btn-secondary">
+
+                        Cancelar
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

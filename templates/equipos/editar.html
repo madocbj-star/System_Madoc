@@ -1,0 +1,260 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Registrar Equipo | System Madoc
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- TITULO -->
+
+    <div class="mb-4">
+
+        <h2 class="fw-bold">
+            Editar Equipo
+        </h2>
+
+        <p class="text-secondary">
+            Actualización de información del equipo
+        </p>
+
+    </div>
+
+    <!-- FORMULARIO -->
+
+    <div class="card shadow">
+
+        <div class="card-body p-4">
+
+            <form method="POST"
+                enctype="multipart/form-data">
+
+                <div class="row">
+
+                    <!-- CLIENTE -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Cliente
+                        </label>
+
+                        <select name="cliente_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Seleccione cliente
+                            </option>
+
+                            {% for cliente in clientes %}
+
+                            <option value="{{ cliente.id }}"
+
+                            {% if cliente.id == equipo.cliente_id %}
+                            selected
+                            {% endif %}
+
+                            >
+
+                                {{ cliente.nombre }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- TIPO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Tipo Equipo
+                        </label>
+
+                        <select name="tipo"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Seleccione tipo
+                            </option>
+
+                            <option value="Computador"
+
+                            {% if equipo.tipo == 'Computador' %}
+                            selected
+                            {% endif %}>
+                                Computador
+                            </option>
+
+                            <option value="Impresora"
+
+                            {% if equipo.tipo == 'Impresora' %}
+                            selected
+                            {% endif %}>
+                                Impresora
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- MARCA -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Marca
+                        </label>
+
+                        <input type="text"
+                            name="marca"
+                            value="{{ equipo.marca }}"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <!-- MODELO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Modelo
+                        </label>
+
+                        <input type="text"
+                            name="modelo"
+                            value="{{ equipo.modelo }}"
+                            class="form-control">
+
+                    </div>
+
+                    <!-- SERIAL -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Serial
+                        </label>
+
+                        <input type="text"
+                            name="serial"
+                            value="{{ equipo.serial }}"
+                            class="form-control">
+
+                    </div>
+
+                    <!-- PASSWORD -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Contraseña Equipo
+                        </label>
+
+                        <input type="text"
+                            name="password_equipo"
+                            value="{{ equipo.password_equipo }}"
+                            class="form-control">
+
+                    </div>
+
+                    <!-- ACCESORIOS -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Accesorios
+                        </label>
+
+                        <input type="text"
+                            name="accesorios"
+                            value="{{ equipo.accesorios }}"
+                            class="form-control"
+                            placeholder="Cargador, mouse, cable poder...">
+
+                    </div>
+
+                    <!-- FOTO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Foto Evidencia
+                        </label>
+
+                        <input type="file"
+                            name="foto"
+                            class="form-control"
+                            accept="image/*"
+                            capture="environment">
+
+                    </div>
+
+                    <!-- ESTADO FISICO -->
+
+                    <div class="col-12 mb-3">
+
+                        <label class="form-label">
+                            Estado Físico (Ingreso)
+                        </label>
+
+                        <textarea name="estado_fisico"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Describa golpes, daños, rayones, faltantes...">{{ equipo.estado_fisico }}</textarea>
+
+                    </div>
+
+                    <!-- OBSERVACIONES -->
+
+                    <div class="col-12 mb-4">
+
+                        <label class="form-label">
+                            Problema Reportado
+                        </label>
+
+                        <textarea name="observaciones"
+                            class="form-control"
+                            rows="4">{{ equipo.observaciones }}</textarea>
+
+                    </div>
+
+                </div>
+
+                <!-- BOTONES -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                        class="btn btn-info">
+
+                        Guardar Cambios
+
+                    </button>
+
+                    <a href="/equipos"
+                        class="btn btn-secondary">
+
+                        Cancelar
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

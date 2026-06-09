@@ -1,0 +1,212 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Editar Orden | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Seguimiento Técnico
+            </h2>
+
+            <p class="text-secondary mb-0">
+                {{ orden.codigo_orden }}
+            </p>
+
+        </div>
+
+        <a href="/ordenes/ver/{{ orden.id }}"
+            class="btn btn-secondary">
+            Volver
+        </a>
+
+    </div>
+
+    <!-- FORMULARIO -->
+
+    <div class="card shadow">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <!-- ESTADO -->
+
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label">
+                            Estado Reparación
+                        </label>
+
+                        <select name="estado" class="form-select">
+
+                            <option value="RECIBIDO"
+                                {% if orden.estado == 'RECIBIDO' %}selected{% endif %}>
+                                RECIBIDO
+                            </option>
+
+                            <option value="EN DIAGNÓSTICO"
+                                {% if orden.estado == 'EN DIAGNÓSTICO' %}selected{% endif %}>
+                                EN DIAGNÓSTICO
+                            </option>
+
+                            <option value="EN REPARACIÓN"
+                                {% if orden.estado == 'EN REPARACIÓN' %}selected{% endif %}>
+                                EN REPARACIÓN
+                            </option>
+
+                            <option value="PENDIENTE REPUESTO"
+                                {% if orden.estado == 'PENDIENTE REPUESTO' %}selected{% endif %}>
+                                PENDIENTE REPUESTO
+                            </option>
+
+                            <option value="LISTO"
+                                {% if orden.estado == 'LISTO' %}selected{% endif %}>
+                                LISTO
+                            </option>
+
+                            <option value="ENTREGADO"
+                                {% if orden.estado == 'ENTREGADO' %}selected{% endif %}>
+                                ENTREGADO
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- VALOR -->
+
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label">
+                            Valor Servicio
+                        </label>
+
+                        <input type="number"
+                            name="valor_servicio"
+                            class="form-control"
+                            value="{{ orden.valor_servicio }}">
+
+                    </div>
+
+                    <!-- TÉCNICO RESPONSABLE -->
+
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label">
+                            Técnico Responsable
+                        </label>
+
+                        <select name="tecnico_id" class="form-select">
+
+                            <option value="">
+                                Sin asignar
+                            </option>
+
+                            {% for tecnico in tecnicos %}
+
+                            <option value="{{ tecnico.id }}"
+                                {% if orden.tecnico_id == tecnico.id %}selected{% endif %}>
+                                {{ tecnico.nombre }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- PROBLEMA -->
+
+                    <div class="col-12 mb-4">
+
+                        <label class="form-label">
+                            Problema Reportado
+                        </label>
+
+                        <textarea name="problema_reportado"
+                            class="form-control"
+                            rows="4">{{ orden.problema_reportado }}</textarea>
+
+                    </div>
+
+                    <!-- DIAGNOSTICO -->
+
+                    <div class="col-12 mb-4">
+
+                        <label class="form-label">
+                            Diagnóstico Técnico
+                        </label>
+
+                        <textarea name="diagnostico"
+                            class="form-control"
+                            rows="4">{{ orden.diagnostico }}</textarea>
+
+                    </div>
+
+                    <!-- SOLUCION -->
+
+                    <div class="col-12 mb-4">
+
+                        <label class="form-label">
+                            Solución Aplicada
+                        </label>
+
+                        <textarea name="solucion"
+                            class="form-control"
+                            rows="4">{{ orden.solucion }}</textarea>
+
+                    </div>
+
+                    <!-- OBSERVACIONES -->
+
+                    <div class="col-12 mb-4">
+
+                        <label class="form-label">
+                            Recomendaciones
+                        </label>
+
+                        <textarea name="observaciones"
+                            class="form-control"
+                            rows="4">{{ orden.observaciones }}</textarea>
+
+                    </div>
+
+                </div>
+
+                <!-- BOTONES -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                        class="btn btn-warning">
+                        Actualizar Orden
+                    </button>
+
+                    <a href="/ordenes"
+                        class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

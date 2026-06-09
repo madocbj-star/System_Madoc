@@ -1,0 +1,441 @@
+{% extends 'base_cliente.html' %}
+
+{% block title %}
+Consulta Estado
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- TITULO -->
+
+    <div class="text-center mb-5">
+
+        <!-- LOGO -->
+
+        <div class="mb-4">
+
+            <img src="{{ url_for('static',
+                filename='img/logo2.png') }}"
+
+                class="logo-consulta">
+
+        </div>
+
+        <h4 class="text-secondary mb-4">
+
+            Soluciones Tecnológicas
+
+        </h4>
+
+        <h1 class="fw-bold">
+            Consulta tu reparación
+        </h1>
+
+        <p class="text-secondary">
+
+            Ingresa el código de tu orden
+
+        </p>
+
+    </div>
+
+    <!-- BUSCADOR -->
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow mb-4">
+
+                <div class="card-body p-4">
+
+                    <form method="POST">
+
+                        <div class="input-group">
+
+                            <input type="text"
+                                name="codigo"
+                                class="form-control"
+                                placeholder="Ej: SER-JUL-0001"
+                                required>
+
+                            <button type="submit"
+                                class="btn btn-info">
+
+                                Consultar
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RESULTADO -->
+
+    {% if orden %}
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-body p-4">
+
+                    <div class="text-center mb-4">
+
+                        <h2 class="fw-bold">
+
+                            {{ orden.codigo_orden }}
+
+                        </h2>
+
+                        <span class="badge bg-info">
+
+                            {{ orden.estado }}
+
+                        </span>
+
+                        <!-- ================================= -->
+                        <!-- PROGRESO -->
+                        <!-- ================================= -->
+
+                        <div class="mt-4">
+
+                            <div class="progress-container">
+
+                                <!-- RECIBIDO -->
+
+                                <div class="step
+                                    {% if orden.estado in [
+                                        'RECIBIDO',
+                                        'EN DIAGNÓSTICO',
+                                        'EN REPARACIÓN',
+                                        'LISTO',
+                                        'ENTREGADO'
+                                    ] %}
+                                        active
+                                    {% endif %}">
+
+                                    RECIBIDO
+
+                                </div>
+
+                                <!-- DIAGNOSTICO -->
+
+                                <div class="step
+                                    {% if orden.estado in [
+                                        'EN DIAGNÓSTICO',
+                                        'EN REPARACIÓN',
+                                        'LISTO',
+                                        'ENTREGADO'
+                                    ] %}
+                                        active
+                                    {% endif %}">
+
+                                    DIAGNÓSTICO
+
+                                </div>
+
+                                <!-- REPARACION -->
+
+                                <div class="step
+                                    {% if orden.estado in [
+                                        'EN REPARACIÓN',
+                                        'LISTO',
+                                        'ENTREGADO'
+                                    ] %}
+                                        active
+                                    {% endif %}">
+
+                                    REPARACIÓN
+
+                                </div>
+
+                                <!-- LISTO -->
+
+                                <div class="step
+                                    {% if orden.estado in [
+                                        'LISTO',
+                                        'ENTREGADO'
+                                    ] %}
+                                        active
+                                    {% endif %}">
+
+                                    LISTO
+
+                                </div>
+
+                                <!-- ENTREGADO -->
+
+                                <div class="step
+                                    {% if orden.estado == 'ENTREGADO' %}
+                                        active
+                                    {% endif %}">
+
+                                    ENTREGADO
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- FOTO -->
+
+                    {% if orden.equipo.foto %}
+
+                    <div class="text-center mb-4">
+
+                        <img src="{{ url_for('static',
+                            filename='uploads/equipos/' + orden.equipo.foto) }}"
+
+                            class="foto-equipo-detalle">
+
+                    </div>
+
+                    {% endif %}
+
+                    <!-- DATOS -->
+
+                    <div class="mt-4">
+
+                        <!-- EQUIPO -->
+
+                        <div class="mb-4">
+
+                            <div class="card card-info h-100">
+
+                                <div class="card-body">
+
+                                    <div class="icono-mini mb-3">
+
+                                        <i class="bi bi-pc-display"></i>
+
+                                    </div>
+
+                                    <h6 class="titulo-info">
+
+                                        Equipo
+
+                                    </h6>
+
+                                    <p class="mb-0">
+
+                                        {{ orden.equipo.tipo }}
+
+                                        {{ orden.equipo.marca }}
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- FECHA -->
+
+                        <div class="mb-4">
+
+                            <div class="card card-info h-100">
+
+                                <div class="card-body">
+
+                                    <div class="icono-mini mb-3">
+
+                                        <i class="bi bi-calendar-event"></i>
+
+                                    </div>
+
+                                    <h6 class="titulo-info">
+
+                                        Fecha ingreso
+
+                                    </h6>
+
+                                    <p class="mb-0">
+
+                                        {{ orden.fecha_ingreso.strftime('%Y-%m-%d') }}
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- DIAGNOSTICO -->
+
+                        <div class="mb-4">
+
+                            <div class="card card-info h-100">
+
+                                <div class="card-body">
+
+                                    <div class="icono-mini mb-3">
+
+                                        <i class="bi bi-search"></i>
+
+                                    </div>
+
+                                    <h6 class="titulo-info">
+
+                                        Diagnóstico
+
+                                    </h6>
+
+                                    <p class="mb-0">
+
+                                        {{ orden.diagnostico or
+                                        'Pendiente' }}
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mt-4">
+
+                            <!-- SOLUCION -->
+
+                            <div class="mb-4">
+
+                                <div class="card card-cliente h-100">
+
+                                    <div class="card-body">
+
+                                        <div class="d-flex align-items-center mb-3">
+
+                                            <div class="icono-card me-3">
+
+                                                <i class="bi bi-tools"></i>
+
+                                            </div>
+
+                                            <h5 class="mb-0">
+
+                                                Solución
+
+                                            </h5>
+
+                                        </div>
+
+                                        <p class="mb-0">
+
+                                            {{ orden.solucion or
+                                            'Pendiente de solución técnica.' }}
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- RECOMENDACIONES -->
+
+                            <div class="mb-4">
+
+                                <div class="card card-cliente h-100">
+
+                                    <div class="card-body">
+
+                                        <div class="d-flex align-items-center mb-3">
+
+                                            <div class="icono-card me-3">
+
+                                                <i class="bi bi-shield-check"></i>
+
+                                            </div>
+
+                                            <h5 class="mb-0">
+
+                                                Recomendaciones
+
+                                            </h5>
+
+                                        </div>
+
+                                        <p class="mb-0">
+
+                                            {{ orden.observaciones or
+                                            'Sin recomendaciones registradas.' }}
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- VALOR -->
+
+                            <div class="mb-4">
+
+                                <div class="card card-info h-100">
+
+                                    <div class="card-body">
+
+                                        <div class="icono-mini mb-3">
+
+                                            <i class="bi bi-cash-stack"></i>
+
+                                        </div>
+
+                                        <h6 class="titulo-info">
+
+                                            Valor
+
+                                        </h6>
+
+                                        <p class="mb-0">
+
+                                            $ {{ "{:,.2f}".format(orden.valor_servicio)
+                                            .replace(",", "X")
+                                            .replace(".", ",")
+                                            .replace("X", ".") }} COP
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

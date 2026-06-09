@@ -1,0 +1,183 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Nuevo Usuario | System Madoc
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- TITULO -->
+
+    <div class="mb-4">
+
+        <h2 class="fw-bold">
+            Nuevo Usuario
+        </h2>
+
+        <p class="text-secondary">
+            Registro de nuevos usuarios del sistema
+        </p>
+
+    </div>
+
+    <!-- FORMULARIO -->
+
+    <div class="card shadow">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <!-- NOMBRE -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Nombre Completo
+                        </label>
+
+                        <input type="text"
+                            name="nombre"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <!-- CORREO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Correo Electrónico
+                        </label>
+
+                        <input type="email"
+                            name="correo"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <!-- PASSWORD -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Contraseña
+                        </label>
+
+                        <div class="input-group">
+
+                            <input type="password"
+                                name="password"
+                                id="password"
+                                class="form-control"
+                                required>
+
+                            <button type="button"
+                                class="btn btn-outline-info"
+                                onclick="togglePassword()">
+
+                                <i class="bi bi-eye-fill"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ROL -->
+
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label">
+                            Rol Usuario
+                        </label>
+
+                        <select name="rol"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Seleccione rol
+                            </option>
+
+                            <option value="admin">
+                                ADMIN
+                            </option>
+
+                            <option value="tecnico">
+                                TÉCNICO
+                            </option>
+
+                            <option value="vendedor">
+                                VENDEDOR
+                            </option>
+
+                            <option value="almacen">
+                                ALMACÉN
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <!-- BOTONES -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                        class="btn btn-info">
+
+                        Crear Usuario
+
+                    </button>
+
+                    <a href="/usuarios"
+                        class="btn btn-secondary">
+
+                        Cancelar
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MOSTRAR PASSWORD -->
+
+<script>
+
+function togglePassword() {
+
+    const input = document.getElementById(
+        'password'
+    );
+
+    if (input.type === 'password') {
+
+        input.type = 'text';
+
+    } else {
+
+        input.type = 'password';
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

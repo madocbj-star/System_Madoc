@@ -1,0 +1,252 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Equipos | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Gestión de Equipos
+            </h2>
+
+            <p class="text-secondary mb-0">
+                Computadores e impresoras registradas
+            </p>
+
+        </div>
+
+        <a href="/equipos/crear"
+            class="btn btn-info">
+
+            <i class="bi bi-plus-circle"></i>
+            Nuevo Equipo
+
+        </a>
+
+    </div>
+
+    <!-- ALERTAS -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                    {{ message }}
+
+                    <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <!-- FILTROS -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- FILTRO TIPO -->
+
+                <div class="col-md-3 mb-3">
+
+                    <select class="form-select"
+                        id="filtroTipo">
+
+                        <option value="">
+                            Todos los tipos
+                        </option>
+
+                        <option value="Computador">
+                            Computadores
+                        </option>
+
+                        <option value="Impresora">
+                            Impresoras
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- BUSCADOR -->
+
+                <div class="col-md-5 mb-3">
+
+                    <input type="text"
+                        class="form-control"
+                        id="buscadorEquipo"
+                        placeholder="Buscar marca, modelo o serial...">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TABLA -->
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-dark table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Foto</th>
+                            <th>Tipo</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Serial</th>
+                            <th>Cliente</th>
+                            <th>Acciones</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for equipo in equipos %}
+
+                        <tr>
+
+                            <td>
+                                {{ equipo.id }}
+                            </td>
+
+                            <!-- FOTO -->
+
+                            <td>
+
+                                {% if equipo.foto %}
+
+                                <img src="{{ url_for('static', filename='uploads/equipos/' + equipo.foto) }}"
+                                    width="70"
+                                    height="70"
+                                    style="object-fit: cover; border-radius: 10px;">
+
+                                {% else %}
+
+                                <span class="text-secondary">
+                                    Sin foto
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- TIPO -->
+
+                            <td>
+                                {{ equipo.tipo }}
+                            </td>
+
+                            <!-- MARCA -->
+
+                            <td>
+                                {{ equipo.marca }}
+                            </td>
+
+                            <!-- MODELO -->
+
+                            <td>
+                                {{ equipo.modelo }}
+                            </td>
+
+                            <!-- SERIAL -->
+
+                            <td>
+                                {{ equipo.serial }}
+                            </td>
+
+                            <!-- CLIENTE -->
+
+                            <td>
+
+                                {{ equipo.cliente_id }}
+
+                            </td>
+
+                            <!-- ACCIONES -->
+
+                            <td>
+
+                                <div class="d-flex gap-2">
+
+                                    <a href="/equipos/ver/{{ equipo.id }}"
+                                        class="btn btn-sm btn-info">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </a>
+
+                                    <a href="/equipos/editar/{{ equipo.id }}"
+                                        class="btn btn-sm btn-warning">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="8"
+                                class="text-center text-secondary py-4">
+
+                                No hay equipos registrados
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

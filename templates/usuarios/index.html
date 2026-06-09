@@ -1,0 +1,252 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Usuarios | System Madoc
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- TITULO -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Gestión de Usuarios
+            </h2>
+
+            <p class="text-secondary">
+                Administración de accesos y roles
+            </p>
+
+        </div>
+
+        <a href="/usuarios/crear"
+            class="btn btn-info">
+
+            <i class="bi bi-plus-circle"></i>
+            Nuevo Usuario
+
+        </a>
+
+    </div>
+
+    <!-- ALERTAS -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                    {{ message }}
+
+                    <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <!-- TABLA -->
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-dark table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Foto</th>
+
+                            <th>Nombre</th>
+
+                            <th>Correo</th>
+
+                            <th>Rol</th>
+
+                            <th>Estado</th>
+
+                            <th>Acciones</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for usuario in usuarios %}
+
+                        <tr>
+
+                            <!-- ID -->
+
+                            <td>
+
+                                {{ usuario.id }}
+
+                            </td>
+
+                            <!-- FOTO -->
+
+                            <td>
+
+                                {% if usuario.foto %}
+
+                                <img src="{{ url_for('static',
+                                filename='uploads/usuarios/' + usuario.foto) }}"
+                                    class="rounded-circle"
+                                    width="45"
+                                    height="45"
+                                    style="object-fit: cover;">
+
+                                {% else %}
+
+                                <i class="bi bi-person-circle fs-3 text-info"></i>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- NOMBRE -->
+
+                            <td>
+
+                                {{ usuario.nombre }}
+
+                            </td>
+
+                            <!-- CORREO -->
+
+                            <td>
+
+                                {{ usuario.correo }}
+
+                            </td>
+
+                            <!-- ROL -->
+
+                            <td>
+
+                                {% if usuario.rol == 'admin' %}
+
+                                <span class="badge bg-danger">
+
+                                    ADMIN
+
+                                </span>
+
+                                {% elif usuario.rol == 'tecnico' %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    TÉCNICO
+
+                                </span>
+
+                                {% elif usuario.rol == 'vendedor' %}
+
+                                <span class="badge bg-success">
+
+                                    VENDEDOR
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-info">
+
+                                    {{ usuario.rol }}
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- ESTADO -->
+
+                            <td>
+
+                                {% if usuario.estado %}
+
+                                <span class="badge bg-success">
+
+                                    ACTIVO
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    INACTIVO
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- ACCIONES -->
+
+                            <td>
+
+                                <div class="d-flex gap-2">
+
+                                    <!-- VER -->
+
+                                    <a href="/usuarios/ver/{{ usuario.id }}"
+                                        class="btn btn-info btn-sm">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </a>
+
+                                    <!-- EDITAR -->
+
+                                    <a href="/usuarios/editar/{{ usuario.id }}"
+                                        class="btn btn-warning btn-sm">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

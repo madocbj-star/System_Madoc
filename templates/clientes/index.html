@@ -1,0 +1,169 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Clientes | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- ENCABEZADO -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Gestión de Clientes
+            </h2>
+
+            <p class="text-secondary mb-0">
+                Administración completa de clientes
+            </p>
+
+        </div>
+
+        <a href="/clientes/crear"
+            class="btn btn-info">
+
+            <i class="bi bi-plus-circle"></i>
+            Nuevo Cliente
+
+        </a>
+
+    </div>
+
+    <!-- ALERTAS -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                    {{ message }}
+
+                    <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <!-- TABLA -->
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-dark table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Documento</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                            <th>Empresa</th>
+                            <th>Acciones</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for cliente in clientes %}
+
+                        <tr>
+
+                            <td>
+                                {{ cliente.id }}
+                            </td>
+
+                            <td>
+                                {{ cliente.nombre }}
+                            </td>
+
+                            <td>
+                                {{ cliente.documento }}
+                            </td>
+
+                            <td>
+                                {{ cliente.telefono }}
+                            </td>
+
+                            <td>
+                                {{ cliente.correo }}
+                            </td>
+
+                            <td>
+                                {{ cliente.empresa }}
+                            </td>
+
+                            <td>
+
+                                <div class="d-flex gap-2">
+
+                                    <a href="/clientes/editar/{{ cliente.id }}"
+                                        class="btn btn-sm btn-warning">
+
+                                        Editar
+
+                                    </a>
+
+                                    <a href="/clientes/eliminar/{{ cliente.id }}"
+                                        class="btn btn-sm btn-danger"
+                                        onclick="return confirm('¿Eliminar cliente?')">
+
+                                        Eliminar
+
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="7"
+                                class="text-center text-secondary py-4">
+
+                                No hay clientes registrados
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

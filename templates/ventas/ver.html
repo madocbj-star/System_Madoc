@@ -1,0 +1,268 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Detalle Venta | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- ================================= -->
+    <!-- ENCABEZADO -->
+    <!-- ================================= -->
+
+    <div class="d-flex
+        justify-content-between
+        align-items-center
+        mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                Detalle de Venta
+
+            </h2>
+
+            <p class="text-secondary">
+
+                Información completa de la venta
+
+            </p>
+
+        </div>
+
+        <a href="/ventas"
+            class="btn btn-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Volver
+
+        </a>
+
+    </div>
+
+    <!-- ================================= -->
+    <!-- INFO -->
+    <!-- ================================= -->
+
+    <div class="row">
+
+        <!-- DATOS -->
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="card pos-card h-100">
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-4">
+
+                        Información
+
+                    </h5>
+
+                    <div class="mb-3">
+
+                        <small class="text-secondary">
+
+                            Código
+
+                        </small>
+
+                        <h6>
+
+                            {{ venta.codigo_venta }}
+
+                        </h6>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <small class="text-secondary">
+
+                            Cliente
+
+                        </small>
+
+                        <h6>
+
+                            {{ venta.cliente_nombre }}
+
+                        </h6>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <small class="text-secondary">
+
+                            Método pago
+
+                        </small>
+
+                        <h6>
+
+                            {{ venta.metodo_pago }}
+
+                        </h6>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <small class="text-secondary">
+
+                            Fecha
+
+                        </small>
+
+                        <h6>
+
+                            {{ venta.fecha_venta.strftime('%Y-%m-%d') }}
+
+                        </h6>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex
+                        justify-content-between
+                        align-items-center">
+
+                        <h5>
+
+                            TOTAL
+
+                        </h5>
+
+                        <h4 class="text-info">
+
+                            $ {{
+                            "{:,.0f}".format(
+                                venta.total
+                            ).replace(",", ".")
+                            }}
+
+                        </h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PRODUCTOS -->
+
+        <div class="col-lg-8">
+
+            <div class="card pos-card">
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-4">
+
+                        Productos vendidos
+
+                    </h5>
+
+                    <div class="table-responsive">
+
+                        <table class="table
+                            table-dark
+                            table-hover
+                            align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Producto</th>
+
+                                    <th>Cantidad</th>
+
+                                    <th>Precio</th>
+
+                                    <th>Subtotal</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for detalle in detalles %}
+
+                                <tr>
+
+                                    <!-- PRODUCTO -->
+
+                                    <td>
+
+                                        {{ detalle.producto.nombre }}
+
+                                    </td>
+
+                                    <!-- CANTIDAD -->
+
+                                    <td>
+
+                                        {{ detalle.cantidad }}
+
+                                    </td>
+
+                                    <!-- PRECIO -->
+
+                                    <td>
+
+                                        $ {{
+                                        "{:,.0f}".format(
+                                            detalle.precio_unitario
+                                        ).replace(",", ".")
+                                        }}
+
+                                    </td>
+
+                                    <!-- SUBTOTAL -->
+
+                                    <td>
+
+                                        <strong>
+
+                                            $ {{
+                                            "{:,.0f}".format(
+                                                detalle.subtotal
+                                            ).replace(",", ".")
+                                            }}
+
+                                        </strong>
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

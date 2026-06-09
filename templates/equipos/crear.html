@@ -1,0 +1,321 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Registrar Equipo | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- TITULO -->
+
+    <div class="mb-4">
+
+        <h2 class="fw-bold">
+            Registrar Equipo
+        </h2>
+
+        <p class="text-secondary">
+            Registro técnico de computadores e impresoras
+        </p>
+
+    </div>
+
+    <!-- FORMULARIO -->
+
+    <div class="card shadow">
+
+        <div class="card-body p-4">
+
+            <form method="POST"
+                enctype="multipart/form-data">
+
+                <div class="row">
+
+                    <!-- ========================= -->
+                    <!-- SECCIÓN: DATOS DEL EQUIPO -->
+                    <!-- ========================= -->
+
+                    <div class="col-12 mb-3">
+                        <h6 class="text-secondary fw-bold border-bottom pb-2">
+                            Datos del Equipo
+                        </h6>
+                    </div>
+
+                    <!-- CLIENTE -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Cliente
+                        </label>
+
+                        <select name="cliente_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Seleccione cliente
+                            </option>
+
+                            {% for cliente in clientes %}
+
+                            <option value="{{ cliente.id }}">
+                                {{ cliente.nombre }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- TIPO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Tipo Equipo
+                        </label>
+
+                        <select name="tipo"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Seleccione tipo
+                            </option>
+
+                            <option value="Computador">
+                                Computador
+                            </option>
+
+                            <option value="Impresora">
+                                Impresora
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- MARCA -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Marca
+                        </label>
+
+                        <input type="text"
+                            name="marca"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <!-- MODELO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Modelo
+                        </label>
+
+                        <input type="text"
+                            name="modelo"
+                            class="form-control">
+
+                    </div>
+
+                    <!-- SERIAL -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Serial
+                        </label>
+
+                        <input type="text"
+                            name="serial"
+                            class="form-control">
+
+                    </div>
+
+                    <!-- PASSWORD -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Contraseña Equipo
+                        </label>
+
+                        <input type="text"
+                            name="password_equipo"
+                            class="form-control">
+
+                    </div>
+
+                    <!-- ACCESORIOS -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Accesorios
+                        </label>
+
+                        <input type="text"
+                            name="accesorios"
+                            class="form-control"
+                            placeholder="Cargador, mouse, cable poder...">
+
+                    </div>
+
+                    <!-- FOTO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Foto Evidencia
+                        </label>
+
+                        <input type="file"
+                            name="foto"
+                            class="form-control"
+                            accept="image/*"
+                            capture="environment">
+
+                    </div>
+
+                    <!-- ESTADO FISICO -->
+
+                    <div class="col-12 mb-3">
+
+                        <label class="form-label">
+                            Estado Físico (Ingreso)
+                        </label>
+
+                        <textarea name="estado_fisico"
+                            class="form-control"
+                            rows="3"
+                            placeholder="Describa golpes, daños, rayones, faltantes..."></textarea>
+
+                    </div>
+
+                    <!-- PROBLEMA REPORTADO -->
+
+                    <div class="col-12 mb-4">
+
+                        <label class="form-label">
+                            Problema Reportado
+                        </label>
+
+                        <textarea name="observaciones"
+                            class="form-control"
+                            rows="3"></textarea>
+
+                    </div>
+
+                    <!-- ========================= -->
+                    <!-- SECCIÓN: DATOS DE LA ORDEN -->
+                    <!-- ========================= -->
+
+                    <div class="col-12 mb-3">
+                        <h6 class="text-secondary fw-bold border-bottom pb-2">
+                            Orden de Servicio (se crea automáticamente)
+                        </h6>
+                    </div>
+
+                    <!-- TÉCNICO RESPONSABLE -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Técnico Responsable
+                        </label>
+
+                        <select name="tecnico_id"
+                            class="form-select">
+
+                            <option value="">
+                                Sin asignar
+                            </option>
+
+                            {% for tecnico in tecnicos %}
+
+                            <option value="{{ tecnico.id }}">
+                                {{ tecnico.nombre }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- ESTADO ORDEN -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Estado Orden
+                        </label>
+
+                        <select name="estado"
+                            class="form-select">
+
+                            <option value="RECIBIDO" selected>
+                                RECIBIDO
+                            </option>
+
+                            <option value="EN DIAGNÓSTICO">
+                                EN DIAGNÓSTICO
+                            </option>
+
+                            <option value="EN REPARACIÓN">
+                                EN REPARACIÓN
+                            </option>
+
+                            <option value="PENDIENTE REPUESTO">
+                                PENDIENTE REPUESTO
+                            </option>
+
+                            <option value="LISTO">
+                                LISTO
+                            </option>
+
+                            <option value="ENTREGADO">
+                                ENTREGADO
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <!-- BOTONES -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                        class="btn btn-info">
+                        Registrar Equipo
+                    </button>
+
+                    <a href="/equipos"
+                        class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

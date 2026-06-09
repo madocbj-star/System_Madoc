@@ -1,0 +1,9 @@
+Flask
+Flask-SQLAlchemy
+Flask-Login
+Flask-Mail
+psycopg2-binary
+Werkzeug
+Jinja2
+python-dotenv
+gunicorn

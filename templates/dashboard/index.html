@@ -1,0 +1,395 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Dashboard | System Madoc
+{% endblock %}
+
+{% block content %}
+
+<!-- ========================================= -->
+<!-- TITULO -->
+<!-- ========================================= -->
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+    
+        <h2 class="fw-bold">
+            Dashboard Administrativo
+        </h2>
+
+        <p class="text-secondary">
+            Bienvenido al sistema de gestión System Madoc
+        </p>
+
+    </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- CARDS PRINCIPALES -->
+<!-- ========================================= -->
+
+<div class="row g-4">
+
+    <!-- EQUIPOS -->
+
+    <div class="col-md-3">
+
+        <div class="card bg-black border-secondary shadow h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h6 class="text-secondary">
+                            Equipos
+                        </h6>
+
+                        <h2 class="fw-bold text-info">
+                            {{ total_equipos }}
+                        </h2>
+
+                    </div>
+
+                    <i class="bi bi-pc-display fs-1 text-info"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ORDENES -->
+
+    <div class="col-md-3">
+
+        <div class="card bg-black border-secondary shadow h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h6 class="text-secondary">
+                            Órdenes
+                        </h6>
+
+                        <h2 class="fw-bold text-warning">
+                            {{ total_ordenes }}
+                        </h2>
+
+                    </div>
+
+                    <i class="bi bi-tools fs-1 text-warning"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- INVENTARIO -->
+
+    <div class="col-md-3">
+
+        <div class="card bg-black border-secondary shadow h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h6 class="text-secondary">
+                            Productos
+                        </h6>
+
+                        <h2 class="fw-bold text-success">
+                            {{ total_productos }}
+                        </h2>
+
+                    </div>
+
+                    <i class="bi bi-box-seam fs-1 text-success"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- VENTAS -->
+
+    <div class="col-md-3">
+
+        <div class="card bg-black border-secondary shadow h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h6 class="text-secondary">
+                            Ventas
+                        </h6>
+
+                        <h2 class="fw-bold text-danger">
+                            {{ total_clientes }}
+                        </h2>
+
+                    </div>
+
+                    <i class="bi bi-currency-dollar fs-1 text-danger"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- TABLAS -->
+<!-- ========================================= -->
+
+<div class="row mt-5">
+
+    <!-- ULTIMAS ORDENES -->
+
+    <div class="col-lg-8 mb-4">
+
+        <div class="card bg-black border-secondary shadow">
+
+            <div class="card-header border-secondary">
+
+                <h5 class="mb-0">
+                    Últimas órdenes de servicio
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <div class="dashboard-scroll">
+
+                        <table class="table table-dark table-hover align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>#</th>
+                                    <th>Cliente</th>
+                                    <th>Equipo</th>
+                                    <th>Estado</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for orden in ultimas_ordenes %}
+
+                                <tr>
+
+                                    <td>
+
+                                        {{ orden.codigo_orden }}
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ orden.equipo.tipo }}
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ orden.equipo.marca }}
+
+                                    </td>
+
+                                    <td>
+
+                                        {% if orden.estado == 'RECIBIDO' %}
+
+                                            <span class="badge bg-info">
+
+                                                {{ orden.estado }}
+
+                                            </span>
+
+                                        {% elif orden.estado == 'EN DIAGNÓSTICO' %}
+
+                                            <span class="badge bg-warning text-dark">
+
+                                                {{ orden.estado }}
+
+                                            </span>
+
+                                        {% elif orden.estado == 'EN REPARACIÓN' %}
+
+                                            <span class="badge bg-orange">
+
+                                                {{ orden.estado }}
+
+                                            </span>
+
+                                        {% elif orden.estado == 'PENDIENTE REPUESTO' %}
+
+                                            <span class="badge bg-dark">
+
+                                                {{ orden.estado }}
+
+                                            </span>
+
+                                        {% elif orden.estado == 'LISTO' %}
+
+                                            <span class="badge bg-success">
+
+                                                {{ orden.estado }}
+
+                                            </span>
+
+                                        {% elif orden.estado == 'ENTREGADO' %}
+
+                                            <span class="badge bg-entregado">
+
+                                                {{ orden.estado }}
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge bg-secondary">
+
+                                                {{ orden.estado }}
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                                {% else %}
+
+                                <tr>
+
+                                    <td colspan="4"
+                                        class="text-center text-secondary">
+
+                                        No hay órdenes registradas
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ALERTAS -->
+
+    <div class="col-lg-4">
+
+        <div class="card bg-black border-secondary shadow">
+
+            <div class="card-header border-secondary">
+
+                <h5 class="mb-0">
+                    Alertas del sistema
+                </h5>
+
+            </div>
+
+            <div class="dashboard-scroll">
+
+                <div class="card-body">
+
+                    {% if productos_stock_bajo %}
+
+                        {% for producto in productos_stock_bajo %}
+
+                        <div class="alert-dashboard-warning">
+
+                            Stock bajo:
+                            <strong>
+
+                                {{ producto.nombre }}
+
+                            </strong>
+
+                        </div>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <div class="alert-dashboard-success">
+
+                            Todo el inventario está correcto.
+
+                        </div>
+
+                    {% endif %}
+
+                    {% if ordenes_pendientes > 0 %}
+
+                    <div class="alert-dashboard-info">
+
+                        Hay
+                        <strong>
+
+                            {{ ordenes_pendientes }}
+
+                        </strong>
+
+                        órdenes pendientes.
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

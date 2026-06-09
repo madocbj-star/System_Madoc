@@ -1,0 +1,189 @@
+{% extends 'base_login.html' %}
+
+{% block title %}
+Login | System Madoc
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row justify-content-center align-items-center"
+        style="min-height: 85vh;">
+
+        <div class="col-md-5">
+
+            <div class="card bg-black border-secondary shadow-lg">
+
+                <div class="card-body p-5">
+
+                    <!-- ========================================= -->
+                    <!-- TITULO -->
+                    <!-- ========================================= -->
+
+                    <div class="text-center mb-4">
+
+                        <h1 class="fw-bold text-info">
+                            SYSTEM MADOC
+                        </h1>
+
+                        <p class="text-secondary">
+                            Sistema Administrativo Técnico
+                        </p>
+
+                    </div>
+
+                    <!-- ========================================= -->
+                    <!-- ALERTAS -->
+                    <!-- ========================================= -->
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+
+                        {% if messages %}
+
+                            {% for category, message in messages %}
+
+                                <div class="alert alert-{{ category }}">
+
+                                    {{ message }}
+
+                                </div>
+
+                            {% endfor %}
+
+                        {% endif %}
+
+                    {% endwith %}
+
+                    <!-- ========================================= -->
+                    <!-- FORM LOGIN -->
+                    <!-- ========================================= -->
+
+                    <form method="POST">
+
+                        <!-- EMAIL -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Correo electrónico
+                            </label>
+
+                            <input type="email"
+                                name="correo"
+                                class="form-control bg-dark text-light border-secondary"
+                                placeholder="Ingrese su correo"
+                                required>
+
+                        </div>
+
+                        <!-- PASSWORD -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Contraseña
+                            </label>
+
+                            <div class="input-group">
+
+                                <input type="password"
+                                    name="password"
+                                    id="password"
+                                    class="form-control bg-dark text-light border-secondary"
+                                    placeholder="Ingrese su contraseña"
+                                    required>
+
+                                <button type="button"
+                                    class="btn btn-outline-info"
+                                    onclick="togglePassword()">
+
+                                    <i class="bi bi-eye-fill"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <!-- RECORDAR CONTRASEÑA -->
+
+                        <div class="form-check mt-3">
+
+                            <input class="form-check-input"
+                                type="checkbox"
+                                name="remember"
+                                id="remember">
+
+                            <label class="form-check-label"
+                                for="remember">
+
+                                Recordarme
+
+                            </label>
+
+                        </div>
+
+                        <!-- BOTON -->
+
+                        <div class="d-grid">
+
+                            <button type="submit"
+                                class="btn btn-info fw-bold">
+
+                                Ingresar
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                    <!-- ========================================= -->
+                    <!-- RECUPERAR PASSWORD -->
+                    <!-- ========================================= -->
+
+                    <div class="text-center mt-4">
+
+                        <a href="/auth/recuperar-password"
+                            class="text-decoration-none text-secondary">
+
+                            ¿Olvidó su contraseña?
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function togglePassword() {
+
+    const input = document.getElementById(
+        'password'
+    );
+
+    if (input.type === 'password') {
+
+        input.type = 'text';
+
+    } else {
+
+        input.type = 'password';
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Orden PDF</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/pdf.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<table class="main-table">
+
+    <!-- ===================================== -->
+    <!-- HEADER -->
+    <!-- ===================================== -->
+
+    <tr>
+        <td>
+            <table class="header-table">
+                <tr>
+
+                    <!-- LOGO -->
+                    <td class="header-logo-cell">
+                        <img
+                            src="file:///{{ os.getcwd() }}/static/img/logo2.png"
+                            class="logo"
+                        >
+                        <div class="logo-subtext">Soluciones Tecnológicas</div>
+                    </td>
+
+                    <!-- INFO EMPRESA -->
+                    <td class="header-center-cell">
+                        <div class="empresa-nombre">SYSTEM MADOC</div>
+                        <div class="empresa-sub">Soluciones Tecnológicas</div>
+                        <div class="contacto">
+                            <p><i class="fas fa-id-card"></i> NIT: 1122144702-0</p>
+                            <p><i class="fas fa-phone"></i> CEL: 3022128707 - 3007636462</p>
+                            <p><i class="fas fa-location-dot"></i> Acacias, Meta - Colombia</p>
+                        </div>
+                    </td>
+
+                    <!-- BADGE ORDEN -->
+                    <td class="header-badge-cell">
+                        <div class="orden-badge">
+                            <i class="fas fa-laptop badge-icon"></i>
+                            <div class="badge-text">ORDEN DE<br>SERVICIO TÉCNICO</div>
+                        </div>
+                    </td>
+
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- ===================================== -->
+    <!-- INFO PRINCIPAL (2 filas x 3 cols) -->
+    <!-- ===================================== -->
+
+    <tr>
+        <td>
+            <table class="info-grid">
+
+                <!-- FILA 1 -->
+                <tr>
+                    <td class="info-box bb br">
+                        <div class="info-label">CÓDIGO ORDEN:</div>
+                        <div class="info-value codigo">{{ orden.codigo_orden }}</div>
+                    </td>
+                    <td class="info-box bb br">
+                        <div class="info-label">FECHA INGRESO:</div>
+                        <div class="info-text">
+                            {{ orden.fecha_ingreso.strftime("%Y-%m-%d") if orden.fecha_ingreso else '-' }}
+                        </div>
+                    </td>
+                    <td class="info-box bb">
+                        <div class="info-label">TÉCNICO RESPONSABLE:</div>
+                        <div class="info-text">
+                            {{ orden.tecnico.nombre if orden.tecnico else 'No asignado' }}
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+
+    <!-- ===================================== -->
+    <!-- CLIENTE + EQUIPO -->
+    <!-- ===================================== -->
+
+    <tr>
+        <td>
+            <table class="cards-table">
+                <tr>
+
+                    <!-- CLIENTE -->
+                    <td class="card">
+                        <div class="card-title">
+                            <i class="fas fa-user"></i>
+                            DATOS DEL CLIENTE
+                        </div>
+                        <div class="card-content">
+                            <p><span class="dato-label">Nombre:</span> {{ orden.equipo.cliente.nombre }}</p>
+                            <p><span class="dato-label">Teléfono:</span> {{ orden.equipo.cliente.telefono }}</p>
+                            <p><span class="dato-label">Correo:</span> {{ orden.equipo.cliente.correo }}</p>
+                            <p><span class="dato-label">Dirección:</span> {{ orden.equipo.cliente.direccion }}</p>
+                        </div>
+                    </td>
+
+                    <!-- EQUIPO -->
+                    <td class="card">
+                        <div class="card-title">
+                            <i class="fas fa-desktop"></i>
+                            DATOS DEL EQUIPO
+                        </div>
+                        <div class="card-content">
+                            <div class="equipo-flex">
+                                <div class="equipo-info">
+                                    <p><span class="dato-label">TIPO EQUIPO:</span> {{ orden.equipo.tipo }}</p>
+                                    <p><span class="dato-label">MARCA:</span> {{ orden.equipo.marca }}</p>
+                                    <p><span class="dato-label">MODELO:</span> {{ orden.equipo.modelo }}</p>
+                                    <p><span class="dato-label">SERIAL:</span> {{ orden.equipo.serial }}</p>
+                                </div>
+                                <div class="equipo-foto-box">
+                                    {% if orden.equipo.foto %}
+                                    <img
+                                        src="file:///{{ os.getcwd() }}/static/uploads/equipos/{{ orden.equipo.foto }}"
+                                        class="foto-equipo"
+                                    >
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- ===================================== -->
+    <!-- PROBLEMA REPORTADO -->
+    <!-- ===================================== -->
+
+    <tr>
+        <td>
+            <div class="section section-problema">
+                <div class="section-header-row">
+                    <i class="fas fa-exclamation-circle icon-red"></i>
+                    <span class="label-red">PROBLEMA REPORTADO</span>
+                </div>
+                <div class="section-body">{{ orden.problema_reportado }}</div>
+            </div>
+        </td>
+    </tr>
+
+    <!-- ===================================== -->
+    <!-- DIAGNÓSTICO TÉCNICO -->
+    <!-- ===================================== -->
+
+    <tr>
+        <td>
+            <div class="section section-diagnostico">
+                <div class="section-header-row">
+                    <i class="fas fa-search icon-blue"></i>
+                    <span class="label-blue">DIAGNÓSTICO TÉCNICO</span>
+                </div>
+                <div class="section-body">{{ orden.diagnostico }}</div>
+            </div>
+        </td>
+    </tr>
+
+    <!-- ===================================== -->
+    <!-- SOLUCIÓN APLICADA -->
+    <!-- ===================================== -->
+
+    <tr>
+        <td>
+            <div class="section section-solucion">
+                <div class="section-header-row">
+                    <i class="fas fa-tools icon-green"></i>
+                    <span class="label-green">SOLUCIÓN APLICADA</span>
+                </div>
+                <div class="section-body">{{ orden.solucion }}</div>
+            </div>
+        </td>
+    </tr>
+
+    <!-- ===================================== -->
+    <!-- REPUESTOS UTILIZADOS -->
+    <!-- ===================================== -->
+
+    <tr>
+        <td>
+            <div class="section">
+                <div class="section-title-dark">
+                    <i class="fas fa-box-open"></i>
+                    REPUESTOS UTILIZADOS
+                </div>
+                <div class="tabla-repuestos">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>DESCRIPCIÓN</th>
+                                <th>REFERENCIA</th>
+                                <th>CANTIDAD</th>
+                                <th>VALOR UNITARIO</th>
+                                <th>VALOR TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for repuesto in orden.repuestos %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ repuesto.producto.nombre }}</td>
+                                <td>{{ repuesto.producto.codigo }}</td>
+                                <td>{{ repuesto.cantidad }}</td>
+                                <td>${{ "{:,.2f}".format(repuesto.precio | float) }}</td>
+                                <td>${{ "{:,.2f}".format(repuesto.subtotal | float) }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="6" style="text-align:center; color:#888; padding: 10px;">
+                                    Sin repuestos registrados
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    <!-- ===================================== -->
+    <!-- OBSERVACIONES + TOTALES -->
+    <!-- ===================================== -->
+
+    <tr>
+        <td>
+            <table class="bottom-grid">
+                <tr>
+
+                    <!-- OBSERVACIONES -->
+                    <td class="obs-box">
+                        <div class="section-title-dark">
+                            <i class="fas fa-comment-alt"></i>
+                            OBSERVACIONES
+                        </div>
+                        <div class="section-body">{{ orden.observaciones or 'Sin observaciones.' }}</div>
+                    </td>
+
+                    <!-- TOTALES -->
+                    <td class="total-box">
+                        <table class="tabla-total">
+                            <tr>
+                                <td class="total-label">SUBTOTAL REPUESTOS:</td>
+                                <td class="total-valor">${{ "{:,.2f}".format(total_repuestos | float) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="total-label">VALOR SERVICIO TÉCNICO:</td>
+                                <td class="total-valor">${{ "{:,.2f}".format(orden.valor_servicio | float) }}</td>
+                            </tr>
+                            <tr class="total-final">
+                                <td>TOTAL GENERAL:</td>
+                                <td>${{ "{:,.2f}".format(total_final | float) }}</td>
+                            </tr>
+                        </table>
+                    </td>
+
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- ===================================== -->
+    <!-- FIRMAS -->
+    <!-- ===================================== -->
+
+    <tr>
+        <td>
+            <table class="firmas-table">
+                <tr>
+
+                    <td class="firma-cell">
+                        <div class="firma-header">
+                            <i class="fas fa-user-tie"></i>
+                            FIRMA TÉCNICO
+                        </div>
+                        <div class="firma-espacio"></div>
+                        <div class="firma-linea"></div>
+                        <div class="firma-nombre">{{ orden.tecnico.nombre if orden.tecnico else 'Técnico Responsable' }}</div>
+                        <div class="firma-rol">Técnico Responsable</div>
+                    </td>
+
+                    <td class="firma-cell">
+                        <div class="firma-header">
+                            <i class="fas fa-user"></i>
+                            FIRMA CLIENTE
+                        </div>
+                        <div class="firma-espacio"></div>
+                        <div class="firma-linea"></div>
+                        <div class="firma-nombre">{{ orden.equipo.cliente.nombre }}</div>
+                        <div class="firma-rol">C.C. o NIT</div>
+                    </td>
+
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- ===================================== -->
+    <!-- FOOTER -->
+    <!-- ===================================== -->
+
+    <tr>
+        <td>
+            <table class="footer-bar">
+                <tr>
+                    <td class="footer-left">
+                        <i class="fas fa-shield-alt"></i>
+                        Gracias por confiar en SYSTEM MADOC - Soluciones Tecnológicas
+                    </td>
+                    <td class="footer-right">
+                        <i class="fas fa-calendar-alt"></i>
+                        Documento generado el {{ fecha_generacion }}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+</body>
+</html>

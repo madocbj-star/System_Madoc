@@ -1,0 +1,217 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Nueva Orden | System Madoc
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- TITULO -->
+
+    <div class="mb-4">
+
+        <h2 class="fw-bold">
+            Nueva Orden de Servicio
+        </h2>
+
+        <p class="text-secondary">
+            Registro técnico de mantenimiento y reparación
+        </p>
+
+    </div>
+
+    <!-- FORMULARIO -->
+
+    <div class="card shadow">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <!-- EQUIPO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Equipo
+                        </label>
+
+                        <select name="equipo_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Seleccione equipo
+                            </option>
+
+                            {% for equipo in equipos %}
+
+                            <option value="{{ equipo.id }}">
+
+                                {{ equipo.tipo }}
+                                -
+                                {{ equipo.marca }}
+                                -
+                                {{ equipo.serial }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- ESTADO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Estado Orden
+                        </label>
+
+                        <select name="estado"
+                            class="form-select"
+                            required>
+
+                            <option value="RECIBIDO">RECIBIDO</option>
+                            <option value="EN DIAGNÓSTICO">EN DIAGNÓSTICO</option>
+                            <option value="EN REPARACIÓN">EN REPARACIÓN</option>
+                            <option value="PENDIENTE REPUESTO">PENDIENTE REPUESTO</option>
+                            <option value="LISTO">LISTO</option>
+                            <option value="ENTREGADO">ENTREGADO</option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- TÉCNICO RESPONSABLE -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Técnico Responsable
+                        </label>
+
+                        <select name="tecnico_id"
+                            class="form-select">
+
+                            <option value="">
+                                Sin asignar
+                            </option>
+
+                            {% for tecnico in tecnicos %}
+
+                            <option value="{{ tecnico.id }}">
+                                {{ tecnico.nombre }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- PROBLEMA -->
+
+                    <div class="col-12 mb-3">
+
+                        <label class="form-label">
+                            Problema Reportado
+                        </label>
+
+                        <textarea name="problema_reportado"
+                            class="form-control"
+                            rows="4"
+                            required></textarea>
+
+                    </div>
+
+                    <!-- DIAGNOSTICO -->
+
+                    <div class="col-12 mb-3">
+
+                        <label class="form-label">
+                            Diagnóstico Técnico
+                        </label>
+
+                        <textarea name="diagnostico"
+                            class="form-control"
+                            rows="4"></textarea>
+
+                    </div>
+
+                    <!-- SOLUCION -->
+
+                    <div class="col-12 mb-3">
+
+                        <label class="form-label">
+                            Solución Aplicada
+                        </label>
+
+                        <textarea name="solucion"
+                            class="form-control"
+                            rows="4"></textarea>
+
+                    </div>
+
+                    <!-- VALOR -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Valor Servicio
+                        </label>
+
+                        <input type="number"
+                            name="valor_servicio"
+                            class="form-control"
+                            placeholder="0">
+
+                    </div>
+
+                    <!-- OBSERVACIONES -->
+
+                    <div class="col-12 mb-4">
+
+                        <label class="form-label">
+                            Recomendaciones
+                        </label>
+
+                        <textarea name="observaciones"
+                            class="form-control"
+                            rows="4"></textarea>
+
+                    </div>
+
+                </div>
+
+                <!-- BOTONES -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                        class="btn btn-info">
+                        Crear Orden
+                    </button>
+
+                    <a href="/ordenes"
+                        class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

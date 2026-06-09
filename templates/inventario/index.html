@@ -1,0 +1,284 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Inventario | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Inventario
+            </h2>
+
+            <p class="text-secondary mb-0">
+                Gestión de productos y repuestos
+            </p>
+
+        </div>
+
+        <a href="/inventario/archivados"
+            class="btn btn-dark">
+
+            <i class="bi bi-archive"></i>
+
+            Archivados
+
+        </a>
+
+        <a href="/inventario/crear"
+            class="btn btn-info">
+
+            <i class="bi bi-plus-circle"></i>
+            Nuevo Producto
+
+        </a>
+
+    </div>
+
+    <!-- ALERTAS -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                    {{ message }}
+
+                    <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <!-- FILTROS -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- BUSCADOR -->
+
+                <div class="col-md-5 mb-3">
+
+                    <input type="text"
+                        class="form-control"
+                        id="buscadorProducto"
+                        placeholder="Buscar producto, marca o código...">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TABLA -->
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-dark table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Foto</th>
+                            <th>Producto</th>
+                            <th>Categoría</th>
+                            <th>Marca</th>
+                            <th>Stock</th>
+                            <th>Compra</th>
+                            <th>Venta</th>
+                            <th>Acciones</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for producto in productos %}
+
+                        <tr>
+
+                            <td>
+                                {{ producto.id }}
+                            </td>
+
+                            <!-- FOTO -->
+
+                            <td>
+
+                                {% if producto.foto %}
+
+                                <img src="{{ url_for('static', filename='uploads/productos/' + producto.foto) }}"
+                                    width="70"
+                                    height="70"
+                                    style="object-fit: cover; border-radius: 10px;">
+
+                                {% else %}
+
+                                <span class="text-secondary">
+                                    Sin foto
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- PRODUCTO -->
+
+                            <td>
+
+                                <strong>
+
+                                    {{ producto.nombre }}
+
+                                </strong>
+
+                                <br>
+
+                                <small class="text-secondary">
+
+                                    {{ producto.codigo }}
+
+                                </small>
+
+                            </td>
+
+                            <!-- CATEGORIA -->
+
+                            <td>
+                                {{ producto.categoria.nombre }}
+                            </td>
+
+                            <!-- MARCA -->
+
+                            <td>
+                                {{ producto.marca }}
+                            </td>
+
+                            <!-- STOCK -->
+
+                            <td>
+
+                                {% if producto.stock <= producto.stock_minimo %}
+
+                                <span class="badge bg-dark">
+
+                                    {{ producto.stock }}
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-success">
+
+                                    {{ producto.stock }}
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- PRECIO COMPRA -->
+
+                            <td>
+                                $ {{ producto.precio_compra }}
+                            </td>
+
+                            <!-- PRECIO VENTA -->
+
+                            <td>
+                                $ {{ producto.precio_venta }}
+                            </td>
+
+                            <!-- ACCIONES -->
+
+                            <td>
+
+                                <div class="d-flex gap-2">
+
+                                    <a href="/inventario/ver/{{ producto.id }}"
+                                        class="btn btn-info btn-sm">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </a>
+
+                                    
+                                    <a href="/inventario/editar/{{ producto.id }}"
+                                    class="btn btn-warning btn-sm">
+                                    
+                                    <i class="bi bi-pencil"></i>
+                                    
+                                    </a>
+                                
+                                    <a href="/inventario/eliminar/{{ producto.id }}"
+                                        class="btn btn-sm btn-danger"
+                                        onclick="return confirm('¿Eliminar este producto?')">
+        
+                                        <i class="bi bi-trash"></i>
+        
+                                    </a>
+
+                            </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="9"
+                                class="text-center text-secondary py-4">
+
+                                No hay productos registrados
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

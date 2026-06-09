@@ -1,0 +1,182 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Editar Usuario | System Madoc
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- TITULO -->
+
+    <div class="mb-4">
+
+        <h2 class="fw-bold">
+            Editar Usuario
+        </h2>
+
+        <p class="text-secondary">
+            Actualización de información y permisos
+        </p>
+
+    </div>
+
+    <!-- FORMULARIO -->
+
+    <div class="card shadow">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <!-- NOMBRE -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Nombre Completo
+                        </label>
+
+                        <input type="text"
+                            name="nombre"
+                            class="form-control"
+                            value="{{ usuario.nombre }}"
+                            required>
+
+                    </div>
+
+                    <!-- CORREO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Correo Electrónico
+                        </label>
+
+                        <input type="email"
+                            name="correo"
+                            class="form-control"
+                            value="{{ usuario.correo }}"
+                            required>
+
+                    </div>
+
+                    <!-- ROL -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Rol Usuario
+                        </label>
+
+                        <select name="rol"
+                            class="form-select"
+                            required>
+
+                            <option value="admin"
+                                {% if usuario.rol == 'admin' %}
+                                selected
+                                {% endif %}>
+
+                                ADMIN
+
+                            </option>
+
+                            <option value="tecnico"
+                                {% if usuario.rol == 'tecnico' %}
+                                selected
+                                {% endif %}>
+
+                                TÉCNICO
+
+                            </option>
+
+                            <option value="vendedor"
+                                {% if usuario.rol == 'vendedor' %}
+                                selected
+                                {% endif %}>
+
+                                VENDEDOR
+
+                            </option>
+
+                            <option value="almacen"
+                                {% if usuario.rol == 'almacen' %}
+                                selected
+                                {% endif %}>
+
+                                ALMACÉN
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- ESTADO -->
+
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label">
+                            Estado Usuario
+                        </label>
+
+                        <select name="estado"
+                            class="form-select">
+
+                            <option value="1"
+                                {% if usuario.estado %}
+                                selected
+                                {% endif %}>
+
+                                ACTIVO
+
+                            </option>
+
+                            <option value="0"
+                                {% if not usuario.estado %}
+                                selected
+                                {% endif %}>
+
+                                INACTIVO
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <!-- BOTONES -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                        class="btn btn-warning">
+
+                        Guardar Cambios
+
+                    </button>
+
+                    <a href="/usuarios"
+                        class="btn btn-secondary">
+
+                        Cancelar
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

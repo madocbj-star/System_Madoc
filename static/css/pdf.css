@@ -1,0 +1,488 @@
+/* ===================================== */
+/* GENERAL */
+/* ===================================== */
+
+@page {
+    size: A4;
+    margin: 8px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 0;
+    color: #1e293b;
+    background: white;
+    font-size: 13px;
+}
+
+.main-table {
+    width: 100%;
+    border-spacing: 0;
+    padding: 6px;
+}
+
+/* ===================================== */
+/* HEADER */
+/* ===================================== */
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+    background-color: #001f4d;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.header-logo-cell {
+    width: 18%;
+    padding: 10px 12px;
+    vertical-align: middle;
+    text-align: center;
+    background-color: #001f4d;
+    border-right: 2px solid #001f4d(255, 255, 255);
+}
+
+.logo {
+    width: 85px;
+    display: block;
+    margin: 0 auto;
+}
+
+.logo-subtext {
+    font-size: 9px;
+    color: #cce0ff;
+    text-align: center;
+    margin-top: 4px;
+}
+
+.header-center-cell {
+    width: 55%;
+    padding: 10px 16px;
+    vertical-align: middle;
+    text-align: center;
+    background-color: #001f4d;
+}
+
+.empresa-nombre {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0 0 2px 0;
+    letter-spacing: 1px;
+}
+
+.empresa-sub {
+    font-size: 11px;
+    color: #aac8ff;
+    margin-bottom: 6px;
+}
+
+.contacto p {
+    margin: 3px 0;
+    font-size: 10px;
+    color: #ddeeff;
+}
+
+.contacto i {
+    width: 14px;
+    color: #7eb8ff;
+    margin-right: 5px;
+}
+
+.header-badge-cell {
+    width: 27%;
+    padding: 0;
+    vertical-align: middle;
+    background-color: #001f4d;
+    border-left: 3px solid #001f4d(255,255,255,0.12);
+    text-align: center;
+    justify-content: center;
+}
+
+.orden-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 10px;
+    height: 100%;
+}
+
+.badge-icon {
+    font-size: 32px;
+    color: #7eb8ff;
+}
+
+.badge-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 1.5;
+    text-align: left;
+}
+
+/* ===================================== */
+/* INFO GRID (2 filas x 3 cols) */
+/* ===================================== */
+
+.info-grid {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+    border: 1.5px solid #dcdcdc;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.info-box {
+    width: 33.33%;
+    padding: 10px 16px;
+    vertical-align: top;
+}
+
+/* helpers de borde */
+.bb { border-bottom: 1px solid #e5e7eb; }
+.br { border-right: 1px solid #e5e7eb; }
+
+.info-label {
+    font-size: 10px;
+    font-weight: bold;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.info-value { font-size: 12px; font-weight: bold; }
+
+.codigo { color: #0b2c5f; font-size: 15px; }
+
+.info-text { font-size: 11px; color: #1f2937; }
+
+.estado {
+    display: inline-block;
+    background: #16a34a;
+    color: white;
+    padding: 5px 16px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 4px;
+}
+
+.precio {
+    font-size: 20px;
+    font-weight: bold;
+    color: #16a34a;
+    margin-top: 2px;
+}
+
+/* ===================================== */
+/* CARDS CLIENTE + EQUIPO */
+/* ===================================== */
+
+.cards-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 6px 0;
+    margin-bottom: 6px;
+}
+
+.card {
+    width: 50%;
+    border: 1.5px solid #dcdcdc;
+    border-radius: 10px;
+    overflow: hidden;
+    vertical-align: top;
+    padding: 0;
+}
+
+.card-title {
+    background: #002855;
+    color: white;
+    padding: 7px 14px;
+    font-size: 11px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-title i { font-size: 14px; }
+
+.card-content { padding: 10px 14px; }
+
+.card-content p {
+    margin: 5px 0;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.dato-label { font-weight: bold; color: #0f172a; }
+
+.equipo-flex {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.equipo-info { flex: 1; }
+
+.equipo-foto-box { width: 120px; text-align: center; }
+
+.foto-equipo {
+    width: 110px;
+    height: 80px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px;
+    display: block;
+    margin: auto;
+}
+
+/* ===================================== */
+/* SECCIONES (Problema, Diagnóstico, Solución) */
+/* ===================================== */
+
+.section {
+    border: 1.5px solid #dcdcdc;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+    margin-bottom: 6px;
+    page-break-inside: avoid;
+}
+
+.section-header-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.section-problema { border-left: 4px solid #dc2626; }
+.section-diagnostico { border-left: 4px solid #2563eb; }
+.section-solucion { border-left: 4px solid #16a34a; }
+
+.icon-red   { color: #dc2626; font-size: 14px; }
+.icon-blue  { color: #2563eb; font-size: 14px; }
+.icon-green { color: #16a34a; font-size: 14px; }
+
+.label-red   { color: #dc2626; }
+.label-blue  { color: #2563eb; }
+.label-green { color: #16a34a; }
+
+.section-body {
+    padding: 10px 16px;
+    font-size: 10.5px;
+    line-height: 1.6;
+    color: #1f2937;
+    text-align: justify;
+}
+
+/* ===================================== */
+/* TÍTULO OSCURO (Repuestos, Observaciones) */
+/* ===================================== */
+
+.section-title-dark {
+    background: #002855;
+    color: white;
+    padding: 7px 14px;
+    font-size: 11px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-title-dark i { font-size: 14px; }
+
+/* ===================================== */
+/* TABLA REPUESTOS */
+/* ===================================== */
+
+.tabla-repuestos { padding: 10px; }
+
+.tabla-repuestos table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+}
+
+.tabla-repuestos th {
+    background: #002855;
+    color: white;
+    padding: 8px 10px;
+    border: 1px solid #dcdcdc;
+    text-align: left;
+}
+
+.tabla-repuestos td {
+    padding: 7px 10px;
+    border: 1px solid #dcdcdc;
+}
+
+.tabla-repuestos tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+/* ===================================== */
+/* OBSERVACIONES + TOTALES */
+/* ===================================== */
+
+.bottom-grid {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 6px 0;
+    margin-bottom: 6px;
+}
+
+.obs-box {
+    width: 52%;
+    border: 1.5px solid #dcdcdc;
+    border-radius: 10px;
+    overflow: hidden;
+    vertical-align: top;
+    padding: 0;
+}
+
+.total-box {
+    width: 48%;
+    vertical-align: bottom;
+}
+
+.tabla-total {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    border: 1.5px solid #dcdcdc;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.total-label {
+    padding: 10px 14px;
+    font-weight: bold;
+    border: 1px solid #e5e7eb;
+    color: #1f2937;
+}
+
+.total-valor {
+    padding: 10px 14px;
+    font-weight: bold;
+    border: 1px solid #e5e7eb;
+    text-align: right;
+    color: #1f2937;
+}
+
+.total-final {
+    background: #002855;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.total-final td {
+    padding: 12px 14px;
+    border: 1px solid #001233;
+    color: white;
+}
+
+/* ===================================== */
+/* FIRMAS */
+/* ===================================== */
+
+.firmas-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.firma-cell {
+    width: 50%;
+    padding: 14px 20px;
+    text-align: center;
+    border: 1.5px solid #dcdcdc;
+    border-radius: 10px;
+    vertical-align: top;
+}
+
+.firma-header {
+    font-size: 11px;
+    font-weight: bold;
+    color: #002855;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.firma-header i { font-size: 14px; }
+
+.firma-espacio { height: 50px; }
+
+.firma-linea {
+    border-top: 1.5px solid #1e293b;
+    width: 75%;
+    margin: 0 auto 6px auto;
+}
+
+.firma-nombre {
+    font-weight: bold;
+    font-size: 11px;
+    color: #0f172a;
+    margin-bottom: 2px;
+}
+
+.firma-rol { font-size: 10px; color: #6b7280; }
+
+/* ===================================== */
+/* FOOTER */
+/* ===================================== */
+
+.footer-bar {
+    width: 100%;
+    border-collapse: collapse;
+    background: #002855;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.footer-left {
+    padding: 10px 16px;
+    color: #cce0ff;
+    font-size: 9.5px;
+    text-align: left;
+    width: 60%;
+}
+
+.footer-left i { margin-right: 5px; color: #7eb8ff; }
+
+.footer-right {
+    padding: 10px 16px;
+    color: #cce0ff;
+    font-size: 9.5px;
+    text-align: right;
+    width: 40%;
+}
+
+.footer-right i { margin-right: 5px; color: #7eb8ff; }
+
+/* ===================================== */
+/* EVITAR CORTES DE PÁGINA */
+/* ===================================== */
+
+table, tr, td, .card, .section {
+    page-break-inside: avoid;
+}
+
+img { display: block; }
+p { margin: 5px 0; }

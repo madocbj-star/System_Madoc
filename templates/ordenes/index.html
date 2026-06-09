@@ -1,0 +1,246 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Órdenes | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Órdenes de Servicio
+            </h2>
+
+            <p class="text-secondary mb-0">
+                Gestión técnica de reparaciones
+            </p>
+
+        </div>
+
+        <a href="/ordenes/crear"
+            class="btn btn-info">
+
+            <i class="bi bi-plus-circle"></i>
+            Nueva Orden
+
+        </a>
+
+    </div>
+
+    <!-- ALERTAS -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                    {{ message }}
+
+                    <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <!-- TABLA -->
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-dark table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Foto</th>
+                            <th>Código</th>
+                            <th>Estado</th>
+                            <th>Valor</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for orden in ordenes %}
+
+                        <tr>
+
+                            <td>
+                                {{ orden.id }}
+                            </td>
+
+                            <td>
+
+                                {% if orden.equipo.foto %}
+
+                                    <img src="{{ url_for('static',
+                                        filename='uploads/equipos/' + orden.equipo.foto) }}"
+                                        
+                                        class="foto-equipo-tabla">
+
+                                {% else %}
+
+                                    <div class="foto-vacia">
+
+                                        <i class="bi bi-image"></i>
+
+                                    </div>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ orden.codigo_orden }}
+                            </td>
+
+                            <td>
+
+                                {% if orden.estado == 'RECIBIDO' %}
+
+                                    <span class="badge bg-info">
+
+                                        {{ orden.estado }}
+
+                                    </span>
+
+                                {% elif orden.estado == 'EN DIAGNÓSTICO' %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        {{ orden.estado }}
+
+                                    </span>
+
+                                {% elif orden.estado == 'EN REPARACIÓN' %}
+
+                                    <span class="badge bg-orange">
+
+                                        {{ orden.estado }}
+
+                                    </span>
+
+                                {% elif orden.estado == 'PENDIENTE REPUESTO' %}
+
+                                    <span class="badge bg-dark">
+
+                                        {{ orden.estado }}
+
+                                    </span>
+
+                                {% elif orden.estado == 'LISTO' %}
+
+                                    <span class="badge bg-success">
+
+                                        {{ orden.estado }}
+
+                                    </span>
+
+                                {% elif orden.estado == 'ENTREGADO' %}
+
+                                    <span class="badge bg-entregado">
+
+                                        {{ orden.estado }}
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+
+                                        {{ orden.estado }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                $ {{ "{:,.2f}".format(orden.valor_servicio)
+                                    .replace(",", "X")
+                                    .replace(".", ",")
+                                    .replace("X", ".") }} COP
+                            </td>
+
+                            <td>
+                                {{ orden.fecha_ingreso.strftime('%Y-%m-%d') }}
+                            </td>
+
+                            <td>
+
+                                <div class="d-flex gap-2">
+
+                                    <a href="/ordenes/ver/{{ orden.id }}"
+                                        class="btn btn-sm btn-info">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </a>
+
+                                    <a href="/ordenes/editar/{{ orden.id }}"
+                                        class="btn btn-sm btn-warning">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="7"
+                                class="text-center text-secondary py-4">
+
+                                No hay órdenes registradas
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

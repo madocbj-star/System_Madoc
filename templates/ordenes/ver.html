@@ -1,0 +1,558 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Detalle Orden | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Detalle Orden
+            </h2>
+
+            <p class="text-secondary mb-0">
+
+                {{ orden.codigo_orden }}
+
+            </p>
+
+        </div>
+
+        <a href="/ordenes"
+            class="btn btn-secondary">
+
+            Volver
+
+        </a>
+
+        <a href="/ordenes/editar/{{ orden.id }}"
+            class="btn btn-warning">
+
+            <i class="bi bi-pencil-square"></i>
+            Editar
+
+        </a>
+
+        <a href="/ordenes/pdf/{{ orden.id }}"
+            class="btn btn-danger"
+            target="_blank">
+
+            Descargar PDF
+
+        </a>
+
+    </div>
+
+    <!-- INFORMACION GENERAL -->
+
+    <div class="row">
+
+        <!-- DATOS ORDEN -->
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body">
+
+                    <h5 class="mb-4">
+                        Información Orden
+                    </h5>
+
+                    <div class="mb-3">
+
+                        <strong>
+                            Código:
+                        </strong>
+
+                        <br>
+
+                        {{ orden.codigo_orden }}
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <strong>
+                            Estado:
+                        </strong>
+
+                        <br>
+
+                        <span class="badge bg-info">
+
+                            {{ orden.estado }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <strong>
+                            Valor Servicio:
+                        </strong>
+
+                        <br>
+
+                        $ {{ "{:,.2f}".format(orden.valor_servicio)
+                            .replace(",", "X")
+                            .replace(".", ",")
+                            .replace("X", ".") }} COP
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <strong>
+                            Fecha Ingreso:
+                        </strong>
+
+                        <br>
+
+                        {{ orden.fecha_ingreso.strftime('%Y-%m-%d') }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- DATOS EQUIPO -->
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body">
+
+                    <h5 class="mb-4">
+                        Equipo Asociado
+                    </h5>
+
+                    <div class="row align-items-center">
+
+                        <!-- DATOS -->
+
+                        <div class="col-md-7">
+
+                            <div class="mb-3">
+
+                                <strong>
+                                    Tipo:
+                                </strong>
+
+                                <br>
+
+                                {{ orden.equipo.tipo }}
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <strong>
+                                    Marca:
+                                </strong>
+
+                                <br>
+
+                                {{ orden.equipo.marca }}
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <strong>
+                                    Modelo:
+                                </strong>
+
+                                <br>
+
+                                {{ orden.equipo.modelo }}
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <strong>
+                                    Serial:
+                                </strong>
+
+                                <br>
+
+                                {{ orden.equipo.serial }}
+
+                            </div>
+
+                        </div>
+
+                        <!-- FOTO -->
+
+                        <div class="col-md-5 text-center">
+
+                            {% if orden.equipo.foto %}
+
+                                <img src="{{ url_for('static',
+                                    filename='uploads/equipos/' + orden.equipo.foto) }}"
+
+                                    class="foto-equipo-detalle">
+
+                            {% else %}
+
+                                <div class="foto-vacia-detalle">
+
+                                    <i class="bi bi-image"></i>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PROBLEMA -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+                Problema Reportado
+            </h5>
+
+            <p class="mb-0">
+
+                {{ orden.problema_reportado }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- DIAGNOSTICO -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+                Diagnóstico Técnico
+            </h5>
+
+            <p class="mb-0">
+
+                {{ orden.diagnostico }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- SOLUCION -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+                Solución Aplicada
+            </h5>
+
+            <p class="mb-0">
+
+                {{ orden.solucion }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- OBSERVACIONES -->
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+                Recomendaciones
+            </h5>
+
+            <p class="mb-0">
+
+                {{ orden.observaciones }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- REPUESTOS USADOS -->
+    <!-- ===================================== -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h5 class="mb-0">
+                    Repuestos Utilizados
+                </h5>
+
+            </div>
+
+            <!-- FORMULARIO -->
+
+            <form method="POST"
+                action="/ordenes/agregar-repuesto/{{ orden.id }}">
+
+                <div class="row">
+
+                    <!-- PRODUCTO -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Producto
+                        </label>
+
+                        <select name="producto_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Seleccione producto
+                            </option>
+
+                            {% for producto in productos %}
+
+                            <option value="{{ producto.id }}">
+
+                                {{ producto.nombre }}
+                                -
+                                Stock:
+                                {{ producto.stock }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- CANTIDAD -->
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+                            Cantidad
+                        </label>
+
+                        <input type="number"
+                            name="cantidad"
+                            class="form-control"
+                            min="1"
+                            value="1"
+                            required>
+
+                    </div>
+
+                    <!-- BOTON -->
+
+                    <div class="col-md-3 mb-3 d-flex align-items-end">
+
+                        <button type="submit"
+                            class="btn btn-info w-100">
+
+                            Agregar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+            <!-- TABLA -->
+
+            <div class="table-responsive mt-4">
+
+                <table class="table table-dark table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                            <th>Acciones</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for repuesto in orden.repuestos %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ repuesto.producto.nombre }}
+
+                            </td>
+
+                            <td>
+
+                                {{ repuesto.cantidad }}
+
+                            </td>
+
+                            <td>
+
+                                $ {{ "{:,.2f}".format(repuesto.precio)
+                                    .replace(",", "X")
+                                    .replace(".", ",")
+                                    .replace("X", ".") }} COP
+
+                            </td>
+
+                            <td>
+
+                                $ {{ "{:,.2f}".format(repuesto.subtotal)
+                                    .replace(",", "X")
+                                    .replace(".", ",")
+                                    .replace("X", ".") }} COP
+
+                            </td>
+
+                            <td>
+
+                                <a href="/ordenes/eliminar-repuesto/{{ repuesto.id }}"
+                                    onclick="return confirm('¿Eliminar este repuesto?')"
+                                    class="btn btn-sm btn-danger">
+
+                                    <i class="bi bi-trash"></i>
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="4"
+                                class="text-center text-secondary">
+
+                                No hay repuestos agregados
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- TOTALES -->
+    <!-- ===================================== -->
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <h5 class="mb-4">
+                Totales
+            </h5>
+
+            <div class="mb-3">
+
+                <strong>
+                    Mano de Obra:
+                </strong>
+
+                <br>
+
+                $ {{ "{:,.2f}".format(orden.valor_servicio)
+                    .replace(",", "X")
+                    .replace(".", ",")
+                    .replace("X", ".") }} COP
+
+            </div>
+
+            <div class="mb-3">
+
+                <strong>
+                    Total Repuestos:
+                </strong>
+
+                <br>
+
+                $ {{ "{:,.2f}".format(total_repuestos)
+                                    .replace(",", "X")
+                                    .replace(".", ",")
+                                    .replace("X", ".") }} COP
+
+            </div>
+
+            <hr>
+
+            <h4 class="text-info">
+
+                TOTAL FINAL:
+                $ {{ "{:,.2f}".format(total_final)
+                                    .replace(",", "X")
+                                    .replace(".", ",")
+                                    .replace("X", ".") }} COP
+                
+
+            </h4>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
