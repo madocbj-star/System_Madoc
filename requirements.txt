@@ -3,7 +3,10 @@ Flask-SQLAlchemy
 Flask-Login
 Flask-Mail
 psycopg2-binary
+SQLAlchemy
 Werkzeug
-Jinja2
+itsdangerous
+reportlab
+weasyprint
 python-dotenv
 gunicorn

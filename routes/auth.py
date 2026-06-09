@@ -43,9 +43,10 @@ auth = Blueprint(
 # SERIALIZER TOKEN
 # =========================================
 
-serializer = URLSafeTimedSerializer(
-    'madoc_system_secret_2026'
-)
+def get_serializer():
+    return URLSafeTimedSerializer(
+        current_app.config['SECRET_KEY']
+    )
 
 # =========================================
 # LOGIN
@@ -193,7 +194,7 @@ def recuperar_password():
 
             # GENERAR TOKEN
 
-            token = serializer.dumps(
+            token = get_serializer().dumps(
                 usuario.correo,
                 salt='recuperar-password'
             )
@@ -326,7 +327,7 @@ def reset_password(token):
 
     try:
 
-        correo = serializer.loads(
+        correo = get_serializer().loads(
             token,
             salt='recuperar-password',
             max_age=3600
