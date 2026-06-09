@@ -8,14 +8,6 @@ load_dotenv()
 # CONFIGURACIÓN POSTGRESQL
 # =========================================
 
-usuario = os.environ.get('DB_USER')
-password = os.environ.get('DB_PASSWORD')
-host = os.environ.get('DB_HOST')
-puerto = os.environ.get('DB_PORT')
-database = os.environ.get('DB_NAME')
-
-password_codificado = urllib.parse.quote_plus(password)
-
 # Render entrega DATABASE_URL completa; si existe, la usamos
 database_url = os.environ.get('DATABASE_URL')
 
@@ -24,6 +16,15 @@ if database_url:
         database_url = database_url.replace('postgres://', 'postgresql://', 1)
     SQLALCHEMY_DATABASE_URI = database_url
 else:
+    # Conexión local (cuando trabajas en tu computador)
+    usuario = os.environ.get('DB_USER')
+    password = os.environ.get('DB_PASSWORD')
+    host = os.environ.get('DB_HOST')
+    puerto = os.environ.get('DB_PORT')
+    database = os.environ.get('DB_NAME')
+
+    password_codificado = urllib.parse.quote_plus(password)
+
     SQLALCHEMY_DATABASE_URI = (
         f'postgresql://{usuario}:{password_codificado}'
         f'@{host}:{puerto}/{database}'
