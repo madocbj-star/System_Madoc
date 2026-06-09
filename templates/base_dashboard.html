@@ -164,8 +164,7 @@
 
                             {% if current_user.foto %}
 
-                            <img src="{{ url_for('static',
-                            filename='uploads/usuarios/' + current_user.foto) }}"
+                            <img src="{{ current_user.foto }}"
                                 class="rounded-circle"
                                 width="35"
                                 height="35"

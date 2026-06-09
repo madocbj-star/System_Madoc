@@ -10,3 +10,4 @@ reportlab
 weasyprint
 python-dotenv
 gunicorn
+cloudinary

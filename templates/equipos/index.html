@@ -149,7 +149,7 @@ Equipos | Madoc System
 
                                 {% if equipo.foto %}
 
-                                <img src="{{ url_for('static', filename='uploads/equipos/' + equipo.foto) }}"
+                                <img src="{{ equipo.foto }}"
                                     width="70"
                                     height="70"
                                     style="object-fit: cover; border-radius: 10px;">

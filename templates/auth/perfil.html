@@ -69,8 +69,7 @@ Mi Perfil | System Madoc
 
                         {% if usuario.foto %}
 
-                        <img src="{{ url_for('static',
-                        filename='uploads/usuarios/' + usuario.foto) }}"
+                        <img src="{{ usuario.foto }}"
                             class="rounded-circle shadow mb-3"
                             width="220"
                             height="220"

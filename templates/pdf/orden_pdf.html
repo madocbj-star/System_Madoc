@@ -136,7 +136,7 @@
                                 <div class="equipo-foto-box">
                                     {% if orden.equipo.foto %}
                                     <img
-                                        src="file:///{{ os.getcwd() }}/static/uploads/equipos/{{ orden.equipo.foto }}"
+                                        src="{{ orden.equipo.foto }}"
                                         class="foto-equipo"
                                     >
                                     {% endif %}

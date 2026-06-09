@@ -273,23 +273,12 @@ def perfil():
 
         if foto and foto.filename != '':
 
-            from werkzeug.utils import secure_filename
-            import os
-            from flask import current_app
+            from utils.cloudinary_helper import subir_imagen
 
-            nombre_foto = secure_filename(
-                foto.filename
-            )
+            url_foto = subir_imagen(foto, 'usuarios')
 
-            ruta = os.path.join(
-                current_app.root_path,
-                'static/uploads/usuarios',
-                nombre_foto
-            )
-
-            foto.save(ruta)
-
-            usuario.foto = nombre_foto
+            if url_foto:
+                usuario.foto = url_foto
 
         # PASSWORD
 

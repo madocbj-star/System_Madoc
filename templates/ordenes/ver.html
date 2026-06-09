@@ -202,8 +202,7 @@ Detalle Orden | Madoc System
 
                             {% if orden.equipo.foto %}
 
-                                <img src="{{ url_for('static',
-                                    filename='uploads/equipos/' + orden.equipo.foto) }}"
+                                <img src="{{ orden.equipo.foto }}"
 
                                     class="foto-equipo-detalle">
 

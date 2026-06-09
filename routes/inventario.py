@@ -78,16 +78,9 @@ def crear_producto():
 
         if foto and foto.filename != '':
 
-            foto_nombre = secure_filename(
-                foto.filename
-            )
+            from utils.cloudinary_helper import subir_imagen
 
-            ruta_guardado = os.path.join(
-                'static/uploads/productos',
-                foto_nombre
-            )
-
-            foto.save(ruta_guardado)
+            foto_nombre = subir_imagen(foto, 'productos')
 
         # =========================================
         # GENERAR CODIGO AUTOMATICO
@@ -228,19 +221,12 @@ def editar_producto(id):
 
         if foto and foto.filename != '':
 
-            nombre_foto = secure_filename(
-                foto.filename
-            )
+            from utils.cloudinary_helper import subir_imagen
 
-            ruta = os.path.join(
-                current_app.root_path,
-                'static/uploads/productos',
-                nombre_foto
-            )
+            url_foto = subir_imagen(foto, 'productos')
 
-            foto.save(ruta)
-
-            producto.foto = nombre_foto
+            if url_foto:
+                producto.foto = url_foto
 
         db.session.commit()
 

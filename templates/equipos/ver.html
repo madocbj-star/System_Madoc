@@ -59,7 +59,7 @@ Detalle Equipo | Madoc System
 
                     {% if equipo.foto %}
 
-                    <img src="{{ url_for('static', filename='uploads/equipos/' + equipo.foto) }}"
+                    <img src="{{ equipo.foto }}"
                         class="img-fluid rounded shadow"
                         style="max-height: 350px; object-fit: cover;">
 

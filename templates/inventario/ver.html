@@ -43,8 +43,7 @@ Detalle Producto
 
                     {% if producto.foto %}
 
-                    <img src="{{ url_for('static',
-                    filename='uploads/productos/' + producto.foto) }}"
+                    <img src="{{ producto.foto }}"
                         class="img-fluid rounded shadow"
                         style="max-height: 300px;">
 

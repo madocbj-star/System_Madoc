@@ -136,7 +136,7 @@ Inventario | Madoc System
 
                                 {% if producto.foto %}
 
-                                <img src="{{ url_for('static', filename='uploads/productos/' + producto.foto) }}"
+                                <img src="{{ producto.foto }}"
                                     width="70"
                                     height="70"
                                     style="object-fit: cover; border-radius: 10px;">

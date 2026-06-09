@@ -81,14 +81,9 @@ def crear_equipo():
 
         if foto and foto.filename != '':
 
-            foto_nombre = secure_filename(foto.filename)
+            from utils.cloudinary_helper import subir_imagen
 
-            ruta_guardado = os.path.join(
-                'static/uploads/equipos',
-                foto_nombre
-            )
-
-            foto.save(ruta_guardado)
+            foto_nombre = subir_imagen(foto, 'equipos')
 
         # =========================================
         # CREAR EQUIPO
