@@ -209,6 +209,17 @@
 
                                     </a>
 
+                                    {% if enlaces_whatsapp[orden.id] %}
+                                    <a href="{{ enlaces_whatsapp[orden.id] }}"
+                                        target="_blank"
+                                        class="btn btn-sm btn-success"
+                                        title="Enviar WhatsApp al cliente">
+
+                                        <i class="bi bi-whatsapp"></i>
+
+                                    </a>
+                                    {% endif %}
+
                                 </div>
 
                             </td>

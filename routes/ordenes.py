@@ -51,9 +51,57 @@ def listar_ordenes():
         Orden.id.desc()
     ).all()
 
+    # =========================================
+    # GENERAR ENLACE DE WHATSAPP POR ORDEN
+    # =========================================
+    import urllib.parse
+
+    enlaces_whatsapp = {}
+
+    for orden in lista_ordenes:
+
+        cliente = None
+        if orden.equipo and orden.equipo.cliente:
+            cliente = orden.equipo.cliente
+
+        if cliente and cliente.telefono:
+
+            # Limpiar el telefono: solo digitos
+            telefono = ''.join(
+                c for c in cliente.telefono if c.isdigit()
+            )
+
+            # Si no empieza con 57 (Colombia), agregarlo
+            if telefono and not telefono.startswith('57'):
+                telefono = '57' + telefono
+
+            # Enlace de consulta con el codigo ya puesto
+            enlace_consulta = url_for(
+                'cliente.consulta_cliente',
+                _external=True
+            )
+
+            mensaje = (
+                f"Hola {cliente.nombre}, le saluda SYSTEM MADOC - "
+                f"Soluciones Tecnologicas.\n\n"
+                f"Su equipo fue recibido para revision. "
+                f"Puede consultar el estado de su reparacion en el "
+                f"siguiente enlace:\n{enlace_consulta}\n\n"
+                f"Numero de orden: {orden.codigo_orden}\n\n"
+                f"Gracias por confiar en nosotros."
+            )
+
+            enlaces_whatsapp[orden.id] = (
+                f"https://wa.me/{telefono}"
+                f"?text={urllib.parse.quote(mensaje)}"
+            )
+        else:
+            enlaces_whatsapp[orden.id] = None
+
     return render_template(
         'ordenes/index.html',
-        ordenes=lista_ordenes
+        ordenes=lista_ordenes,
+        enlaces_whatsapp=enlaces_whatsapp
     )
 
 # =========================================
