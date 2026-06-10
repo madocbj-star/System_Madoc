@@ -9,13 +9,6 @@ app = create_app()
 
 with app.app_context():
 
-    # TEMPORAL: borrar tablas de ventas para recrearlas con campos nuevos
-    from models.detalle_venta import DetalleVenta
-    from models.venta import Venta
-    DetalleVenta.__table__.drop(db.engine, checkfirst=True)
-    Venta.__table__.drop(db.engine, checkfirst=True)
-    print("Tablas de ventas eliminadas para recrear.")
-
     # 1. Crear todas las tablas
     db.create_all()
     print("Tablas creadas correctamente.")
