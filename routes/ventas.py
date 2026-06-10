@@ -80,6 +80,14 @@ def crear_venta():
 
         cliente = data.get('cliente')
 
+        cliente_documento = data.get('cliente_documento', '')
+
+        cliente_telefono = data.get('cliente_telefono', '')
+
+        cliente_correo = data.get('cliente_correo', '')
+
+        cliente_direccion = data.get('cliente_direccion', '')
+
         metodo_pago = data.get('metodo_pago')
 
         # =====================================
@@ -113,13 +121,26 @@ def crear_venta():
         total = subtotal + iva
 
         # =====================================
-        # CODIGO
+        # CODIGO  (SMA_0001, SMA_0002, ...)
         # =====================================
 
-        codigo = (
-            f'VTA-'
-            f'{datetime.now().strftime("%Y%m%d%H%M%S")}'
-        )
+        ultima_venta = Venta.query.order_by(
+            Venta.id.desc()
+        ).first()
+
+        if ultima_venta and ultima_venta.codigo_venta and '_' in ultima_venta.codigo_venta:
+            try:
+                ultimo_num = int(
+                    ultima_venta.codigo_venta.split('_')[-1]
+                )
+            except ValueError:
+                ultimo_num = 0
+        else:
+            ultimo_num = 0
+
+        nuevo_num = ultimo_num + 1
+
+        codigo = f'SMA_{nuevo_num:04d}'
 
         # =====================================
         # CREAR VENTA
@@ -130,6 +151,14 @@ def crear_venta():
             codigo_venta=codigo,
 
             cliente_nombre=cliente,
+
+            cliente_documento=cliente_documento,
+
+            cliente_telefono=cliente_telefono,
+
+            cliente_correo=cliente_correo,
+
+            cliente_direccion=cliente_direccion,
 
             metodo_pago=metodo_pago,
 
@@ -246,7 +275,13 @@ def buscar_clientes():
 
             'nombre': cliente.nombre,
 
-            'telefono': cliente.telefono
+            'documento': cliente.documento,
+
+            'telefono': cliente.telefono,
+
+            'correo': cliente.correo,
+
+            'direccion': cliente.direccion
 
         })
 

@@ -60,9 +60,27 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="info-box br" colspan="3">
+                    <td class="info-box br" colspan="2">
                         <div class="info-label">CLIENTE:</div>
                         <div class="info-value">{{ venta.cliente_nombre }}</div>
+                    </td>
+                    <td class="info-box">
+                        <div class="info-label">DOCUMENTO:</div>
+                        <div class="info-value">{{ venta.cliente_documento or 'No registra' }}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="info-box br">
+                        <div class="info-label">TELÉFONO:</div>
+                        <div class="info-value">{{ venta.cliente_telefono or 'No registra' }}</div>
+                    </td>
+                    <td class="info-box br">
+                        <div class="info-label">CORREO:</div>
+                        <div class="info-value">{{ venta.cliente_correo or 'No registra' }}</div>
+                    </td>
+                    <td class="info-box">
+                        <div class="info-label">DIRECCIÓN:</div>
+                        <div class="info-value">{{ venta.cliente_direccion or 'No registra' }}</div>
                     </td>
                 </tr>
             </table>

@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     resultadoClientes.innerHTML = data.map(c =>
-                        `<div class="resultado-item" data-nombre="${c.nombre}">
+                        `<div class="resultado-item" data-nombre="${c.nombre}" data-documento="${c.documento || ''}" data-telefono="${c.telefono || ''}" data-correo="${c.correo || ''}" data-direccion="${c.direccion || ''}">
                             <strong>${c.nombre}</strong>
                             <small class="text-secondary ms-2">${c.telefono || ''}</small>
                         </div>`
@@ -103,6 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         el.addEventListener('click', () => {
                             clienteInput.value = el.dataset.nombre
                             clienteNombreFinal.value = el.dataset.nombre
+                            document.getElementById('cliente-documento-final').value = el.dataset.documento
+                            document.getElementById('cliente-telefono-final').value = el.dataset.telefono
+                            document.getElementById('cliente-correo-final').value = el.dataset.correo
+                            document.getElementById('cliente-direccion-final').value = el.dataset.direccion
                             resultadoClientes.innerHTML = ''
                             resultadoClientes.style.display = 'none'
                         })
@@ -250,6 +254,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Obtener cliente
         let nombreCliente = 'Cliente ocasional'
+        let docCliente = ''
+        let telCliente = ''
+        let correoCliente = ''
+        let dirCliente = ''
 
         const tipoSeleccionado = document.querySelector('input[name="tipo_cliente"]:checked').value
 
@@ -260,9 +268,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 return
             }
             nombreCliente = nombre
+            docCliente = document.getElementById('cliente-documento-final').value.trim()
+            telCliente = document.getElementById('cliente-telefono-final').value.trim()
+            correoCliente = document.getElementById('cliente-correo-final').value.trim()
+            dirCliente = document.getElementById('cliente-direccion-final').value.trim()
         } else {
             const ocasional = document.getElementById('cliente-ocasional-nombre').value.trim()
-            if (ocasional) nombreCliente = ocasional
+            if (!ocasional) {
+                mostrarAlerta('Escribe el nombre del cliente', 'warning')
+                return
+            }
+            nombreCliente = ocasional
+            docCliente = document.getElementById('cliente-ocasional-documento').value.trim()
+            telCliente = document.getElementById('cliente-ocasional-telefono').value.trim()
+            correoCliente = document.getElementById('cliente-ocasional-correo').value.trim()
+            dirCliente = document.getElementById('cliente-ocasional-direccion').value.trim()
         }
 
         const metodo = document.getElementById('metodo-pago').value
@@ -275,6 +295,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 cantidad: i.cantidad
             })),
             cliente: nombreCliente,
+            cliente_documento: docCliente,
+            cliente_telefono: telCliente,
+            cliente_correo: correoCliente,
+            cliente_direccion: dirCliente,
             metodo_pago: metodo
         }
 
@@ -296,7 +320,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderCarrito()
                 clienteInput.value = ''
                 clienteNombreFinal.value = ''
+                document.getElementById('cliente-documento-final').value = ''
+                document.getElementById('cliente-telefono-final').value = ''
+                document.getElementById('cliente-correo-final').value = ''
+                document.getElementById('cliente-direccion-final').value = ''
                 document.getElementById('cliente-ocasional-nombre').value = ''
+                document.getElementById('cliente-ocasional-documento').value = ''
+                document.getElementById('cliente-ocasional-telefono').value = ''
+                document.getElementById('cliente-ocasional-correo').value = ''
+                document.getElementById('cliente-ocasional-direccion').value = ''
                 // Redirigir al historial después de 1.5s
                 setTimeout(() => {
                     window.location.href = '/ventas'

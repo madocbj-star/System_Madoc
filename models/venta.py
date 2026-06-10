@@ -27,6 +27,22 @@ class Venta(db.Model):
         nullable=False
     )
 
+    cliente_documento = db.Column(
+        db.String(50)
+    )
+
+    cliente_telefono = db.Column(
+        db.String(50)
+    )
+
+    cliente_correo = db.Column(
+        db.String(150)
+    )
+
+    cliente_direccion = db.Column(
+        db.String(255)
+    )
+
     metodo_pago = db.Column(
         db.String(100)
     )
