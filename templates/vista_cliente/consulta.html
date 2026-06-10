@@ -53,24 +53,40 @@ Consulta Estado
 
                     <form method="POST">
 
-                        <div class="input-group">
+                        <div class="mb-3">
 
                             <input type="text"
                                 name="codigo"
                                 class="form-control"
-                                placeholder="Ej: SER-JUL-0001"
+                                placeholder="Código de orden (Ej: SER-JUL-0001)"
                                 required>
-
-                            <button type="submit"
-                                class="btn btn-info">
-
-                                Consultar
-
-                            </button>
 
                         </div>
 
+                        <div class="mb-3">
+
+                            <input type="text"
+                                name="telefono"
+                                class="form-control"
+                                placeholder="Teléfono registrado"
+                                required>
+
+                        </div>
+
+                        <button type="submit"
+                            class="btn btn-info w-100">
+
+                            Consultar
+
+                        </button>
+
                     </form>
+
+                    {% if error %}
+                    <div class="alert alert-warning mt-3">
+                        {{ error }}
+                    </div>
+                    {% endif %}
 
                 </div>
 

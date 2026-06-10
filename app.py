@@ -5,6 +5,8 @@ from extensions import db
 from extensions import mail
 from extensions import login_manager
 
+import os
+
 
 # =========================================
 # USER LOADER
@@ -82,12 +84,15 @@ def inicio():
     )
 
 if __name__ == '__main__':
+
+    modo_debug = os.environ.get('FLASK_DEBUG', 'False') == 'True'
+
     app.run(
 
         host='0.0.0.0',
 
         port=5000,
 
-        debug=True
+        debug=modo_debug
 
     )
