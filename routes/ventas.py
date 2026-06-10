@@ -7,24 +7,14 @@ from flask import (
     flash,
     jsonify,
     send_file,
-    make_response
+    make_response,
+    current_app
 )
 
-from reportlab.platypus import ( 
-    SimpleDocTemplate,
-    Paragraph,
-    Spacer,
-    Table,
-    TableStyle
-)
+from weasyprint import HTML
 
-from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from io import BytesIO
-
-import io
+import os
+import base64
 
 from flask_login import login_required
 
@@ -302,190 +292,49 @@ def pdf_venta(id):
         venta_id=id
     ).all()
 
-    # =====================================
-    # BUFFER
-    # =====================================
+    # Leer CSS para incrustarlo
+    ruta_css = os.path.join(
+        current_app.root_path,
+        'static', 'css', 'venta_pdf.css'
+    )
+    try:
+        with open(ruta_css, 'r', encoding='utf-8') as f:
+            pdf_css = f.read()
+    except FileNotFoundError:
+        pdf_css = ''
 
-    buffer = BytesIO()
+    # Logo en base64
+    ruta_logo = os.path.join(
+        current_app.root_path,
+        'static', 'img', 'logo2.png'
+    )
+    try:
+        with open(ruta_logo, 'rb') as f:
+            logo_b64 = base64.b64encode(f.read()).decode('utf-8')
+        logo_url = f'data:image/png;base64,{logo_b64}'
+    except FileNotFoundError:
+        logo_url = ''
 
-    doc = SimpleDocTemplate(
-
-        buffer,
-
-        pagesize=letter,
-
-        rightMargin=40,
-
-        leftMargin=40,
-
-        topMargin=40,
-
-        bottomMargin=30
-
+    html = render_template(
+        'pdf/venta_pdf.html',
+        venta=venta,
+        detalles=detalles,
+        pdf_css=pdf_css,
+        logo_url=logo_url,
+        fecha_generacion=datetime.now().strftime('%d/%m/%Y %H:%M:%S')
     )
 
-    elementos = []
-
-    estilos = getSampleStyleSheet()
-
-    # =====================================
-    # TITULO
-    # =====================================
-
-    titulo = Paragraph(
-
-        f"""
-
-        <font size=20>
-        <b>FACTURA DE VENTA</b>
-        </font>
-
-        <br/><br/>
-
-        Código:
-        <b>{venta.codigo_venta}</b>
-
-        <br/>
-
-        Cliente:
-        <b>{venta.cliente_nombre}</b>
-
-        <br/>
-
-        Método pago:
-        <b>{venta.metodo_pago}</b>
-
-        <br/>
-
-        Fecha:
-        <b>
-        {venta.fecha_venta.strftime('%Y-%m-%d')}
-        </b>
-
-        """,
-
-        estilos['Normal']
-
-    )
-
-    elementos.append(titulo)
-
-    elementos.append(Spacer(1, 25))
-
-    # =====================================
-    # TABLA PRODUCTOS
-    # =====================================
-
-    data = [
-
-        [
-
-            'Producto',
-
-            'Cantidad',
-
-            'Precio',
-
-            'Subtotal'
-
-        ]
-
-    ]
-
-    for detalle in detalles:
-
-        data.append([
-
-            detalle.producto.nombre,
-
-            detalle.cantidad,
-
-            f"$ {detalle.precio_unitario:,.0f}",
-
-            f"$ {detalle.subtotal:,.0f}"
-
-        ])
-
-    tabla = Table(
-
-        data,
-
-        colWidths=[220, 80, 100, 100]
-
-    )
-
-    tabla.setStyle(TableStyle([
-
-        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#38bdf8')),
-
-        ('TEXTCOLOR', (0,0), (-1,0), colors.white),
-
-        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-
-        ('BOTTOMPADDING', (0,0), (-1,0), 12),
-
-        ('BACKGROUND', (0,1), (-1,-1), colors.HexColor('#f8fafc')),
-
-        ('GRID', (0,0), (-1,-1), 1, colors.grey),
-
-        ('FONTNAME', (0,1), (-1,-1), 'Helvetica'),
-
-        ('ALIGN', (1,1), (-1,-1), 'CENTER')
-
-    ]))
-
-    elementos.append(tabla)
-
-    elementos.append(Spacer(1, 30))
-
-    # =====================================
-    # TOTAL
-    # =====================================
-
-    total = Paragraph(
-
-        f"""
-
-        <font size=16>
-
-        <b>
-
-        TOTAL:
-        $ {venta.total:,.0f} COP
-
-        </b>
-
-        </font>
-
-        """,
-
-        estilos['Normal']
-
-    )
-
-    elementos.append(total)
-
-    # =====================================
-    # GENERAR PDF
-    # =====================================
-
-    doc.build(elementos)
-
-    pdf = buffer.getvalue()
-
-    buffer.close()
+    pdf = HTML(
+        string=html,
+        base_url=request.host_url
+    ).write_pdf()
 
     response = make_response(pdf)
 
-    response.headers['Content-Type'] = (
-        'application/pdf'
-    )
+    response.headers['Content-Type'] = 'application/pdf'
 
     response.headers['Content-Disposition'] = (
-
-        f'inline; filename='
-        f'venta_{venta.codigo_venta}.pdf'
-
+        f'inline; filename=venta_{venta.codigo_venta}.pdf'
     )
 
     return response

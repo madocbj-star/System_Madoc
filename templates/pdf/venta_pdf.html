@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Factura PDF</title>
+    <style>
+        {{ pdf_css | safe }}
+    </style>
+</head>
+
+<body>
+
+<table class="main-table">
+
+    <!-- HEADER -->
+    <tr>
+        <td>
+            <table class="header-table">
+                <tr>
+                    <td class="header-logo-cell">
+                        <img src="{{ logo_url }}" class="logo">
+                        <div class="logo-subtext">Soluciones Tecnológicas</div>
+                    </td>
+                    <td class="header-center-cell">
+                        <div class="empresa-nombre">SYSTEM MADOC</div>
+                        <div class="empresa-sub">Soluciones Tecnológicas</div>
+                        <div class="contacto">
+                            <p>NIT: 1122144702-0</p>
+                            <p>CEL: 3022128707 - 3007636462</p>
+                            <p>Acacias, Meta - Colombia</p>
+                        </div>
+                    </td>
+                    <td class="header-badge-cell">
+                        <div class="orden-badge">
+                            <div class="badge-text">FACTURA<br>DE VENTA</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- INFO PRINCIPAL -->
+    <tr>
+        <td>
+            <table class="info-grid">
+                <tr>
+                    <td class="info-box bb br">
+                        <div class="info-label">CÓDIGO VENTA:</div>
+                        <div class="info-value codigo">{{ venta.codigo_venta }}</div>
+                    </td>
+                    <td class="info-box bb br">
+                        <div class="info-label">FECHA:</div>
+                        <div class="info-value">{{ venta.fecha_venta.strftime('%Y-%m-%d') }}</div>
+                    </td>
+                    <td class="info-box bb">
+                        <div class="info-label">MÉTODO DE PAGO:</div>
+                        <div class="info-value">{{ venta.metodo_pago }}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="info-box br" colspan="3">
+                        <div class="info-label">CLIENTE:</div>
+                        <div class="info-value">{{ venta.cliente_nombre }}</div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- TABLA PRODUCTOS -->
+    <tr>
+        <td>
+            <div class="seccion-titulo seccion-azul">PRODUCTOS</div>
+            <table class="tabla-repuestos">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>PRODUCTO</th>
+                        <th>CANTIDAD</th>
+                        <th>PRECIO UNITARIO</th>
+                        <th>SUBTOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detalle in detalles %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ detalle.producto.nombre }}</td>
+                        <td>{{ detalle.cantidad }}</td>
+                        <td>$ {{ "{:,.0f}".format(detalle.precio_unitario) }}</td>
+                        <td>$ {{ "{:,.0f}".format(detalle.subtotal) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <!-- TOTALES -->
+    <tr>
+        <td>
+            <table class="tabla-totales">
+                <tr>
+                    <td class="total-label">SUBTOTAL:</td>
+                    <td class="total-valor">$ {{ "{:,.0f}".format(venta.subtotal) }}</td>
+                </tr>
+                <tr>
+                    <td class="total-label">IVA:</td>
+                    <td class="total-valor">$ {{ "{:,.0f}".format(venta.iva) }}</td>
+                </tr>
+                <tr class="total-final">
+                    <td class="total-label">TOTAL GENERAL:</td>
+                    <td class="total-valor">$ {{ "{:,.0f}".format(venta.total) }} COP</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- PIE -->
+    <tr>
+        <td>
+            <div class="mensaje-agradecimiento">
+                ¡Gracias por su compra! Esperamos verle pronto.<br>
+                SYSTEM MADOC - Soluciones Tecnológicas
+            </div>
+        </td>
+    </tr>
+
+</table>
+
+<div class="footer">
+    Gracias por confiar en SYSTEM MADOC - Soluciones Tecnológicas
+    &nbsp;&nbsp;|&nbsp;&nbsp; Documento generado el {{ fecha_generacion }}
+</div>
+
+</body>
+</html>
