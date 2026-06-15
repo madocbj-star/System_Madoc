@@ -1161,3 +1161,51 @@ TABLA VENTAS
     background:
         rgba(255,255,255,0.03);
 }
+
+/* =========================================
+   CORRECCION GLOBAL DE CURSOR
+   Evita que aparezca el cursor de texto (palito)
+   en zonas que no son texto seleccionable
+========================================= */
+
+body,
+div, span, h1, h2, h3, h4, h5, h6, p, li, ul, ol,
+table, thead, tbody, tr, th, td,
+.card, .btn, label, nav, header, footer,
+img, i, svg {
+    cursor: default;
+}
+
+/* Elementos clickeables: manita */
+a,
+button,
+.btn,
+[role="button"],
+[onclick],
+select,
+.nav-link,
+.dropdown-item,
+.page-link,
+summary,
+label[for] {
+    cursor: pointer;
+}
+
+/* Campos donde SI debe aparecer el cursor de texto */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="number"],
+input[type="url"],
+input[type="date"],
+textarea {
+    cursor: text;
+}
+
+/* Elementos deshabilitados */
+:disabled,
+.disabled {
+    cursor: not-allowed;
+}

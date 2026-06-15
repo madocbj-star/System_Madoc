@@ -249,6 +249,16 @@
             .top-nav .nav-links .nav-normal { display: none; }
             .social-bar { justify-content: center; }
         }
+
+        /* ===== CORRECCION DE CURSOR ===== */
+        body, .hero, .seccion, .card-servicio, .ventaja,
+        .contacto-item, .seccion-titulo, h1, h2, h3, h4, p, span, div {
+            cursor: default;
+        }
+        a, button, .btn-hero, .nav-cta, .hero-dots span,
+        .wsp-flotante, .social-bar a, .top-nav .nav-links a {
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -280,7 +290,7 @@
         <div class="hero-slides">
             <div class="hero-slide activo" style="background-image:url('{{ url_for('static', filename='img/landing/hero1.jpg') }}')"></div>
             <div class="hero-slide" style="background-image:url('{{ url_for('static', filename='img/landing/hero2.jpg') }}')"></div>
-            <div class="hero-slide" style="background-image:url('{{ url_for('static', filename='img/landing/hero3.gif') }}')"></div>
+            <div class="hero-slide" style="background-image:url('{{ url_for('static', filename='img/landing/hero3.jpg') }}')"></div>
         </div>
         <div class="hero-content">
             <img src="{{ url_for('static', filename='img/logo2.png') }}" alt="System Madoc" class="logo-hero">
