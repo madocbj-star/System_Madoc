@@ -36,7 +36,7 @@
             position: fixed;
             top: 0; left: 0; right: 0;
             height: 38px;
-            background: #05080f;
+            background: linear-gradient(180deg, #05080f 0%, #070b14 100%);
             display: flex;
             align-items: center;
             justify-content: flex-end;
@@ -56,12 +56,20 @@
             align-items: center;
             justify-content: space-between;
             padding: 12px 32px;
-            background: rgba(7, 11, 20, 0.92);
+            background: linear-gradient(180deg, rgba(7,11,20,0.96) 0%, rgba(7,11,20,0.55) 100%);
             backdrop-filter: blur(10px);
             z-index: 1000;
             transition: padding 0.3s, background 0.3s;
         }
         .top-nav.compacto { padding: 8px 32px; background: rgba(7, 11, 20, 0.98); }
+
+        /* Desvanecido suave debajo de la barra fija */
+        .fade-top {
+            position: fixed;
+            top: 88px; left: 0; right: 0; height: 50px;
+            background: linear-gradient(180deg, rgba(7,11,20,0.5) 0%, rgba(7,11,20,0) 100%);
+            z-index: 999; pointer-events: none;
+        }
         .top-nav img { height: 44px; }
         .top-nav .nav-links a {
             color: #dce8ff; text-decoration: none; margin-left: 26px;
@@ -128,6 +136,7 @@
 
         /* ===== SECCIONES ===== */
         .seccion { padding: 90px 20px; }
+        #porque { background: linear-gradient(180deg, var(--gris-claro) 0%, #ffffff 14%, #ffffff 86%, #f0f3fa 100%); }
         .seccion-titulo { text-align: center; margin-bottom: 56px; }
         .seccion-titulo .eyebrow {
             color: var(--cyan); font-weight: 700; font-size: 0.85rem;
@@ -139,7 +148,7 @@
         }
 
         /* ===== SERVICIOS CON IMAGEN ===== */
-        .servicios { background: var(--gris-claro); }
+        .servicios { background: linear-gradient(180deg, #e9eef7 0%, var(--gris-claro) 12%, var(--gris-claro) 100%); }
         .grid-servicios {
             max-width: 1150px; margin: 0 auto; display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 26px;
@@ -186,7 +195,16 @@
         .ventaja p { font-size: 0.94rem; color: #56627a; }
 
         /* ===== CONTACTO ===== */
-        .contacto { background: linear-gradient(160deg, #070b14, #0f1724); color: #fff; }
+        .contacto {
+            background: linear-gradient(180deg, #050a16 0%, #070b14 18%, #0f1724 100%);
+            color: #fff;
+            position: relative;
+        }
+        .contacto::before {
+            content: ""; position: absolute; top: -80px; left: 0; right: 0; height: 80px;
+            background: linear-gradient(180deg, rgba(7,11,20,0) 0%, rgba(7,11,20,0.55) 60%, #050a16 100%);
+            pointer-events: none;
+        }
         .contacto .seccion-titulo h2 { color: #fff; }
         .grid-contacto {
             max-width: 900px; margin: 0 auto; display: grid;
@@ -255,12 +273,14 @@
         </div>
     </nav>
 
+    <div class="fade-top"></div>
+
     <!-- HERO -->
     <header class="hero">
         <div class="hero-slides">
             <div class="hero-slide activo" style="background-image:url('{{ url_for('static', filename='img/landing/hero1.jpg') }}')"></div>
             <div class="hero-slide" style="background-image:url('{{ url_for('static', filename='img/landing/hero2.jpg') }}')"></div>
-            <div class="hero-slide" style="background-image:url('{{ url_for('static', filename='img/landing/hero3.jpg') }}')"></div>
+            <div class="hero-slide" style="background-image:url('{{ url_for('static', filename='img/landing/hero3.gif') }}')"></div>
         </div>
         <div class="hero-content">
             <img src="{{ url_for('static', filename='img/logo2.png') }}" alt="System Madoc" class="logo-hero">
