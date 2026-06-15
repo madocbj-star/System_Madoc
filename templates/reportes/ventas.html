@@ -178,10 +178,35 @@ Reportes de Ventas | Madoc System
         },
         options: {
             responsive: true,
-            plugins: { legend: { display: false } },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(7, 11, 20, 0.95)',
+                    borderColor: '#38bdf8',
+                    borderWidth: 1,
+                    titleColor: '#38bdf8',
+                    bodyColor: '#ffffff',
+                    padding: 12,
+                    cornerRadius: 8,
+                    displayColors: false,
+                    titleFont: { weight: 'bold' },
+                    callbacks: {
+                        title: items => 'Día ' + items[0].label,
+                        label: item => 'Vendido: $' + item.raw.toLocaleString()
+                    }
+                }
+            },
             scales: {
-                y: { beginAtZero: true, ticks: { callback: v => '$' + v.toLocaleString() } },
-                x: { title: { display: true, text: 'Día del mes' } }
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: '#94a3b8', callback: v => '$' + v.toLocaleString() },
+                    grid: { color: 'rgba(148, 163, 184, 0.12)' }
+                },
+                x: {
+                    title: { display: true, text: 'Día del mes', color: '#94a3b8' },
+                    ticks: { color: '#94a3b8' },
+                    grid: { color: 'rgba(148, 163, 184, 0.08)' }
+                }
             }
         }
     });
