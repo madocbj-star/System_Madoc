@@ -51,6 +51,7 @@ def create_app():
     from routes.usuarios import usuarios
     from routes.vista_cliente import cliente
     from routes.inicio import inicio
+    from routes.reportes import reportes
 
     # =========================================
     # REGISTRAR BLUEPRINTS
@@ -65,6 +66,7 @@ def create_app():
     app.register_blueprint(usuarios)
     app.register_blueprint(cliente)
     app.register_blueprint(inicio)
+    app.register_blueprint(reportes)
 
     return app
 

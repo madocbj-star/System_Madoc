@@ -1,0 +1,191 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Reportes de Ventas | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-3">
+
+    <!-- ENCABEZADO -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="mb-1" style="font-weight:700;">
+                <i class="bi bi-graph-up-arrow me-2"></i>Reporte de Ventas
+            </h2>
+            <p class="text-secondary mb-0">{{ nombre_mes }} {{ anio }}</p>
+        </div>
+
+        <!-- SELECTOR MES/AÑO -->
+        <form method="GET" class="d-flex gap-2 align-items-center">
+            <select name="mes" class="form-select form-select-sm" style="width:auto;">
+                {% for i in range(1, 13) %}
+                <option value="{{ i }}" {% if i == mes %}selected{% endif %}>{{ meses_es[i] }}</option>
+                {% endfor %}
+            </select>
+            <select name="anio" class="form-select form-select-sm" style="width:auto;">
+                {% for a in anios_disponibles %}
+                <option value="{{ a }}" {% if a == anio %}selected{% endif %}>{{ a }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-sm btn-info">
+                <i class="bi bi-search"></i> Ver
+            </button>
+        </form>
+    </div>
+
+    <!-- NUMEROS CLAVE -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card h-100 border-0" style="background:linear-gradient(135deg,#0284c7,#38bdf8);">
+                <div class="card-body text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div style="font-size:0.85rem;opacity:0.9;">TOTAL VENDIDO</div>
+                            <div style="font-size:1.8rem;font-weight:700;">$ {{ "{:,.0f}".format(total_vendido) }}</div>
+                        </div>
+                        <i class="bi bi-cash-stack" style="font-size:2.5rem;opacity:0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0" style="background:linear-gradient(135deg,#0f766e,#14b8a6);">
+                <div class="card-body text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div style="font-size:0.85rem;opacity:0.9;">VENTAS REALIZADAS</div>
+                            <div style="font-size:1.8rem;font-weight:700;">{{ cantidad_ventas }}</div>
+                        </div>
+                        <i class="bi bi-receipt" style="font-size:2.5rem;opacity:0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">
+                <div class="card-body text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div style="font-size:0.85rem;opacity:0.9;">PROMEDIO POR VENTA</div>
+                            <div style="font-size:1.8rem;font-weight:700;">$ {{ "{:,.0f}".format(promedio_venta) }}</div>
+                        </div>
+                        <i class="bi bi-calculator" style="font-size:2.5rem;opacity:0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if cantidad_ventas == 0 %}
+    <div class="alert alert-secondary text-center py-5">
+        <i class="bi bi-inbox" style="font-size:2rem;"></i>
+        <p class="mb-0 mt-2">No hay ventas registradas en {{ nombre_mes }} {{ anio }}.</p>
+    </div>
+    {% else %}
+
+    <!-- GRAFICO POR DIA -->
+    <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-body">
+            <h5 class="mb-3" style="font-weight:600;">Ventas por día</h5>
+            <canvas id="graficoVentas" height="80"></canvas>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <!-- PRODUCTOS TOP -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="mb-3" style="font-weight:600;">Productos más vendidos</h5>
+                    {% if productos_top %}
+                    <table class="table table-sm align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th class="text-center">Cant.</th>
+                                <th class="text-end">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in productos_top %}
+                            <tr>
+                                <td>{{ p.nombre }}</td>
+                                <td class="text-center">{{ p.cantidad }}</td>
+                                <td class="text-end">$ {{ "{:,.0f}".format(p.dinero) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-secondary mb-0">Sin datos de productos.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- LISTA DE VENTAS -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="mb-3" style="font-weight:600;">Ventas del mes</h5>
+                    <div style="max-height:340px;overflow-y:auto;">
+                        <table class="table table-sm table-hover align-middle mb-0">
+                            <thead style="position:sticky;top:0;background:#111827;">
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for v in ventas %}
+                                <tr>
+                                    <td>{{ v.codigo_venta }}</td>
+                                    <td>{{ v.cliente_nombre }}</td>
+                                    <td>{{ v.fecha_venta.strftime('%d/%m/%Y') }}</td>
+                                    <td class="text-end">$ {{ "{:,.0f}".format(v.total) }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+    {% if cantidad_ventas > 0 %}
+    const ctx = document.getElementById('graficoVentas');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ dias_labels | tojson }},
+            datasets: [{
+                label: 'Ventas ($)',
+                data: {{ dias_valores | tojson }},
+                backgroundColor: '#38bdf8',
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, ticks: { callback: v => '$' + v.toLocaleString() } },
+                x: { title: { display: true, text: 'Día del mes' } }
+            }
+        }
+    });
+    {% endif %}
+</script>
+
+{% endblock %}

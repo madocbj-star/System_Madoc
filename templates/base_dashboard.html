@@ -153,6 +153,19 @@
 
                     </li>
 
+                    {% if current_user.rol == 'admin' %}
+                    <li class="nav-item">
+
+                        <a class="nav-link"
+                            href="/reportes/ventas">
+
+                            Reportes
+
+                        </a>
+
+                    </li>
+                    {% endif %}
+
                     <!-- DROPDOWN USUARIO -->
 
                     <li class="nav-item dropdown">
