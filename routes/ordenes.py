@@ -254,6 +254,29 @@ def editar_orden(id):
 
         orden.tecnico_id = request.form.get('tecnico_id') or None
 
+        # =========================================
+        # EVIDENCIA FOTOGRAFICA (hasta 3 fotos)
+        # =========================================
+        from utils.cloudinary_helper import subir_imagen_con_id
+
+        for i in [1, 2, 3]:
+
+            campo_foto = request.files.get(f'foto{i}')
+            campo_desc = request.form.get(f'foto{i}_desc', '').strip()
+
+            if campo_foto and campo_foto.filename != '':
+
+                url, public_id = subir_imagen_con_id(
+                    campo_foto, 'ordenes_evidencia'
+                )
+
+                if url:
+                    setattr(orden, f'foto{i}_url', url)
+                    setattr(orden, f'foto{i}_public_id', public_id)
+
+            if campo_desc:
+                setattr(orden, f'foto{i}_desc', campo_desc)
+
         db.session.commit()
 
         flash('Orden actualizada correctamente', 'success')
@@ -432,3 +455,103 @@ def eliminar_repuesto(id):
     return redirect(
         url_for('ordenes.ver_orden', id=orden_id)
     )
+
+# =========================================
+# GENERAR PDF DE SOPORTE FOTOGRAFICO
+# =========================================
+
+@ordenes.route('/soporte-fotografico/<int:id>')
+@login_required
+@rol_requerido('admin', 'tecnico')
+def soporte_fotografico(id):
+
+    orden = Orden.query.get_or_404(id)
+
+    fotos = []
+    for i in [1, 2, 3]:
+        url = getattr(orden, f'foto{i}_url')
+        if url:
+            fotos.append({
+                'url': url,
+                'desc': getattr(orden, f'foto{i}_desc') or ''
+            })
+
+    if not fotos:
+        flash('Esta orden no tiene fotos de evidencia para generar el soporte.', 'warning')
+        return redirect(url_for('ordenes.ver_orden', id=orden.id))
+
+    # Leer CSS (reutilizamos el mismo de la orden)
+    ruta_css = os.path.join(
+        current_app.root_path,
+        'static', 'css', 'pdf.css'
+    )
+    try:
+        with open(ruta_css, 'r', encoding='utf-8') as f:
+            pdf_css = f.read()
+    except FileNotFoundError:
+        pdf_css = ''
+
+    # Logo en base64
+    ruta_logo = os.path.join(
+        current_app.root_path,
+        'static', 'img', 'logo2.png'
+    )
+    try:
+        with open(ruta_logo, 'rb') as f:
+            logo_b64 = base64.b64encode(f.read()).decode('utf-8')
+        logo_url = f'data:image/png;base64,{logo_b64}'
+    except FileNotFoundError:
+        logo_url = ''
+
+    html = render_template(
+        'pdf/soporte_pdf.html',
+        orden=orden,
+        fotos=fotos,
+        pdf_css=pdf_css,
+        logo_url=logo_url,
+        fecha_generacion=datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+    )
+
+    pdf = HTML(
+        string=html,
+        base_url=request.host_url
+    ).write_pdf()
+
+    return send_file(
+        io.BytesIO(pdf),
+        download_name=f'soporte_{orden.codigo_orden}.pdf',
+        mimetype='application/pdf'
+    )
+
+
+# =========================================
+# LIMPIAR FOTOS DE EVIDENCIA (paso seguro,
+# se ejecuta despues de confirmar que el PDF
+# de soporte ya quedo descargado)
+# =========================================
+
+@ordenes.route('/limpiar-fotos/<int:id>', methods=['POST'])
+@login_required
+@rol_requerido('admin', 'tecnico')
+def limpiar_fotos(id):
+
+    orden = Orden.query.get_or_404(id)
+
+    from utils.cloudinary_helper import eliminar_imagen
+
+    for i in [1, 2, 3]:
+
+        public_id = getattr(orden, f'foto{i}_public_id')
+
+        if public_id:
+            eliminar_imagen(public_id)
+
+        setattr(orden, f'foto{i}_url', None)
+        setattr(orden, f'foto{i}_public_id', None)
+        setattr(orden, f'foto{i}_desc', None)
+
+    db.session.commit()
+
+    flash('Fotos de evidencia eliminadas correctamente.', 'success')
+
+    return redirect(url_for('ordenes.ver_orden', id=orden.id))

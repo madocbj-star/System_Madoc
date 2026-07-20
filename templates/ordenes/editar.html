@@ -37,7 +37,7 @@ Editar Orden | Madoc System
 
         <div class="card-body p-4">
 
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
 
                 <div class="row">
 
@@ -180,6 +180,55 @@ Editar Orden | Madoc System
                         <textarea name="observaciones"
                             class="form-control"
                             rows="4">{{ orden.observaciones }}</textarea>
+
+                    </div>
+
+                </div>
+
+                <!-- EVIDENCIA FOTOGRAFICA -->
+
+                <div class="mb-4">
+
+                    <h5 class="mb-3">
+                        <i class="bi bi-camera"></i> Evidencia fotográfica
+                        <small class="text-secondary">(máximo 3 fotos)</small>
+                    </h5>
+
+                    <div class="row g-3">
+
+                        {% for i in [1, 2, 3] %}
+                        <div class="col-md-4">
+
+                            <div class="border rounded p-2">
+
+                                {% set foto_url = orden['foto' ~ i ~ '_url'] %}
+                                {% set foto_desc = orden['foto' ~ i ~ '_desc'] %}
+
+                                {% if foto_url %}
+                                <img src="{{ foto_url }}"
+                                    class="img-fluid rounded mb-2"
+                                    style="max-height:120px;object-fit:cover;width:100%;">
+                                {% endif %}
+
+                                <label class="form-label small mb-1">
+                                    Foto {{ i }}
+                                </label>
+
+                                <input type="file"
+                                    name="foto{{ i }}"
+                                    class="form-control form-control-sm mb-2"
+                                    accept="image/*">
+
+                                <input type="text"
+                                    name="foto{{ i }}_desc"
+                                    class="form-control form-control-sm"
+                                    placeholder="Ej: Antes / Después / Diagnóstico"
+                                    value="{{ foto_desc or '' }}">
+
+                            </div>
+
+                        </div>
+                        {% endfor %}
 
                     </div>
 

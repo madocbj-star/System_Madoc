@@ -81,6 +81,22 @@ class Orden(db.Model):
     )
 
     # =========================================
+    # EVIDENCIA FOTOGRAFICA (temporal, hasta 3 fotos)
+    # =========================================
+
+    foto1_url = db.Column(db.String(500))
+    foto1_public_id = db.Column(db.String(255))
+    foto1_desc = db.Column(db.String(255))
+
+    foto2_url = db.Column(db.String(500))
+    foto2_public_id = db.Column(db.String(255))
+    foto2_desc = db.Column(db.String(255))
+
+    foto3_url = db.Column(db.String(500))
+    foto3_public_id = db.Column(db.String(255))
+    foto3_desc = db.Column(db.String(255))
+
+    # =========================================
     # REPRESENTACIÓN
     # =========================================
 
