@@ -22,12 +22,21 @@ Detalle Producto
 
         </div>
 
-        <a href="/inventario"
-            class="btn btn-secondary">
+        <div class="d-flex gap-2">
 
-            Volver
+            <a href="/inventario/kardex/producto/{{ producto.id }}"
+                class="btn btn-info">
+                <i class="bi bi-clock-history"></i> Ver Kárdex
+            </a>
 
-        </a>
+            <a href="/inventario"
+                class="btn btn-secondary">
+
+                Volver
+
+            </a>
+
+        </div>
 
     </div>
 

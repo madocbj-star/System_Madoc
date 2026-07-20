@@ -9,7 +9,7 @@ from flask import (
     current_app
 )
 
-from flask_login import login_required
+from flask_login import login_required, current_user
 from utils.permisos import rol_requerido
 
 from extensions import db	
@@ -19,6 +19,7 @@ from models.equipo import Equipo
 from models.usuario import Usuario
 from models.producto import Producto
 from models.orden_repuesto import OrdenRepuesto
+from models.movimiento_inventario import MovimientoInventario
 
 from datetime import datetime
 
@@ -404,6 +405,17 @@ def agregar_repuesto(id):
 
     producto.stock -= cantidad
 
+    movimiento = MovimientoInventario(
+        producto_id=producto.id,
+        tipo='salida',
+        motivo='repuesto_orden',
+        cantidad=cantidad,
+        stock_resultante=producto.stock,
+        referencia=f'Orden {orden.codigo_orden}',
+        usuario_id=current_user.id
+    )
+    db.session.add(movimiento)
+
     subtotal = producto.precio_venta * cantidad
 
     nuevo_repuesto = OrdenRepuesto(
@@ -444,6 +456,17 @@ def eliminar_repuesto(id):
 
     if producto:
         producto.stock += repuesto.cantidad
+
+        movimiento = MovimientoInventario(
+            producto_id=producto.id,
+            tipo='entrada',
+            motivo='devolucion_repuesto',
+            cantidad=repuesto.cantidad,
+            stock_resultante=producto.stock,
+            referencia=f'Devolución - Orden {repuesto.orden.codigo_orden}' if repuesto.orden else 'Devolución de repuesto',
+            usuario_id=current_user.id
+        )
+        db.session.add(movimiento)
 
     orden_id = repuesto.orden_id
 

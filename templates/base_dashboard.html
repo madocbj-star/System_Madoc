@@ -131,16 +131,50 @@
 
                     </li>
 
-                    <li class="nav-item">
+                    {% if current_user.rol in ['admin', 'almacen'] %}
+                    <li class="nav-item dropdown">
 
-                        <a class="nav-link"
-                            href="/inventario">
+                        <a class="nav-link dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown">
 
                             Inventario
 
                         </a>
 
+                        <ul class="dropdown-menu">
+
+                            <li>
+                                <a class="dropdown-item" href="/inventario">
+                                    <i class="bi bi-box-seam"></i> Productos
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="/inventario/agregar-mercancia">
+                                    <i class="bi bi-box-arrow-in-down"></i> Agregar Mercancía
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="/inventario/kardex">
+                                    <i class="bi bi-clock-history"></i> Kárdex
+                                </a>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li>
+                                <a class="dropdown-item" href="/proveedores">
+                                    <i class="bi bi-truck"></i> Proveedores
+                                </a>
+                            </li>
+
+                        </ul>
+
                     </li>
+                    {% endif %}
 
                     <li class="nav-item">
 
