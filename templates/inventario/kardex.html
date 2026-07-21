@@ -1,0 +1,118 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Kárdex de Inventario | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold">
+                <i class="bi bi-clock-history"></i> Kárdex de Inventario
+            </h2>
+            <p class="text-secondary mb-0">Historial de movimientos de productos</p>
+        </div>
+        <a href="/inventario/agregar-mercancia" class="btn btn-info">
+            <i class="bi bi-box-arrow-in-down"></i> Agregar Mercancía
+        </a>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="card shadow mb-3">
+        <div class="card-body">
+            <form method="GET" class="row g-2 align-items-end">
+
+                <div class="col-md-5">
+                    <label class="form-label small mb-1">Producto</label>
+                    <select name="producto_id" class="form-select form-select-sm">
+                        <option value="">Todos los productos</option>
+                        {% for p in productos %}
+                        <option value="{{ p.id }}" {% if producto_id == p.id %}selected{% endif %}>
+                            {{ p.nombre }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label small mb-1">Tipo de movimiento</label>
+                    <select name="tipo" class="form-select form-select-sm">
+                        <option value="">Todos</option>
+                        <option value="entrada" {% if tipo == 'entrada' %}selected{% endif %}>Entradas</option>
+                        <option value="salida" {% if tipo == 'salida' %}selected{% endif %}>Salidas</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-sm btn-info w-100">
+                        <i class="bi bi-search"></i> Filtrar
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+
+            {% if movimientos %}
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle table-sm">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Producto</th>
+                            <th>Tipo</th>
+                            <th>Motivo</th>
+                            <th class="text-center">Cantidad</th>
+                            <th class="text-center">Stock resultante</th>
+                            <th>Proveedor / Referencia</th>
+                            <th>Usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for m in movimientos %}
+                        <tr>
+                            <td>{{ m.fecha.strftime('%d/%m/%Y %H:%M') }}</td>
+                            <td>
+                                <a href="/inventario/kardex/producto/{{ m.producto_id }}">
+                                    {{ m.producto.nombre if m.producto else '-' }}
+                                </a>
+                            </td>
+                            <td>
+                                {% if m.tipo == 'entrada' %}
+                                <span class="badge bg-success">Entrada</span>
+                                {% else %}
+                                <span class="badge bg-danger">Salida</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ m.motivo }}</td>
+                            <td class="text-center">
+                                {% if m.tipo == 'entrada' %}+{% else %}-{% endif %}{{ m.cantidad }}
+                            </td>
+                            <td class="text-center">{{ m.stock_resultante }}</td>
+                            <td>
+                                {% if m.proveedor %}{{ m.proveedor.nombre }}{% endif %}
+                                {% if m.numero_factura %}<br><small class="text-secondary">Fact: {{ m.numero_factura }}</small>{% endif %}
+                                {% if m.referencia %}<br><small class="text-secondary">{{ m.referencia }}</small>{% endif %}
+                            </td>
+                            <td>{{ m.usuario.nombre if m.usuario else '-' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-secondary mb-0">No hay movimientos registrados todavía.</p>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

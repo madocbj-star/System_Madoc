@@ -1,0 +1,77 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Kárdex - {{ producto.nombre }} | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold">{{ producto.nombre }}</h2>
+            <p class="text-secondary mb-0">
+                Código: {{ producto.codigo }} &nbsp;|&nbsp;
+                Stock actual: <strong>{{ producto.stock }}</strong>
+            </p>
+        </div>
+        <a href="/inventario/kardex" class="btn btn-dark">
+            <i class="bi bi-arrow-left"></i> Volver al Kárdex general
+        </a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+
+            {% if movimientos %}
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle table-sm">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Motivo</th>
+                            <th class="text-center">Cantidad</th>
+                            <th class="text-center">Stock resultante</th>
+                            <th>Proveedor / Referencia</th>
+                            <th>Usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for m in movimientos %}
+                        <tr>
+                            <td>{{ m.fecha.strftime('%d/%m/%Y %H:%M') }}</td>
+                            <td>
+                                {% if m.tipo == 'entrada' %}
+                                <span class="badge bg-success">Entrada</span>
+                                {% else %}
+                                <span class="badge bg-danger">Salida</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ m.motivo }}</td>
+                            <td class="text-center">
+                                {% if m.tipo == 'entrada' %}+{% else %}-{% endif %}{{ m.cantidad }}
+                            </td>
+                            <td class="text-center">{{ m.stock_resultante }}</td>
+                            <td>
+                                {% if m.proveedor %}{{ m.proveedor.nombre }}{% endif %}
+                                {% if m.numero_factura %}<br><small class="text-secondary">Fact: {{ m.numero_factura }}</small>{% endif %}
+                                {% if m.referencia %}<br><small class="text-secondary">{{ m.referencia }}</small>{% endif %}
+                            </td>
+                            <td>{{ m.usuario.nombre if m.usuario else '-' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-secondary mb-0">Este producto no tiene movimientos registrados todavía.</p>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Editar Proveedor | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="fw-bold mb-4">Editar Proveedor</h2>
+
+    <div class="card shadow">
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" name="nombre" class="form-control"
+                        value="{{ proveedor.nombre }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">NIT / Documento</label>
+                    <input type="text" name="nit_documento" class="form-control"
+                        value="{{ proveedor.nit_documento or '' }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Teléfono</label>
+                    <input type="text" name="telefono" class="form-control"
+                        value="{{ proveedor.telefono or '' }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Correo</label>
+                    <input type="email" name="correo" class="form-control"
+                        value="{{ proveedor.correo or '' }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Dirección</label>
+                    <input type="text" name="direccion" class="form-control"
+                        value="{{ proveedor.direccion or '' }}">
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-check-circle"></i> Actualizar
+                    </button>
+                    <a href="/proveedores" class="btn btn-secondary">Cancelar</a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

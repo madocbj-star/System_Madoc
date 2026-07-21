@@ -16,13 +16,14 @@ from weasyprint import HTML
 import os
 import base64
 
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from extensions import db
 
 from models.venta import Venta
 from models.producto import Producto
 from models.detalle_venta import DetalleVenta
+from models.movimiento_inventario import MovimientoInventario
 from models.cliente import Cliente
 
 from utils.permisos import rol_requerido
@@ -205,6 +206,17 @@ def crear_venta():
             # ================================
 
             producto.stock -= item['cantidad']
+
+            movimiento = MovimientoInventario(
+                producto_id=producto.id,
+                tipo='salida',
+                motivo='venta',
+                cantidad=item['cantidad'],
+                stock_resultante=producto.stock,
+                referencia=f'Venta {nueva_venta.codigo_venta}',
+                usuario_id=current_user.id
+            )
+            db.session.add(movimiento)
 
             subtotal_item = (
                 item['precio']

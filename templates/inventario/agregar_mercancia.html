@@ -1,0 +1,92 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Agregar Mercancía | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">
+                <i class="bi bi-box-arrow-in-down"></i> Agregar Mercancía
+            </h2>
+            <p class="text-secondary mb-0">
+                Registra la entrada de productos a tu inventario (Kárdex)
+            </p>
+        </div>
+        <a href="/inventario/kardex" class="btn btn-dark">
+            <i class="bi bi-clock-history"></i> Ver Kárdex
+        </a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Producto</label>
+                        <select name="producto_id" class="form-select" required>
+                            <option value="">Seleccione un producto</option>
+                            {% for p in productos %}
+                            <option value="{{ p.id }}">
+                                {{ p.nombre }} (Stock actual: {{ p.stock }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Cantidad que ingresa</label>
+                        <input type="number" name="cantidad" class="form-control"
+                            min="1" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Proveedor</label>
+                        <select name="proveedor_id" class="form-select">
+                            <option value="">Sin especificar</option>
+                            {% for prov in proveedores %}
+                            <option value="{{ prov.id }}">{{ prov.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text">
+                            ¿No está en la lista?
+                            <a href="/proveedores/crear" target="_blank">Registrar proveedor nuevo</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Número de factura</label>
+                        <input type="text" name="numero_factura" class="form-control"
+                            placeholder="Opcional">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Precio de compra (unitario)</label>
+                        <input type="number" name="precio_compra" class="form-control"
+                            step="0.01" min="0" placeholder="Opcional">
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-info">
+                        <i class="bi bi-check-circle"></i> Registrar Entrada
+                    </button>
+                    <a href="/inventario" class="btn btn-secondary">Cancelar</a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

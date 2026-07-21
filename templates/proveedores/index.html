@@ -1,0 +1,71 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}
+Proveedores | Madoc System
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold">Proveedores</h2>
+            <p class="text-secondary mb-0">Gestión de proveedores de mercancía</p>
+        </div>
+
+        <a href="/proveedores/crear" class="btn btn-info">
+            <i class="bi bi-plus-circle"></i> Nuevo Proveedor
+        </a>
+
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+
+            {% if proveedores %}
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>NIT / Documento</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                            <th class="text-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in proveedores %}
+                        <tr>
+                            <td>{{ p.nombre }}</td>
+                            <td>{{ p.nit_documento or '-' }}</td>
+                            <td>{{ p.telefono or '-' }}</td>
+                            <td>{{ p.correo or '-' }}</td>
+                            <td class="text-end">
+                                <a href="/proveedores/editar/{{ p.id }}"
+                                    class="btn btn-sm btn-warning">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="/proveedores/eliminar/{{ p.id }}"
+                                    class="btn btn-sm btn-danger"
+                                    onclick="return confirm('¿Archivar este proveedor?');">
+                                    <i class="bi bi-archive"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-secondary mb-0">No hay proveedores registrados todavía.</p>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
