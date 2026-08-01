@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cotización PDF</title>
+    <style>
+        {{ pdf_css | safe }}
+    </style>
+</head>
+
+<body>
+
+<table class="main-table">
+
+    <!-- HEADER -->
+    <tr>
+        <td>
+            <table class="header-table">
+                <tr>
+                    <td class="header-logo-cell">
+                        <img src="{{ logo_url }}" class="logo">
+                        <div class="logo-subtext">Soluciones Tecnológicas</div>
+                    </td>
+                    <td class="header-center-cell">
+                        <div class="empresa-nombre">SYSTEM MADOC</div>
+                        <div class="empresa-sub">Soluciones Tecnológicas</div>
+                        <div class="contacto">
+                            <p>NIT: 1122144702-0</p>
+                            <p>CEL: 3022128707 - 3007636462</p>
+                            <p>Acacias, Meta - Colombia</p>
+                        </div>
+                    </td>
+                    <td class="header-badge-cell">
+                        <div class="orden-badge">
+                            <div class="badge-text">COTIZACIÓN</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- INFO PRINCIPAL -->
+    <tr>
+        <td>
+            <table class="info-grid">
+                <tr>
+                    <td class="info-box bb br">
+                        <div class="info-label">CÓDIGO:</div>
+                        <div class="info-value codigo">{{ cotizacion.codigo_cotizacion }}</div>
+                    </td>
+                    <td class="info-box bb br">
+                        <div class="info-label">FECHA:</div>
+                        <div class="info-value">{{ cotizacion.fecha_cotizacion.strftime('%Y-%m-%d') }}</div>
+                    </td>
+                    <td class="info-box bb">
+                        <div class="info-label">VÁLIDA HASTA:</div>
+                        <div class="info-value">{{ cotizacion.fecha_vencimiento.strftime('%Y-%m-%d') }}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="info-box br" colspan="2">
+                        <div class="info-label">CLIENTE:</div>
+                        <div class="info-value">{{ cotizacion.cliente_nombre }}</div>
+                    </td>
+                    <td class="info-box">
+                        <div class="info-label">DOCUMENTO:</div>
+                        <div class="info-value">{{ cotizacion.cliente_documento or 'No registra' }}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="info-box br">
+                        <div class="info-label">TELÉFONO:</div>
+                        <div class="info-value">{{ cotizacion.cliente_telefono or 'No registra' }}</div>
+                    </td>
+                    <td class="info-box br">
+                        <div class="info-label">CORREO:</div>
+                        <div class="info-value">{{ cotizacion.cliente_correo or 'No registra' }}</div>
+                    </td>
+                    <td class="info-box">
+                        <div class="info-label">DIRECCIÓN:</div>
+                        <div class="info-value">{{ cotizacion.cliente_direccion or 'No registra' }}</div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- TABLA ITEMS -->
+    <tr>
+        <td>
+            <div class="seccion-titulo seccion-azul">PRODUCTOS Y SERVICIOS</div>
+            <table class="tabla-repuestos">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>DESCRIPCIÓN</th>
+                        <th>CANTIDAD</th>
+                        <th>VALOR UNITARIO</th>
+                        <th>SUBTOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detalle in detalles %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ detalle.descripcion }}</td>
+                        <td>{{ detalle.cantidad }}</td>
+                        <td>$ {{ "{:,.0f}".format(detalle.precio_unitario) }}</td>
+                        <td>$ {{ "{:,.0f}".format(detalle.subtotal) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <!-- TOTALES -->
+    <tr>
+        <td>
+            <table class="tabla-totales">
+                <tr class="total-final">
+                    <td class="total-label">TOTAL COTIZADO:</td>
+                    <td class="total-valor">$ {{ "{:,.0f}".format(cotizacion.total) }} COP</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    {% if cotizacion.observaciones %}
+    <tr>
+        <td>
+            <div class="seccion-titulo seccion-azul">OBSERVACIONES</div>
+            <p style="padding: 8px 4px; font-size: 12px;">{{ cotizacion.observaciones }}</p>
+        </td>
+    </tr>
+    {% endif %}
+
+    <!-- PIE -->
+    <tr>
+        <td>
+            <div class="mensaje-agradecimiento">
+                Cotización válida hasta el {{ cotizacion.fecha_vencimiento.strftime('%Y-%m-%d') }}.<br>
+                Gracias por confiar en SYSTEM MADOC - Soluciones Tecnológicas
+            </div>
+        </td>
+    </tr>
+
+</table>
+
+<div class="footer">
+    Gracias por confiar en SYSTEM MADOC - Soluciones Tecnológicas
+    &nbsp;&nbsp;|&nbsp;&nbsp; Documento generado el {{ fecha_generacion }}
+</div>
+
+</body>
+</html>
