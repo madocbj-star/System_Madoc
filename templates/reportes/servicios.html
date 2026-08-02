@@ -30,7 +30,7 @@ Reportes de Servicios | Madoc System
             </h2>
             <p class="text-secondary mb-0">
                 {{ nombre_mes }} {{ anio }} &nbsp;·&nbsp;
-                <small>Órdenes entregadas, agrupadas por fecha de entrega</small>
+                <small>Órdenes entregadas, agrupadas por fecha de ingreso del equipo</small>
             </p>
         </div>
 
@@ -159,7 +159,7 @@ Reportes de Servicios | Madoc System
                                     <th>Código</th>
                                     <th>Cliente</th>
                                     <th>Técnico</th>
-                                    <th>Entrega</th>
+                                    <th>Ingreso</th>
                                     <th class="text-end">Total</th>
                                 </tr>
                             </thead>
@@ -173,7 +173,7 @@ Reportes de Servicios | Madoc System
                                     </td>
                                     <td>{{ item.orden.equipo.cliente.nombre if item.orden.equipo and item.orden.equipo.cliente else '-' }}</td>
                                     <td>{{ item.orden.tecnico.nombre if item.orden.tecnico else 'Sin asignar' }}</td>
-                                    <td>{{ item.orden.fecha_entrega.strftime('%d/%m/%Y') }}</td>
+                                    <td>{{ item.orden.fecha_ingreso.strftime('%d/%m/%Y') }}</td>
                                     <td class="text-end">$ {{ "{:,.0f}".format(item.total) }}</td>
                                 </tr>
                                 {% endfor %}

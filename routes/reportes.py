@@ -161,15 +161,14 @@ def reporte_servicios():
         mes = hoy.month
 
     # =====================================
-    # ORDENES ENTREGADAS EN EL MES
-    # (agrupadas por fecha de ENTREGA, no de ingreso)
+    # ORDENES ENTREGADAS, AGRUPADAS POR
+    # FECHA DE INGRESO (cuando se recibio el equipo)
     # =====================================
     ordenes_mes = Orden.query.filter(
         Orden.estado == 'ENTREGADO',
-        Orden.fecha_entrega.isnot(None),
-        extract('month', Orden.fecha_entrega) == mes,
-        extract('year', Orden.fecha_entrega) == anio
-    ).order_by(Orden.fecha_entrega.desc()).all()
+        extract('month', Orden.fecha_ingreso) == mes,
+        extract('year', Orden.fecha_ingreso) == anio
+    ).order_by(Orden.fecha_ingreso.desc()).all()
 
     # =====================================
     # CALCULAR TOTAL POR ORDEN (servicio + repuestos)
@@ -204,7 +203,7 @@ def reporte_servicios():
     ordenes_por_dia = {d: 0 for d in range(1, dias_en_mes + 1)}
 
     for item in ordenes_detalle:
-        dia = item['orden'].fecha_entrega.day
+        dia = item['orden'].fecha_ingreso.day
         ordenes_por_dia[dia] += item['total']
 
     dias_labels = list(ordenes_por_dia.keys())
