@@ -233,6 +233,12 @@ def editar_orden(id):
 
         orden.estado = request.form['estado']
 
+        # =========================================
+        # FECHA DE ENTREGA (se guarda sola al marcar ENTREGADO)
+        # =========================================
+        if orden.estado == 'ENTREGADO' and orden.fecha_entrega is None:
+            orden.fecha_entrega = datetime.now()
+
         orden.problema_reportado = request.form[
             'problema_reportado'
         ]
