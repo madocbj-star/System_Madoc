@@ -284,6 +284,44 @@ def editar_orden(id):
             if campo_desc:
                 setattr(orden, f'foto{i}_desc', campo_desc)
 
+        # =========================================
+        # CONSTANCIA DE ENTREGA (firma y/o foto)
+        # =========================================
+        from utils.cloudinary_helper import subir_base64_con_id
+
+        nombre_receptor = request.form.get(
+            'entrega_nombre_receptor', ''
+        ).strip()
+
+        if nombre_receptor:
+            orden.entrega_nombre_receptor = nombre_receptor
+
+        # Firma digital (llega como data URL base64 desde el canvas)
+        firma_data = request.form.get('firma_data', '')
+
+        if firma_data and firma_data.startswith('data:image'):
+
+            url, public_id = subir_base64_con_id(
+                firma_data, 'ordenes_entrega'
+            )
+
+            if url:
+                orden.entrega_firma_url = url
+                orden.entrega_firma_public_id = public_id
+
+        # Foto del recibido firmado en papel
+        campo_foto_entrega = request.files.get('foto_entrega')
+
+        if campo_foto_entrega and campo_foto_entrega.filename != '':
+
+            url, public_id = subir_imagen_con_id(
+                campo_foto_entrega, 'ordenes_entrega'
+            )
+
+            if url:
+                orden.entrega_foto_url = url
+                orden.entrega_foto_public_id = public_id
+
         db.session.commit()
 
         flash('Orden actualizada correctamente', 'success')
@@ -582,5 +620,38 @@ def limpiar_fotos(id):
     db.session.commit()
 
     flash('Fotos de evidencia eliminadas correctamente.', 'success')
+
+    return redirect(url_for('ordenes.ver_orden', id=orden.id))
+
+
+# =========================================
+# LIMPIAR CONSTANCIA DE ENTREGA
+# (firma y/o foto del recibido)
+# =========================================
+
+@ordenes.route('/limpiar-entrega/<int:id>', methods=['POST'])
+@login_required
+@rol_requerido('admin', 'tecnico')
+def limpiar_entrega(id):
+
+    orden = Orden.query.get_or_404(id)
+
+    from utils.cloudinary_helper import eliminar_imagen
+
+    if orden.entrega_firma_public_id:
+        eliminar_imagen(orden.entrega_firma_public_id)
+
+    if orden.entrega_foto_public_id:
+        eliminar_imagen(orden.entrega_foto_public_id)
+
+    orden.entrega_firma_url = None
+    orden.entrega_firma_public_id = None
+    orden.entrega_foto_url = None
+    orden.entrega_foto_public_id = None
+    orden.entrega_nombre_receptor = None
+
+    db.session.commit()
+
+    flash('Constancia de entrega eliminada correctamente.', 'success')
 
     return redirect(url_for('ordenes.ver_orden', id=orden.id))

@@ -234,6 +234,78 @@ Editar Orden | Madoc System
 
                 </div>
 
+                <!-- CONSTANCIA DE ENTREGA -->
+
+                <div class="mb-4">
+
+                    <h5 class="mb-3">
+                        <i class="bi bi-file-earmark-check"></i> Constancia de entrega
+                        <small class="text-secondary">(firma digital o foto del recibido)</small>
+                    </h5>
+
+                    {% if orden.entrega_firma_url or orden.entrega_foto_url %}
+                    <div class="alert alert-success py-2 mb-3">
+                        <i class="bi bi-check-circle"></i>
+                        Esta orden ya tiene una constancia de entrega guardada
+                        {% if orden.entrega_nombre_receptor %}
+                        a nombre de <strong>{{ orden.entrega_nombre_receptor }}</strong>
+                        {% endif %}.
+                        Puedes verla y eliminarla desde la vista de la orden.
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Nombre de quien recibe</label>
+                        <input type="text"
+                            name="entrega_nombre_receptor"
+                            class="form-control"
+                            placeholder="Nombre de la persona que recibe el equipo"
+                            value="{{ orden.entrega_nombre_receptor or '' }}">
+                    </div>
+
+                    <div class="row g-3">
+
+                        <!-- FIRMA DIGITAL -->
+                        <div class="col-md-6">
+
+                            <label class="form-label">Firma digital</label>
+
+                            <div class="border rounded p-2" style="background:#fff;">
+                                <canvas id="canvas-firma"
+                                    width="400" height="150"
+                                    style="width:100%; height:150px; border:1px dashed #999; touch-action:none; cursor:crosshair;">
+                                </canvas>
+                            </div>
+
+                            <button type="button" id="btn-limpiar-firma"
+                                class="btn btn-sm btn-outline-secondary mt-2">
+                                <i class="bi bi-eraser"></i> Limpiar firma
+                            </button>
+
+                            <input type="hidden" name="firma_data" id="firma_data" value="">
+
+                        </div>
+
+                        <!-- FOTO DEL RECIBIDO -->
+                        <div class="col-md-6">
+
+                            <label class="form-label">O sube una foto del recibido firmado</label>
+
+                            <input type="file"
+                                name="foto_entrega"
+                                class="form-control"
+                                accept="image/*">
+
+                            <div class="form-text">
+                                Útil si el cliente firmó en papel.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
                 <!-- BOTONES -->
 
                 <div class="d-flex gap-2">
@@ -257,5 +329,85 @@ Editar Orden | Madoc System
     </div>
 
 </div>
+
+<script>
+(function () {
+
+    const canvas = document.getElementById('canvas-firma');
+    const ctx = canvas.getContext('2d');
+    const firmaInput = document.getElementById('firma_data');
+    const btnLimpiar = document.getElementById('btn-limpiar-firma');
+    const form = canvas.closest('form');
+
+    // Ajustar resolucion real del canvas a su tamaño visible
+    function ajustarCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#000000';
+    }
+    ajustarCanvas();
+
+    let dibujando = false;
+    let haFirmado = false;
+
+    function obtenerPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const punto = e.touches ? e.touches[0] : e;
+        return {
+            x: punto.clientX - rect.left,
+            y: punto.clientY - rect.top
+        };
+    }
+
+    function iniciar(e) {
+        dibujando = true;
+        haFirmado = true;
+        const pos = obtenerPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+        e.preventDefault();
+    }
+
+    function mover(e) {
+        if (!dibujando) return;
+        const pos = obtenerPos(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        e.preventDefault();
+    }
+
+    function terminar() {
+        dibujando = false;
+    }
+
+    canvas.addEventListener('mousedown', iniciar);
+    canvas.addEventListener('mousemove', mover);
+    canvas.addEventListener('mouseup', terminar);
+    canvas.addEventListener('mouseleave', terminar);
+
+    canvas.addEventListener('touchstart', iniciar);
+    canvas.addEventListener('touchmove', mover);
+    canvas.addEventListener('touchend', terminar);
+
+    btnLimpiar.addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        haFirmado = false;
+        firmaInput.value = '';
+    });
+
+    // Antes de enviar el formulario, volcar la firma al campo oculto
+    form.addEventListener('submit', () => {
+        if (haFirmado) {
+            firmaInput.value = canvas.toDataURL('image/png');
+        } else {
+            firmaInput.value = '';
+        }
+    });
+
+})();
+</script>
 
 {% endblock %}

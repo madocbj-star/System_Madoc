@@ -50,6 +50,23 @@ def subir_imagen_con_id(archivo, carpeta):
     return resultado.get('secure_url'), resultado.get('public_id')
 
 
+def subir_base64_con_id(data_url, carpeta):
+    """
+    Sube una imagen a Cloudinary a partir de un data URL en base64
+    (por ejemplo, el contenido de un canvas de firma digital).
+    Devuelve (url, public_id).
+    """
+    if not data_url:
+        return None, None
+
+    resultado = cloudinary.uploader.upload(
+        data_url,
+        folder=f'system_madoc/{carpeta}'
+    )
+
+    return resultado.get('secure_url'), resultado.get('public_id')
+
+
 def eliminar_imagen(public_id):
     """
     Elimina una imagen de Cloudinary usando su public_id.

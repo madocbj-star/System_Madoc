@@ -370,6 +370,72 @@ Detalle Orden | Madoc System
 
     </div>
 
+    {% set hay_entrega = orden.entrega_firma_url or orden.entrega_foto_url %}
+
+    <!-- CONSTANCIA DE ENTREGA -->
+
+    <div class="card shadow mt-3">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <h5 class="mb-0">
+                    <i class="bi bi-file-earmark-check"></i> Constancia de entrega
+                </h5>
+
+                {% if hay_entrega %}
+                <form method="POST"
+                    action="/ordenes/limpiar-entrega/{{ orden.id }}"
+                    onsubmit="return confirm('¿Ya guardaste esta constancia por fuera si la necesitabas? Esta acción la elimina y no se puede deshacer.');">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i> Limpiar constancia
+                    </button>
+                </form>
+                {% endif %}
+
+            </div>
+
+            {% if hay_entrega %}
+
+            {% if orden.entrega_nombre_receptor %}
+            <p class="mb-3">
+                <strong>Recibido por:</strong> {{ orden.entrega_nombre_receptor }}
+            </p>
+            {% endif %}
+
+            <div class="row g-3">
+
+                {% if orden.entrega_firma_url %}
+                <div class="col-md-6">
+                    <p class="text-secondary small mb-1">Firma digital</p>
+                    <img src="{{ orden.entrega_firma_url }}"
+                        class="img-fluid rounded border"
+                        style="background:#fff; max-height:180px;">
+                </div>
+                {% endif %}
+
+                {% if orden.entrega_foto_url %}
+                <div class="col-md-6">
+                    <p class="text-secondary small mb-1">Foto del recibido</p>
+                    <img src="{{ orden.entrega_foto_url }}"
+                        class="img-fluid rounded"
+                        style="max-height:180px; object-fit:cover; width:100%;">
+                </div>
+                {% endif %}
+
+            </div>
+
+            {% else %}
+            <p class="text-secondary mb-0">
+                Sin constancia de entrega registrada. Puedes agregarla editando la orden.
+            </p>
+            {% endif %}
+
+        </div>
+
+    </div>
+
     <!-- ===================================== -->
     <!-- REPUESTOS USADOS -->
     <!-- ===================================== -->

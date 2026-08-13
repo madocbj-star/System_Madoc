@@ -97,6 +97,18 @@ class Orden(db.Model):
     foto3_desc = db.Column(db.String(255))
 
     # =========================================
+    # CONSTANCIA DE ENTREGA
+    # =========================================
+
+    entrega_nombre_receptor = db.Column(db.String(150))
+
+    entrega_firma_url = db.Column(db.String(500))
+    entrega_firma_public_id = db.Column(db.String(255))
+
+    entrega_foto_url = db.Column(db.String(500))
+    entrega_foto_public_id = db.Column(db.String(255))
+
+    # =========================================
     # REPRESENTACIÓN
     # =========================================
 

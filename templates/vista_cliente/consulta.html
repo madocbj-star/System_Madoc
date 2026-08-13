@@ -250,8 +250,15 @@ Consulta Estado
                                     <p class="mb-0">
 
                                         {{ orden.equipo.tipo }}
-
                                         {{ orden.equipo.marca }}
+
+                                        {% if orden.equipo.modelo %}
+                                        <br><small class="text-secondary">Modelo: {{ orden.equipo.modelo }}</small>
+                                        {% endif %}
+
+                                        {% if orden.equipo.serial %}
+                                        <br><small class="text-secondary">Serial: {{ orden.equipo.serial }}</small>
+                                        {% endif %}
 
                                     </p>
 
@@ -436,6 +443,53 @@ Consulta Estado
                                 </div>
 
                             </div>
+
+                            <!-- EVIDENCIA FOTOGRAFICA (solo LISTO/ENTREGADO) -->
+
+                            {% set hay_fotos = orden.foto1_url or orden.foto2_url or orden.foto3_url %}
+
+                            {% if orden.estado in ['LISTO', 'ENTREGADO'] and hay_fotos %}
+                            <div class="mb-4">
+
+                                <div class="card card-cliente h-100">
+
+                                    <div class="card-body">
+
+                                        <div class="d-flex align-items-center mb-3">
+
+                                            <div class="icono-card me-3">
+                                                <i class="bi bi-camera"></i>
+                                            </div>
+
+                                            <h5 class="mb-0">
+                                                Evidencia del trabajo realizado
+                                            </h5>
+
+                                        </div>
+
+                                        <div class="row g-3">
+                                            {% for i in [1, 2, 3] %}
+                                                {% set foto_url = orden['foto' ~ i ~ '_url'] %}
+                                                {% set foto_desc = orden['foto' ~ i ~ '_desc'] %}
+                                                {% if foto_url %}
+                                                <div class="col-md-4">
+                                                    <img src="{{ foto_url }}"
+                                                        class="img-fluid rounded"
+                                                        style="width:100%; max-height:180px; object-fit:cover;">
+                                                    {% if foto_desc %}
+                                                    <p class="text-secondary small mt-1 mb-0 text-center">{{ foto_desc }}</p>
+                                                    {% endif %}
+                                                </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            {% endif %}
 
                         </div>
 
