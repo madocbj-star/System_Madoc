@@ -122,7 +122,7 @@
 
                                 {% if orden.estado == 'RECIBIDO' %}
 
-                                    <span class="badge bg-info">
+                                    <span class="badge estado-recibido">
 
                                         {{ orden.estado }}
 
@@ -130,7 +130,7 @@
 
                                 {% elif orden.estado == 'EN DIAGNÓSTICO' %}
 
-                                    <span class="badge bg-warning text-dark">
+                                    <span class="badge estado-diagnostico">
 
                                         {{ orden.estado }}
 
@@ -138,7 +138,7 @@
 
                                 {% elif orden.estado == 'EN REPARACIÓN' %}
 
-                                    <span class="badge bg-orange">
+                                    <span class="badge estado-reparacion">
 
                                         {{ orden.estado }}
 
@@ -146,7 +146,7 @@
 
                                 {% elif orden.estado == 'PENDIENTE REPUESTO' %}
 
-                                    <span class="badge bg-dark">
+                                    <span class="badge estado-pendiente">
 
                                         {{ orden.estado }}
 
@@ -154,7 +154,7 @@
 
                                 {% elif orden.estado == 'LISTO' %}
 
-                                    <span class="badge bg-success">
+                                    <span class="badge estado-listo">
 
                                         {{ orden.estado }}
 
@@ -162,7 +162,7 @@
 
                                 {% elif orden.estado == 'ENTREGADO' %}
 
-                                    <span class="badge bg-entregado">
+                                    <span class="badge estado-entregado">
 
                                         {{ orden.estado }}
 

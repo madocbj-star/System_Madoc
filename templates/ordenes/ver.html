@@ -87,11 +87,49 @@ Detalle Orden | Madoc System
 
                         <br>
 
-                        <span class="badge bg-info">
+                        {% if orden.estado == 'RECIBIDO' %}
 
-                            {{ orden.estado }}
+                            <span class="badge estado-recibido">
+                                {{ orden.estado }}
+                            </span>
 
-                        </span>
+                        {% elif orden.estado == 'EN DIAGNÓSTICO' %}
+
+                            <span class="badge estado-diagnostico">
+                                {{ orden.estado }}
+                            </span>
+
+                        {% elif orden.estado == 'EN REPARACIÓN' %}
+
+                            <span class="badge estado-reparacion">
+                                {{ orden.estado }}
+                            </span>
+
+                        {% elif orden.estado == 'PENDIENTE REPUESTO' %}
+
+                            <span class="badge estado-pendiente">
+                                {{ orden.estado }}
+                            </span>
+
+                        {% elif orden.estado == 'LISTO' %}
+
+                            <span class="badge estado-listo">
+                                {{ orden.estado }}
+                            </span>
+
+                        {% elif orden.estado == 'ENTREGADO' %}
+
+                            <span class="badge estado-entregado">
+                                {{ orden.estado }}
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+                                {{ orden.estado }}
+                            </span>
+
+                        {% endif %}
 
                     </div>
 
