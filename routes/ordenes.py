@@ -6,7 +6,8 @@ from flask import (
     url_for,
     flash,
     send_file,
-    current_app
+    current_app,
+    jsonify
 )
 
 from flask_login import login_required, current_user
@@ -15,6 +16,7 @@ from utils.permisos import rol_requerido
 from extensions import db	
 
 from models.orden import Orden
+from models.notificacion import Notificacion
 from models.equipo import Equipo
 from models.usuario import Usuario
 from models.producto import Producto
@@ -38,6 +40,34 @@ ordenes = Blueprint(
     __name__,
     url_prefix='/ordenes'
 )
+
+# =========================================
+# CREAR NOTIFICACIONES DE ORDEN
+# =========================================
+
+def crear_notificacion_orden(
+    orden,
+    tipo,
+    titulo,
+    mensaje
+):
+    usuarios = Usuario.query.filter(
+        Usuario.rol.in_(['admin', 'tecnico']),
+        Usuario.estado == True
+    ).all()
+
+    for usuario in usuarios:
+
+        notificacion = Notificacion(
+            usuario_id=usuario.id,
+            orden_id=orden.id,
+            tipo=tipo,
+            titulo=titulo,
+            mensaje=mensaje,
+            leida=False
+        )
+
+        db.session.add(notificacion)
 
 # =========================================
 # LISTAR ÓRDENES
@@ -168,6 +198,19 @@ def crear_orden():
         )
 
         db.session.add(nueva_orden)
+
+        # Obtener el ID de la nueva orden
+        db.session.flush()
+
+        # Crear notificación
+        crear_notificacion_orden(
+            nueva_orden,
+            'nueva_orden',
+            'Nueva orden',
+            f'Se ha creado la orden {nueva_orden.codigo_orden}.'
+        )
+
+        # Guardar orden y notificación
         db.session.commit()
 
         flash('Orden creada correctamente', 'success')
@@ -231,7 +274,13 @@ def editar_orden(id):
 
     if request.method == 'POST':
 
-        orden.estado = request.form['estado']
+        # Guardar estado anterior
+        estado_anterior = orden.estado
+
+        # Nuevo estado
+        nuevo_estado = request.form['estado']
+
+        orden.estado = nuevo_estado
 
         # =========================================
         # FECHA DE ENTREGA (se guarda sola al marcar ENTREGADO)
@@ -260,6 +309,20 @@ def editar_orden(id):
         ]
 
         orden.tecnico_id = request.form.get('tecnico_id') or None
+
+        # =========================================
+        # NOTIFICACIÓN POR CAMBIO DE ESTADO
+        # =========================================
+
+        if estado_anterior != nuevo_estado:
+
+            crear_notificacion_orden(
+                orden,
+                'cambio_estado',
+                'Orden actualizada',
+                f'{orden.codigo_orden} cambió de '
+                f'{estado_anterior} a {nuevo_estado}.'
+            )
 
         # =========================================
         # EVIDENCIA FOTOGRAFICA (hasta 3 fotos)
@@ -655,3 +718,59 @@ def limpiar_entrega(id):
     flash('Constancia de entrega eliminada correctamente.', 'success')
 
     return redirect(url_for('ordenes.ver_orden', id=orden.id))
+
+# =========================================
+# API DE NOTIFICACIONES
+# =========================================
+
+@ordenes.route('/api/notificaciones')
+@login_required
+def obtener_notificaciones():
+
+    notificaciones = Notificacion.query.filter_by(
+        usuario_id=current_user.id,
+        leida=False
+    ).order_by(
+        Notificacion.fecha.desc()
+    ).all()
+
+    datos = []
+
+    for notificacion in notificaciones:
+
+        datos.append({
+            'id': notificacion.id,
+            'tipo': notificacion.tipo,
+            'titulo': notificacion.titulo,
+            'mensaje': notificacion.mensaje,
+            'fecha': notificacion.fecha.strftime(
+                '%d/%m/%Y %H:%M'
+            )
+        })
+
+    return jsonify(datos)
+
+
+# =========================================
+# MARCAR NOTIFICACIONES COMO LEÍDAS
+# =========================================
+
+@ordenes.route(
+    '/api/notificaciones/marcar-leidas',
+    methods=['POST']
+)
+@login_required
+def marcar_notificaciones_leidas():
+
+    Notificacion.query.filter_by(
+        usuario_id=current_user.id,
+        leida=False
+    ).update({
+        'leida': True
+    })
+
+    db.session.commit()
+
+    return jsonify({
+        'success': True
+    })

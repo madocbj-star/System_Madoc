@@ -1,33 +1,81 @@
-### Pendiente recortar los from flask
+# =========================================
+# IMPORTACIONES FLASK
+# =========================================
+
 from flask import Blueprint
 from flask import render_template
 from flask import request
 from flask import redirect
 from flask import url_for
 from flask import flash
+from flask import current_app
+
+
+# =========================================
+# SQLALCHEMY
+# =========================================
+
+from sqlalchemy import func
+
+
+# =========================================
+# MODELOS
+# =========================================
 
 from models.cliente import Cliente
 from models.equipo import Equipo
 from models.orden import Orden
 from models.producto import Producto
 from models.detalle_venta import DetalleVenta
+from models.venta import Venta
+
+
+# =========================================
+# FLASK LOGIN
+# =========================================
 
 from flask_login import login_user
 from flask_login import logout_user
 from flask_login import login_required
 from flask_login import current_user
 
+
+# =========================================
+# USUARIO
+# =========================================
+
 from models.usuario import Usuario
 
+
+# =========================================
+# BASE DE DATOS
+# =========================================
+
 from extensions import db
+
+
+# =========================================
+# SEGURIDAD
+# =========================================
 
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 
+
+# =========================================
+# TOKEN
+# =========================================
+
 from itsdangerous import URLSafeTimedSerializer
+
+
+# =========================================
+# CORREO
+# =========================================
+
 from flask_mail import Message
 from extensions import mail
-from flask import current_app
+
 
 # =========================================
 # CREAR BLUEPRINT
@@ -39,14 +87,17 @@ auth = Blueprint(
     url_prefix='/auth'
 )
 
+
 # =========================================
 # SERIALIZER TOKEN
 # =========================================
 
 def get_serializer():
+
     return URLSafeTimedSerializer(
         current_app.config['SECRET_KEY']
     )
+
 
 # =========================================
 # LOGIN
@@ -58,7 +109,10 @@ def login():
     # SI YA INICIÓ SESIÓN
     if current_user.is_authenticated:
 
-        return redirect(url_for('auth.dashboard'))
+        return redirect(
+            url_for('auth.dashboard')
+        )
+
 
     # SI ENVÍA FORMULARIO
     if request.method == 'POST':
@@ -67,10 +121,12 @@ def login():
         password = request.form.get('password')
         remember = request.form.get('remember')
 
+
         # BUSCAR USUARIO
         usuario = Usuario.query.filter_by(
             correo=correo
         ).first()
+
 
         # VALIDAR USUARIO
         if usuario and check_password_hash(
@@ -83,14 +139,17 @@ def login():
                 remember=remember
             )
 
+
             flash(
                 'Bienvenido al sistema',
                 'success'
             )
 
+
             return redirect(
                 url_for('auth.dashboard')
             )
+
 
         else:
 
@@ -99,7 +158,11 @@ def login():
                 'danger'
             )
 
-    return render_template('auth/login.html')
+
+    return render_template(
+        'auth/login.html'
+    )
+
 
 # =========================================
 # DASHBOARD
@@ -109,6 +172,10 @@ def login():
 @login_required
 def dashboard():
 
+    # =====================================
+    # TOTALES PRINCIPALES
+    # =====================================
+
     total_clientes = Cliente.query.count()
 
     total_equipos = Equipo.query.count()
@@ -117,21 +184,106 @@ def dashboard():
 
     total_productos = Producto.query.count()
 
+    total_ventas = Venta.query.count()
+
+
+    # =====================================
+    # ORDENES PENDIENTES
+    # =====================================
+
     ordenes_pendientes = Orden.query.filter(
         Orden.estado != 'ENTREGADO'
     ).count()
+
+
+    # =====================================
+    # STOCK BAJO
+    # =====================================
 
     stock_bajo = Producto.query.filter(
         Producto.stock <= Producto.stock_minimo
     ).count()
 
+
+    # =====================================
+    # ULTIMAS ORDENES
+    # =====================================
+
     ultimas_ordenes = Orden.query.order_by(
         Orden.id.desc()
     ).limit(5).all()
 
+
+    # =====================================
+    # PRODUCTOS CON STOCK BAJO
+    # =====================================
+
     productos_stock_bajo = Producto.query.filter(
         Producto.stock <= Producto.stock_minimo
     ).all()
+
+
+    # =====================================
+    # ESTADOS DE LAS ORDENES
+    # =====================================
+
+    estados_ordenes = {
+
+        'RECIBIDO': 0,
+
+        'EN DIAGNÓSTICO': 0,
+
+        'EN REPARACIÓN': 0,
+
+        'PENDIENTE REPUESTO': 0,
+
+        'LISTO': 0,
+
+        'ENTREGADO': 0
+
+    }
+
+
+    # =====================================
+    # CONTAR ORDENES POR ESTADO
+    # =====================================
+
+    resultados_estados = db.session.query(
+
+        Orden.estado,
+
+        func.count(Orden.id)
+
+    ).group_by(
+
+        Orden.estado
+
+    ).all()
+
+
+    # =====================================
+    # NORMALIZAR ESTADOS
+    # =====================================
+
+    for estado, cantidad in resultados_estados:
+
+        estado_normalizado = (
+            estado.upper()
+            if estado
+            else ''
+        )
+
+
+        if estado_normalizado in estados_ordenes:
+
+            estados_ordenes[
+                estado_normalizado
+            ] = cantidad
+
+
+    # =====================================
+    # ENVIAR DATOS AL DASHBOARD
+    # =====================================
 
     return render_template(
 
@@ -145,15 +297,20 @@ def dashboard():
 
         total_productos=total_productos,
 
+        total_ventas=total_ventas,
+
         ordenes_pendientes=ordenes_pendientes,
 
         stock_bajo=stock_bajo,
 
         ultimas_ordenes=ultimas_ordenes,
 
-        productos_stock_bajo=productos_stock_bajo
+        productos_stock_bajo=productos_stock_bajo,
+
+        estados_ordenes=estados_ordenes
 
     )
+
 
 # =========================================
 # LOGOUT
@@ -165,30 +322,37 @@ def logout():
 
     logout_user()
 
+
     flash(
         'Sesión cerrada correctamente',
         'info'
     )
 
+
     return redirect(
         url_for('auth.login')
     )
+
 
 # =========================================
 # RECUPERAR PASSWORD
 # =========================================
 
-@auth.route('/recuperar-password',
-            methods=['GET', 'POST'])
+@auth.route(
+    '/recuperar-password',
+    methods=['GET', 'POST']
+)
 def recuperar_password():
 
     if request.method == 'POST':
 
         correo = request.form.get('correo')
 
+
         usuario = Usuario.query.filter_by(
             correo=correo
         ).first()
+
 
         if usuario:
 
@@ -199,6 +363,7 @@ def recuperar_password():
                 salt='recuperar-password'
             )
 
+
             # LINK RECUPERACION
 
             enlace = url_for(
@@ -207,37 +372,44 @@ def recuperar_password():
                 _external=True
             )
 
+
             # CREAR MENSAJE
 
             mensaje = Message(
 
                 'Recuperación Contraseña - System Madoc',
 
-                recipients=[usuario.correo]
+                recipients=[
+                    usuario.correo
+                ]
 
             )
 
+
             mensaje.body = f'''
 
-        Hola {usuario.nombre},
+Hola {usuario.nombre},
 
-        Haz clic en el siguiente enlace para cambiar tu contraseña:
+Haz clic en el siguiente enlace para cambiar tu contraseña:
 
-        {enlace}
+{enlace}
 
-        Si no solicitaste este cambio, ignora este mensaje.
+Si no solicitaste este cambio, ignora este mensaje.
 
-        System Madoc
-        '''
+System Madoc
+'''
+
 
             # ENVIAR EMAIL
 
             mail.send(mensaje)
 
+
             flash(
                 'Correo enviado correctamente',
                 'success'
             )
+
 
         else:
 
@@ -246,39 +418,58 @@ def recuperar_password():
                 'danger'
             )
 
+
     return render_template(
         'auth/recuperar_password.html'
     )
+
 
 # =========================================
 # PERFIL USUARIO
 # =========================================
 
-@auth.route('/perfil',
-            methods=['GET', 'POST'])
+@auth.route(
+    '/perfil',
+    methods=['GET', 'POST']
+)
 @login_required
 def perfil():
 
     usuario = current_user
 
+
     if request.method == 'POST':
 
-        usuario.nombre = request.form['nombre']
+        usuario.nombre = request.form[
+            'nombre'
+        ]
 
-        usuario.correo = request.form['correo']
+        usuario.correo = request.form[
+            'correo'
+        ]
+
 
         # FOTO
 
-        foto = request.files.get('foto')
+        foto = request.files.get(
+            'foto'
+        )
+
 
         if foto and foto.filename != '':
 
             from utils.cloudinary_helper import subir_imagen
 
-            url_foto = subir_imagen(foto, 'usuarios')
+            url_foto = subir_imagen(
+                foto,
+                'usuarios'
+            )
+
 
             if url_foto:
+
                 usuario.foto = url_foto
+
 
         # PASSWORD
 
@@ -286,32 +477,42 @@ def perfil():
             'password'
         )
 
+
         if nueva_password != '':
 
             usuario.password = generate_password_hash(
                 nueva_password
             )
 
+
         db.session.commit()
+
 
         flash(
             'Perfil actualizado correctamente',
             'success'
         )
 
-        return redirect('/auth/perfil')
+
+        return redirect(
+            '/auth/perfil'
+        )
+
 
     return render_template(
         'auth/perfil.html',
         usuario=usuario
     )
 
+
 # =========================================
 # RESET PASSWORD
 # =========================================
 
-@auth.route('/reset-password/<token>',
-            methods=['GET', 'POST'])
+@auth.route(
+    '/reset-password/<token>',
+    methods=['GET', 'POST']
+)
 def reset_password(token):
 
     try:
@@ -322,6 +523,7 @@ def reset_password(token):
             max_age=3600
         )
 
+
     except:
 
         flash(
@@ -329,13 +531,16 @@ def reset_password(token):
             'danger'
         )
 
+
         return redirect(
             url_for('auth.login')
         )
 
+
     usuario = Usuario.query.filter_by(
         correo=correo
     ).first()
+
 
     if not usuario:
 
@@ -344,9 +549,11 @@ def reset_password(token):
             'danger'
         )
 
+
         return redirect(
             url_for('auth.login')
         )
+
 
     if request.method == 'POST':
 
@@ -354,20 +561,25 @@ def reset_password(token):
             'password'
         )
 
+
         usuario.password = generate_password_hash(
             nueva_password
         )
 
+
         db.session.commit()
+
 
         flash(
             'Contraseña actualizada correctamente',
             'success'
         )
 
+
         return redirect(
             url_for('auth.login')
         )
+
 
     return render_template(
         'auth/reset_password.html'

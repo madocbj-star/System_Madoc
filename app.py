@@ -54,6 +54,8 @@ def create_app():
     from routes.reportes import reportes
     from routes.proveedores import proveedores
     from routes.cotizaciones import cotizaciones
+        # Cargar modelos para SQLAlchemy
+    from models.notificacion import Notificacion
 
     # =========================================
     # REGISTRAR BLUEPRINTS

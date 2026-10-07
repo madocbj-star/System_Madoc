@@ -1,4 +1,4 @@
-{% extends 'base_dashboard.html' %}
+{% extends "base_dashboard.html" %}
 
 {% block title %}
 Dashboard | System Madoc
@@ -6,305 +6,413 @@ Dashboard | System Madoc
 
 {% block content %}
 
-<!-- ========================================= -->
-<!-- TITULO -->
-<!-- ========================================= -->
+<div class="madoc-dashboard">
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- =====================================================
+         BIENVENIDA
+    ====================================================== -->
 
-    <div>
-    
-        <h2 class="fw-bold">
-            Dashboard Administrativo
-        </h2>
+    <section class="dashboard-welcome mb-4">
 
-        <p class="text-secondary">
-            Bienvenido al sistema de gestión System Madoc
-        </p>
+        <div class="dashboard-welcome-content">
 
-    </div>
+            <div class="dashboard-welcome-label">
+                <span class="dashboard-welcome-badge">
+                    System Madoc
+                </span>
 
-</div>
+                <span class="dashboard-welcome-context">
+                    Panel administrativo
+                </span>
+            </div>
 
-<!-- ========================================= -->
-<!-- CARDS PRINCIPALES -->
-<!-- ========================================= -->
+            <h1 class="dashboard-welcome-title">
+                Bienvenido,
+                {{ current_user.nombre }}
+            </h1>
 
-<div class="row g-4">
+            <p class="dashboard-welcome-text">
+                Controla y gestiona tu taller de mantenimiento
+                de computadores e impresoras desde un solo lugar.
+            </p>
 
-    <!-- EQUIPOS -->
+        </div>
 
-    <div class="col-md-3">
+        <div class="dashboard-welcome-icon">
+            <i class="bi bi-pc-display-horizontal"></i>
+        </div>
 
-        <div class="card bg-black border-secondary shadow h-100">
+    </section>
 
-            <div class="card-body">
 
-                <div class="d-flex justify-content-between align-items-center">
+    <!-- =====================================================
+         INDICADORES PRINCIPALES
+    ====================================================== -->
 
-                    <div>
+    <section class="row g-3 mb-4">
 
-                        <h6 class="text-secondary">
-                            Equipos
-                        </h6>
+        <!-- EQUIPOS -->
 
-                        <h2 class="fw-bold text-info">
-                            {{ total_equipos }}
-                        </h2>
+        <div class="col-12 col-sm-6 col-xl-3">
 
-                    </div>
+            <div class="dashboard-kpi">
 
-                    <i class="bi bi-pc-display fs-1 text-info"></i>
+                <div class="dashboard-kpi-content">
 
+                    <span class="dashboard-kpi-label">
+                        Equipos
+                    </span>
+
+                    <span class="dashboard-kpi-number">
+                        {{ total_equipos }}
+                    </span>
+
+                    <span class="dashboard-kpi-description">
+                        Equipos registrados
+                    </span>
+
+                </div>
+
+                <div class="dashboard-kpi-icon">
+                    <i class="bi bi-pc-display"></i>
                 </div>
 
             </div>
 
         </div>
 
-    </div>
 
-    <!-- ORDENES -->
+        <!-- ORDENES -->
 
-    <div class="col-md-3">
+        <div class="col-12 col-sm-6 col-xl-3">
 
-        <div class="card bg-black border-secondary shadow h-100">
+            <div class="dashboard-kpi">
 
-            <div class="card-body">
+                <div class="dashboard-kpi-content">
 
-                <div class="d-flex justify-content-between align-items-center">
+                    <span class="dashboard-kpi-label">
+                        Órdenes
+                    </span>
 
-                    <div>
+                    <span class="dashboard-kpi-number">
+                        {{ total_ordenes }}
+                    </span>
 
-                        <h6 class="text-secondary">
-                            Órdenes
-                        </h6>
+                    <span class="dashboard-kpi-description">
+                        Órdenes registradas
+                    </span>
 
-                        <h2 class="fw-bold text-warning">
-                            {{ total_ordenes }}
-                        </h2>
+                </div>
 
-                    </div>
-
-                    <i class="bi bi-tools fs-1 text-warning"></i>
-
+                <div class="dashboard-kpi-icon">
+                    <i class="bi bi-tools"></i>
                 </div>
 
             </div>
 
         </div>
 
-    </div>
 
-    <!-- INVENTARIO -->
+        <!-- PRODUCTOS -->
 
-    <div class="col-md-3">
+        <div class="col-12 col-sm-6 col-xl-3">
 
-        <div class="card bg-black border-secondary shadow h-100">
+            <div class="dashboard-kpi">
 
-            <div class="card-body">
+                <div class="dashboard-kpi-content">
 
-                <div class="d-flex justify-content-between align-items-center">
+                    <span class="dashboard-kpi-label">
+                        Productos
+                    </span>
 
-                    <div>
+                    <span class="dashboard-kpi-number">
+                        {{ total_productos }}
+                    </span>
 
-                        <h6 class="text-secondary">
-                            Productos
-                        </h6>
+                    <span class="dashboard-kpi-description">
+                        Productos en inventario
+                    </span>
 
-                        <h2 class="fw-bold text-success">
-                            {{ total_productos }}
-                        </h2>
+                </div>
 
-                    </div>
-
-                    <i class="bi bi-box-seam fs-1 text-success"></i>
-
+                <div class="dashboard-kpi-icon">
+                    <i class="bi bi-box-seam"></i>
                 </div>
 
             </div>
 
         </div>
 
-    </div>
 
-    <!-- VENTAS -->
+        <!-- VENTAS -->
 
-    <div class="col-md-3">
+        <div class="col-12 col-sm-6 col-xl-3">
 
-        <div class="card bg-black border-secondary shadow h-100">
+            <div class="dashboard-kpi">
 
-            <div class="card-body">
+                <div class="dashboard-kpi-content">
 
-                <div class="d-flex justify-content-between align-items-center">
+                    <span class="dashboard-kpi-label">
+                        Ventas
+                    </span>
 
-                    <div>
+                    <span class="dashboard-kpi-number">
+                        {{ total_ventas }}
+                    </span>
 
-                        <h6 class="text-secondary">
-                            Ventas
-                        </h6>
+                    <span class="dashboard-kpi-description">
+                        Ventas registradas
+                    </span>
 
-                        <h2 class="fw-bold text-danger">
-                            {{ total_clientes }}
-                        </h2>
+                </div>
 
-                    </div>
-
-                    <i class="bi bi-currency-dollar fs-1 text-danger"></i>
-
+                <div class="dashboard-kpi-icon">
+                    <i class="bi bi-cash-stack"></i>
                 </div>
 
             </div>
 
         </div>
 
-    </div>
+    </section>
 
-</div>
 
-<!-- ========================================= -->
-<!-- TABLAS -->
-<!-- ========================================= -->
+    <!-- =====================================================
+         ORDENES + ESTADO
+    ====================================================== -->
 
-<div class="row mt-5">
+    <section class="row g-4 mb-4">
 
-    <!-- ULTIMAS ORDENES -->
+        <!-- =================================================
+             ULTIMAS ORDENES
+        ================================================== -->
 
-    <div class="col-lg-8 mb-4">
+        <div class="col-12 col-xl-7">
 
-        <div class="card bg-black border-secondary shadow">
+            <div class="dashboard-panel">
 
-            <div class="card-header border-secondary">
+                <div class="dashboard-panel-header">
 
-                <h5 class="mb-0">
-                    Últimas órdenes de servicio
-                </h5>
+                    <div>
 
-            </div>
+                        <h2 class="dashboard-panel-title">
+                            Últimas órdenes de servicio
+                        </h2>
 
-            <div class="card-body">
+                        <p class="dashboard-panel-subtitle">
+                            Actividad reciente del taller
+                        </p>
 
-                <div class="table-responsive">
+                    </div>
 
-                    <div class="dashboard-scroll">
+                    <a href="/ordenes"
+                       class="dashboard-panel-action">
 
-                        <table class="table table-dark table-hover align-middle">
+                        Ver todas
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+                <div class="dashboard-panel-body dashboard-table-container">
+
+                    <div class="table-responsive">
+
+                        <table class="table dashboard-orders-table align-middle mb-0">
 
                             <thead>
 
                                 <tr>
 
-                                    <th>#</th>
-                                    <th>Cliente</th>
-                                    <th>Equipo</th>
-                                    <th>Estado</th>
+                                    <th>
+                                        Orden
+                                    </th>
+
+                                    <th>
+                                        Equipo
+                                    </th>
+
+                                    <th>
+                                        Estado
+                                    </th>
+
+                                    <th>
+                                        Fecha
+                                    </th>
 
                                 </tr>
 
                             </thead>
 
+
                             <tbody>
 
-                                {% for orden in ultimas_ordenes %}
+                                {% if ultimas_ordenes %}
 
-                                <tr>
+                                    {% for orden in ultimas_ordenes %}
 
-                                    <td>
+                                        {% set estado = orden.estado|upper %}
 
-                                        {{ orden.codigo_orden }}
+                                        <tr>
 
-                                    </td>
+                                            <!-- ORDEN -->
 
-                                    <td>
+                                            <td>
 
-                                        {{ orden.equipo.tipo }}
+                                                <span class="dashboard-order-code">
+                                                    {{ orden.codigo_orden }}
+                                                </span>
 
-                                    </td>
+                                            </td>
 
-                                    <td>
 
-                                        {{ orden.equipo.marca }}
+                                            <!-- EQUIPO -->
 
-                                    </td>
+                                            <td>
 
-                                    <td>
+                                                <div class="dashboard-equipment">
 
-                                        {% if orden.estado == 'RECIBIDO' %}
+                                                    <span class="dashboard-equipment-icon">
 
-                                            <span class="badge bg-info">
+                                                        {% if orden.equipo.tipo|lower == 'impresora' %}
 
-                                                {{ orden.estado }}
+                                                            <i class="bi bi-printer"></i>
 
-                                            </span>
+                                                        {% else %}
 
-                                        {% elif orden.estado == 'EN DIAGNÓSTICO' %}
+                                                            <i class="bi bi-pc-display"></i>
 
-                                            <span class="badge bg-warning text-dark">
+                                                        {% endif %}
 
-                                                {{ orden.estado }}
+                                                    </span>
 
-                                            </span>
+                                                    <div>
 
-                                        {% elif orden.estado == 'EN REPARACIÓN' %}
+                                                        <span class="dashboard-equipment-name">
+                                                            {{ orden.equipo.tipo }}
+                                                        </span>
 
-                                            <span class="badge bg-orange">
+                                                        {% if orden.equipo.marca %}
 
-                                                {{ orden.estado }}
+                                                            <span class="dashboard-equipment-brand">
+                                                                {{ orden.equipo.marca }}
+                                                            </span>
 
-                                            </span>
+                                                        {% endif %}
 
-                                        {% elif orden.estado == 'PENDIENTE REPUESTO' %}
+                                                    </div>
 
-                                            <span class="badge bg-dark">
+                                                </div>
 
-                                                {{ orden.estado }}
+                                            </td>
 
-                                            </span>
 
-                                        {% elif orden.estado == 'LISTO' %}
+                                            <!-- ESTADO -->
 
-                                            <span class="badge bg-success">
+                                            <td>
 
-                                                {{ orden.estado }}
+                                                {% if estado == 'RECIBIDO' %}
 
-                                            </span>
+                                                    <span class="dashboard-status status-recibido">
+                                                        <span class="dashboard-status-dot"></span>
+                                                        {{ orden.estado }}
+                                                    </span>
 
-                                        {% elif orden.estado == 'ENTREGADO' %}
+                                                {% elif estado == 'EN DIAGNÓSTICO' %}
 
-                                            <span class="badge bg-entregado">
+                                                    <span class="dashboard-status status-diagnostico">
+                                                        <span class="dashboard-status-dot"></span>
+                                                        {{ orden.estado }}
+                                                    </span>
 
-                                                {{ orden.estado }}
+                                                {% elif estado == 'EN REPARACIÓN' %}
 
-                                            </span>
+                                                    <span class="dashboard-status status-reparacion">
+                                                        <span class="dashboard-status-dot"></span>
+                                                        {{ orden.estado }}
+                                                    </span>
 
-                                        {% else %}
+                                                {% elif estado == 'PENDIENTE REPUESTO' %}
 
-                                            <span class="badge bg-secondary">
+                                                    <span class="dashboard-status status-pendiente">
+                                                        <span class="dashboard-status-dot"></span>
+                                                        {{ orden.estado }}
+                                                    </span>
 
-                                                {{ orden.estado }}
+                                                {% elif estado == 'LISTO' %}
 
-                                            </span>
+                                                    <span class="dashboard-status status-listo">
+                                                        <span class="dashboard-status-dot"></span>
+                                                        {{ orden.estado }}
+                                                    </span>
 
-                                        {% endif %}
+                                                {% elif estado == 'ENTREGADO' %}
 
-                                    </td>
+                                                    <span class="dashboard-status status-entregado">
+                                                        <span class="dashboard-status-dot"></span>
+                                                        {{ orden.estado }}
+                                                    </span>
 
-                                </tr>
+                                                {% else %}
+
+                                                    <span class="dashboard-status status-default">
+                                                        <span class="dashboard-status-dot"></span>
+                                                        {{ orden.estado }}
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+
+                                            <!-- FECHA -->
+
+                                            <td>
+
+                                                <span class="dashboard-order-date">
+
+                                                    {% if orden.fecha_ingreso %}
+
+                                                        {{ orden.fecha_ingreso.strftime('%d/%m/%Y') }}
+
+                                                    {% else %}
+
+                                                        --
+
+                                                    {% endif %}
+
+                                                </span>
+
+                                            </td>
+
+                                        </tr>
+
+                                    {% endfor %}
 
                                 {% else %}
 
-                                <tr>
+                                    <tr>
 
-                                    <td colspan="4"
-                                        class="text-center text-secondary">
+                                        <td colspan="4">
 
-                                        No hay órdenes registradas
+                                            <div class="dashboard-empty">
 
-                                    </td>
+                                                <i class="bi bi-inbox"></i>
 
-                                </tr>
+                                                <span>
+                                                    No hay órdenes registradas.
+                                                </span>
 
-                                {% endfor %}
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endif %}
 
                             </tbody>
 
@@ -318,67 +426,356 @@ Dashboard | System Madoc
 
         </div>
 
-    </div>
 
-    <!-- ALERTAS -->
+        <!-- =================================================
+             ESTADO DE ORDENES
+        ================================================== -->
 
-    <div class="col-lg-4">
+        <div class="col-12 col-xl-5">
 
-        <div class="card bg-black border-secondary shadow">
+            <div class="dashboard-panel">
 
-            <div class="card-header border-secondary">
+                <div class="dashboard-panel-header">
 
-                <h5 class="mb-0">
-                    Alertas del sistema
-                </h5>
+                    <div>
+
+                        <h2 class="dashboard-panel-title">
+                            Estado de órdenes
+                        </h2>
+
+                        <p class="dashboard-panel-subtitle">
+                            Distribución actual de las órdenes
+                        </p>
+
+                    </div>
+
+                    <i class="bi bi-pie-chart dashboard-panel-header-icon"></i>
+
+                </div>
+
+
+                <div class="dashboard-panel-body">
+
+                    <div class="dashboard-status-chart">
+
+                        <!-- DONUT -->
+
+                        <div
+                            id="statusDonut"
+                            class="dashboard-status-donut"
+
+                            data-recibido="{{ estados_ordenes['RECIBIDO'] }}"
+
+                            data-diagnostico="{{ estados_ordenes['EN DIAGNÓSTICO'] }}"
+
+                            data-reparacion="{{ estados_ordenes['EN REPARACIÓN'] }}"
+
+                            data-pendiente="{{ estados_ordenes['PENDIENTE REPUESTO'] }}"
+
+                            data-listo="{{ estados_ordenes['LISTO'] }}"
+
+                            data-entregado="{{ estados_ordenes['ENTREGADO'] }}"
+                        >
+
+                            <div class="dashboard-donut-center">
+
+                                <span
+                                    id="statusTotal"
+                                    class="dashboard-donut-total"
+                                >
+                                    0
+                                </span>
+
+                                <span class="dashboard-donut-label">
+                                    Órdenes
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- LEYENDA -->
+
+                        <div class="dashboard-status-legend">
+
+                            <!-- RECIBIDO -->
+
+                            <div class="dashboard-status-item">
+
+                                <div class="dashboard-status-item-label">
+
+                                    <span class="dashboard-legend-dot status-recibido"></span>
+
+                                    <span>
+                                        Recibido
+                                    </span>
+
+                                </div>
+
+                                <span
+                                    class="dashboard-status-item-value"
+                                    data-status-value="recibido"
+                                >
+                                    {{ estados_ordenes['RECIBIDO'] }}
+                                </span>
+
+                            </div>
+
+
+                            <!-- DIAGNOSTICO -->
+
+                            <div class="dashboard-status-item">
+
+                                <div class="dashboard-status-item-label">
+
+                                    <span class="dashboard-legend-dot status-diagnostico"></span>
+
+                                    <span>
+                                        En diagnóstico
+                                    </span>
+
+                                </div>
+
+                                <span
+                                    class="dashboard-status-item-value"
+                                    data-status-value="diagnostico"
+                                >
+                                    {{ estados_ordenes['EN DIAGNÓSTICO'] }}
+                                </span>
+
+                            </div>
+
+
+                            <!-- REPARACION -->
+
+                            <div class="dashboard-status-item">
+
+                                <div class="dashboard-status-item-label">
+
+                                    <span class="dashboard-legend-dot status-reparacion"></span>
+
+                                    <span>
+                                        En reparación
+                                    </span>
+
+                                </div>
+
+                                <span
+                                    class="dashboard-status-item-value"
+                                    data-status-value="reparacion"
+                                >
+                                    {{ estados_ordenes['EN REPARACIÓN'] }}
+                                </span>
+
+                            </div>
+
+
+                            <!-- PENDIENTE -->
+
+                            <div class="dashboard-status-item">
+
+                                <div class="dashboard-status-item-label">
+
+                                    <span class="dashboard-legend-dot status-pendiente"></span>
+
+                                    <span>
+                                        Pendiente repuesto
+                                    </span>
+
+                                </div>
+
+                                <span
+                                    class="dashboard-status-item-value"
+                                    data-status-value="pendiente"
+                                >
+                                    {{ estados_ordenes['PENDIENTE REPUESTO'] }}
+                                </span>
+
+                            </div>
+
+
+                            <!-- LISTO -->
+
+                            <div class="dashboard-status-item">
+
+                                <div class="dashboard-status-item-label">
+
+                                    <span class="dashboard-legend-dot status-listo"></span>
+
+                                    <span>
+                                        Listo
+                                    </span>
+
+                                </div>
+
+                                <span
+                                    class="dashboard-status-item-value"
+                                    data-status-value="listo"
+                                >
+                                    {{ estados_ordenes['LISTO'] }}
+                                </span>
+
+                            </div>
+
+
+                            <!-- ENTREGADO -->
+
+                            <div class="dashboard-status-item">
+
+                                <div class="dashboard-status-item-label">
+
+                                    <span class="dashboard-legend-dot status-entregado"></span>
+
+                                    <span>
+                                        Entregado
+                                    </span>
+
+                                </div>
+
+                                <span
+                                    class="dashboard-status-item-value"
+                                    data-status-value="entregado"
+                                >
+                                    {{ estados_ordenes['ENTREGADO'] }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <div class="dashboard-scroll">
+        </div>
 
-                <div class="card-body">
+    </section>
+
+
+    <!-- =====================================================
+         ALERTAS DE INVENTARIO
+    ====================================================== -->
+
+    <section class="row g-4">
+
+        <div class="col-12">
+
+            <div class="dashboard-panel">
+
+                <div class="dashboard-panel-header">
+
+                    <div>
+
+                        <h2 class="dashboard-panel-title">
+
+                            <i class="bi bi-exclamation-triangle dashboard-warning-icon"></i>
+
+                            Alertas de inventario
+
+                        </h2>
+
+                        <p class="dashboard-panel-subtitle">
+                            Productos que requieren atención
+                        </p>
+
+                    </div>
+
+
+                    <span class="dashboard-alert-count">
+
+                        {{ stock_bajo }}
+
+                        {% if stock_bajo == 1 %}
+                            alerta
+                        {% else %}
+                            alertas
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+
+                <div class="dashboard-panel-body">
 
                     {% if productos_stock_bajo %}
 
-                        {% for producto in productos_stock_bajo %}
+                        <div class="row g-3">
 
-                        <div class="alert-dashboard-warning">
+                            {% for producto in productos_stock_bajo %}
 
-                            Stock bajo:
-                            <strong>
+                                <div class="col-12 col-md-6 col-xl-4">
 
-                                {{ producto.nombre }}
+                                    <div class="dashboard-inventory-alert">
 
-                            </strong>
+                                        <div class="dashboard-inventory-icon">
+
+                                            <i class="bi bi-box-seam"></i>
+
+                                        </div>
+
+
+                                        <div class="dashboard-inventory-info">
+
+                                            <span class="dashboard-inventory-name">
+                                                {{ producto.nombre }}
+                                            </span>
+
+                                            <span class="dashboard-inventory-text">
+
+                                                Stock actual:
+                                                <strong>
+                                                    {{ producto.stock }}
+                                                </strong>
+
+                                                · Mínimo:
+                                                <strong>
+                                                    {{ producto.stock_minimo }}
+                                                </strong>
+
+                                            </span>
+
+                                        </div>
+
+
+                                        <span class="dashboard-inventory-badge">
+                                            Bajo
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            {% endfor %}
 
                         </div>
-
-                        {% endfor %}
 
                     {% else %}
 
-                        <div class="alert-dashboard-success">
+                        <div class="dashboard-inventory-ok">
 
-                            Todo el inventario está correcto.
+                            <div class="dashboard-inventory-ok-icon">
+
+                                <i class="bi bi-check-circle"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Inventario en buen estado
+                                </strong>
+
+                                <span>
+                                    No hay productos por debajo del stock mínimo.
+                                </span>
+
+                            </div>
 
                         </div>
-
-                    {% endif %}
-
-                    {% if ordenes_pendientes > 0 %}
-
-                    <div class="alert-dashboard-info">
-
-                        Hay
-                        <strong>
-
-                            {{ ordenes_pendientes }}
-
-                        </strong>
-
-                        órdenes pendientes.
-
-                    </div>
 
                     {% endif %}
 
@@ -388,7 +785,7 @@ Dashboard | System Madoc
 
         </div>
 
-    </div>
+    </section>
 
 </div>
 

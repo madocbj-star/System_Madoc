@@ -1197,3 +1197,2641 @@ textarea {
 .disabled {
     cursor: not-allowed;
 }
+
+/* =========================================================
+   SYSTEM MADOC - DASHBOARD
+   Diseño principal del panel administrativo
+   ========================================================= */
+
+.madoc-dashboard {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   BIENVENIDA
+   ========================================================= */
+
+.dashboard-welcome {
+    position: relative;
+    overflow: hidden;
+    min-height: 210px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 34px 40px;
+
+    border: 1px solid rgba(56, 189, 248, 0.18);
+    border-radius: 20px;
+
+    background:
+        radial-gradient(
+            circle at 85% 30%,
+            rgba(0, 191, 255, 0.16),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            rgba(15, 23, 36, 0.98),
+            rgba(7, 11, 20, 0.98)
+        );
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+
+.dashboard-welcome::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 4px;
+
+    background: linear-gradient(
+        to bottom,
+        #00bfff,
+        #0284c7
+    );
+}
+
+
+.dashboard-welcome-content {
+    position: relative;
+    z-index: 2;
+}
+
+
+.dashboard-welcome-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-bottom: 14px;
+}
+
+
+.dashboard-welcome-badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 13px;
+
+    border-radius: 999px;
+
+    background: rgba(0, 191, 255, 0.12);
+    border: 1px solid rgba(0, 191, 255, 0.22);
+
+    color: #38bdf8;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+
+.dashboard-welcome-context {
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+.dashboard-welcome-title {
+    margin: 0 0 8px;
+
+    color: #ffffff;
+
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 700;
+
+    letter-spacing: -0.8px;
+}
+
+
+.dashboard-welcome-text {
+    max-width: 650px;
+
+    margin: 0;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+.dashboard-welcome-icon {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 110px;
+    height: 110px;
+
+    margin-right: 20px;
+
+    border-radius: 50%;
+
+    background: rgba(0, 191, 255, 0.07);
+    border: 1px solid rgba(56, 189, 248, 0.15);
+
+    color: #38bdf8;
+
+    font-size: 48px;
+
+    box-shadow:
+        0 0 40px rgba(0, 191, 255, 0.10);
+}
+
+
+/* =========================================================
+   KPI
+   ========================================================= */
+
+.dashboard-kpi {
+    position: relative;
+
+    min-height: 145px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 24px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(148, 163, 184, 0.10);
+    border-radius: 16px;
+
+    background: rgba(15, 23, 36, 0.82);
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.02);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.dashboard-kpi:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(56, 189, 248, 0.25);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.28),
+        0 0 20px rgba(0, 191, 255, 0.06);
+}
+
+
+.dashboard-kpi-content {
+    min-width: 0;
+}
+
+
+.dashboard-kpi-label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+
+.dashboard-kpi-number {
+    display: block;
+
+    color: #ffffff;
+
+    font-size: 31px;
+    font-weight: 700;
+
+    line-height: 1.1;
+}
+
+
+.dashboard-kpi-description {
+    display: block;
+
+    margin-top: 7px;
+
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+
+.dashboard-kpi-icon {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 52px;
+    height: 52px;
+
+    margin-left: 15px;
+
+    border-radius: 14px;
+
+    background: rgba(0, 191, 255, 0.10);
+
+    border: 1px solid rgba(0, 191, 255, 0.15);
+
+    color: #38bdf8;
+
+    font-size: 23px;
+}
+
+
+/* =========================================================
+   PANELES
+   ========================================================= */
+
+.dashboard-panel {
+    height: 100%;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(148, 163, 184, 0.10);
+    border-radius: 18px;
+
+    background: rgba(15, 23, 36, 0.82);
+
+    box-shadow:
+        0 8px 28px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+
+.dashboard-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 20px 22px;
+
+    border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+
+.dashboard-panel-title {
+    display: flex;
+    align-items: center;
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+.dashboard-panel-subtitle {
+    margin: 5px 0 0;
+
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+
+.dashboard-panel-header-icon {
+    color: #38bdf8;
+
+    font-size: 18px;
+}
+
+
+.dashboard-panel-body {
+    padding: 22px;
+}
+
+
+.dashboard-panel-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 7px 11px;
+
+    border: 1px solid rgba(56, 189, 248, 0.16);
+    border-radius: 8px;
+
+    color: #38bdf8;
+
+    background: rgba(0, 191, 255, 0.05);
+
+    font-size: 11px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.dashboard-panel-action:hover {
+    color: #ffffff;
+
+    background: rgba(0, 191, 255, 0.12);
+
+    border-color: rgba(56, 189, 248, 0.30);
+}
+
+
+/* =========================================================
+   TABLA DE ORDENES
+   ========================================================= */
+
+.dashboard-table-container {
+    padding: 0;
+}
+
+
+.dashboard-orders-table {
+    --bs-table-bg: transparent;
+    --bs-table-color: #cbd5e1;
+
+    margin: 0;
+
+    color: #cbd5e1;
+}
+
+
+.dashboard-orders-table thead th {
+    padding: 13px 18px;
+
+    color: #64748b;
+
+    background: rgba(7, 11, 20, 0.35);
+
+    border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+
+    font-size: 10px;
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+
+.dashboard-orders-table tbody td {
+    padding: 15px 18px;
+
+    color: #cbd5e1;
+
+    border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+
+    font-size: 12px;
+
+    vertical-align: middle;
+}
+
+
+.dashboard-orders-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+
+.dashboard-orders-table tbody tr:hover {
+    background: rgba(0, 191, 255, 0.035);
+}
+
+
+.dashboard-orders-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+.dashboard-order-code {
+    color: #38bdf8;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+.dashboard-equipment {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.dashboard-equipment-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: rgba(0, 191, 255, 0.08);
+
+    color: #38bdf8;
+
+    font-size: 15px;
+}
+
+
+.dashboard-equipment-name {
+    display: block;
+
+    color: #e2e8f0;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+.dashboard-equipment-brand {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #64748b;
+
+    font-size: 10px;
+}
+
+
+.dashboard-order-date {
+    color: #64748b;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   ESTADOS
+   Utiliza los mismos colores de estados del sistema
+   ========================================================= */
+
+.dashboard-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+.dashboard-status-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+}
+
+
+.dashboard-status.status-recibido {
+    color: #0d6efd;
+    background: rgba(13, 110, 253, 0.10);
+}
+
+
+.dashboard-status.status-diagnostico {
+    color: #6f42c1;
+    background: rgba(111, 66, 193, 0.10);
+}
+
+
+.dashboard-status.status-reparacion {
+    color: #fd7e14;
+    background: rgba(253, 126, 20, 0.10);
+}
+
+
+.dashboard-status.status-pendiente {
+    color: #dc3545;
+    background: rgba(220, 53, 69, 0.10);
+}
+
+
+.dashboard-status.status-listo {
+    color: #198754;
+    background: rgba(25, 135, 84, 0.10);
+}
+
+
+.dashboard-status.status-entregado {
+    color: #6c757d;
+    background: rgba(108, 117, 125, 0.10);
+}
+
+
+.dashboard-status.status-default {
+    color: #94a3b8;
+    background: rgba(148, 163, 184, 0.10);
+}
+
+
+/* =========================================================
+   GRAFICO DE ESTADOS
+   ========================================================= */
+
+.dashboard-status-chart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 30px;
+
+    min-height: 260px;
+}
+
+
+.dashboard-status-donut {
+    --donut-gradient: #1e293b;
+
+    position: relative;
+
+    width: 190px;
+    height: 190px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            var(--donut-gradient)
+        );
+
+    box-shadow:
+        0 0 30px rgba(0, 191, 255, 0.06);
+}
+
+
+.dashboard-status-donut::before {
+    content: "";
+
+    position: absolute;
+
+    width: 136px;
+    height: 136px;
+
+    border-radius: 50%;
+
+    background: #0f1724;
+
+    border: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+
+.dashboard-donut-center {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.dashboard-donut-total {
+    color: #ffffff;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+
+.dashboard-donut-label {
+    margin-top: 5px;
+
+    color: #64748b;
+
+    font-size: 10px;
+}
+
+
+.dashboard-status-legend {
+    width: 100%;
+    max-width: 190px;
+}
+
+
+.dashboard-status-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 7px 0;
+
+    border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+
+    color: #94a3b8;
+
+    font-size: 11px;
+}
+
+
+.dashboard-status-item:last-child {
+    border-bottom: none;
+}
+
+
+.dashboard-status-item-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.dashboard-legend-dot {
+    display: inline-block;
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+}
+
+
+.dashboard-legend-dot.status-recibido {
+    background: #0d6efd;
+}
+
+
+.dashboard-legend-dot.status-diagnostico {
+    background: #6f42c1;
+}
+
+
+.dashboard-legend-dot.status-reparacion {
+    background: #fd7e14;
+}
+
+
+.dashboard-legend-dot.status-pendiente {
+    background: #dc3545;
+}
+
+
+.dashboard-legend-dot.status-listo {
+    background: #198754;
+}
+
+
+.dashboard-legend-dot.status-entregado {
+    background: #6c757d;
+}
+
+
+.dashboard-status-item-value {
+    color: #e2e8f0;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   ALERTAS DE INVENTARIO
+   ========================================================= */
+
+.dashboard-warning-icon {
+    margin-right: 9px;
+
+    color: #fd7e14;
+}
+
+
+.dashboard-alert-count {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 10px;
+
+    border-radius: 8px;
+
+    background: rgba(253, 126, 20, 0.10);
+
+    border: 1px solid rgba(253, 126, 20, 0.15);
+
+    color: #fd7e14;
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+.dashboard-inventory-alert {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-height: 68px;
+
+    padding: 13px;
+
+    border: 1px solid rgba(220, 53, 69, 0.12);
+    border-radius: 12px;
+
+    background: rgba(220, 53, 69, 0.055);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.dashboard-inventory-alert:hover {
+    transform: translateY(-2px);
+
+    border-color: rgba(220, 53, 69, 0.25);
+}
+
+
+.dashboard-inventory-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: rgba(220, 53, 69, 0.12);
+
+    color: #dc3545;
+
+    font-size: 17px;
+}
+
+
+.dashboard-inventory-info {
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.dashboard-inventory-name {
+    display: block;
+
+    overflow: hidden;
+
+    color: #f1f5f9;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.dashboard-inventory-text {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #64748b;
+
+    font-size: 10px;
+}
+
+
+.dashboard-inventory-text strong {
+    color: #cbd5e1;
+}
+
+
+.dashboard-inventory-badge {
+    flex-shrink: 0;
+
+    padding: 5px 8px;
+
+    border-radius: 7px;
+
+    background: rgba(220, 53, 69, 0.12);
+
+    color: #dc3545;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+.dashboard-inventory-ok {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 18px;
+
+    border: 1px solid rgba(25, 135, 84, 0.14);
+    border-radius: 12px;
+
+    background: rgba(25, 135, 84, 0.06);
+}
+
+
+.dashboard-inventory-ok-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: rgba(25, 135, 84, 0.12);
+
+    color: #198754;
+
+    font-size: 20px;
+}
+
+
+.dashboard-inventory-ok strong {
+    display: block;
+
+    color: #4ade80;
+
+    font-size: 12px;
+}
+
+
+.dashboard-inventory-ok span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #64748b;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   ESTADO VACIO
+   ========================================================= */
+
+.dashboard-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    gap: 8px;
+
+    padding: 35px 20px;
+
+    color: #64748b;
+
+    text-align: center;
+}
+
+
+.dashboard-empty i {
+    color: #38bdf8;
+
+    font-size: 28px;
+}
+
+
+.dashboard-empty span {
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1199px) {
+
+    .dashboard-status-chart {
+        gap: 20px;
+    }
+
+    .dashboard-status-donut {
+        width: 170px;
+        height: 170px;
+    }
+
+    .dashboard-status-donut::before {
+        width: 122px;
+        height: 122px;
+    }
+
+}
+
+
+@media (max-width: 767px) {
+
+    .dashboard-welcome {
+        min-height: auto;
+
+        padding: 28px 25px;
+    }
+
+    .dashboard-welcome-icon {
+        display: none;
+    }
+
+    .dashboard-welcome-title {
+        font-size: 27px;
+    }
+
+    .dashboard-status-chart {
+        flex-direction: column;
+
+        padding: 10px 0 5px;
+    }
+
+    .dashboard-status-legend {
+        max-width: 100%;
+    }
+
+    .dashboard-orders-table {
+        min-width: 650px;
+    }
+
+}
+
+
+@media (max-width: 575px) {
+
+    .dashboard-welcome {
+        padding: 24px 20px;
+    }
+
+    .dashboard-welcome-label {
+        flex-wrap: wrap;
+    }
+
+    .dashboard-welcome-title {
+        font-size: 24px;
+    }
+
+    .dashboard-welcome-text {
+        font-size: 13px;
+    }
+
+    .dashboard-kpi {
+        min-height: 125px;
+
+        padding: 19px;
+    }
+
+    .dashboard-kpi-number {
+        font-size: 27px;
+    }
+
+    .dashboard-kpi-icon {
+        width: 46px;
+        height: 46px;
+    }
+
+    .dashboard-panel-header {
+        padding: 17px;
+    }
+
+    .dashboard-panel-body {
+        padding: 17px;
+    }
+
+    .dashboard-table-container {
+        padding: 0;
+    }
+
+}
+
+/* =========================================================
+   SYSTEM MADOC - PANEL LATERAL
+   Sidebar + Topbar
+   ========================================================= */
+
+
+/* =========================================================
+   ESTRUCTURA GENERAL
+   ========================================================= */
+
+body {
+    padding-top: 0 !important;
+}
+
+
+.madoc-layout {
+    display: flex;
+
+    width: 100%;
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 70% 10%,
+            rgba(0, 191, 255, 0.035),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #070b14 0%,
+            #0b1220 55%,
+            #070b14 100%
+        );
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.madoc-sidebar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    z-index: 1050;
+
+    width: 214px;
+
+    display: flex;
+    flex-direction: column;
+
+    background:
+        linear-gradient(
+            180deg,
+            #081426 0%,
+            #07111f 55%,
+            #060d18 100%
+        );
+
+    border-right: 1px solid rgba(56, 189, 248, 0.14);
+
+    box-shadow:
+        8px 0 35px rgba(0, 0, 0, 0.20);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    scrollbar-width: thin;
+    scrollbar-color: #1e3a5f transparent;
+}
+
+
+.madoc-sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+
+.madoc-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.madoc-sidebar::-webkit-scrollbar-thumb {
+    background: #1e3a5f;
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   LOGO SIDEBAR
+   ========================================================= */
+
+.madoc-sidebar-brand {
+    display: flex;
+    justify-content: center;
+
+    padding: 17px 12px 15px;
+
+    border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+
+.madoc-logo-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+
+    color: inherit;
+
+    text-decoration: none;
+}
+
+
+.madoc-sidebar-logo {
+    width: 122px;
+    height: auto;
+
+    object-fit: contain;
+
+    margin-bottom: 5px;
+}
+
+
+.madoc-sidebar-tagline {
+    color: #7da4c9;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   NAVEGACION
+   ========================================================= */
+
+.madoc-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+    padding: 17px 11px;
+}
+
+
+.madoc-sidebar-link {
+    position: relative;
+
+    width: 100%;
+    min-height: 43px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 10px 14px;
+
+    border: 1px solid transparent;
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #b7c6d8;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    text-align: left;
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.madoc-sidebar-link i {
+    width: 20px;
+
+    flex-shrink: 0;
+
+    color: #7fa6ce;
+
+    font-size: 17px;
+
+    text-align: center;
+
+    transition: color 0.2s ease;
+}
+
+
+.madoc-sidebar-link:hover {
+    color: #ffffff;
+
+    background: rgba(0, 191, 255, 0.07);
+
+    border-color: rgba(56, 189, 248, 0.08);
+
+    transform: translateX(2px);
+}
+
+
+.madoc-sidebar-link:hover i {
+    color: #38bdf8;
+}
+
+
+/* =========================================================
+   INICIO / ELEMENTO ACTIVO
+   ========================================================= */
+
+.madoc-sidebar-link[href="/auth/dashboard"] {
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 102, 255, 0.92),
+            rgba(0, 132, 255, 0.72)
+        );
+
+    border-color: rgba(56, 189, 248, 0.18);
+
+    box-shadow:
+        0 5px 18px rgba(0, 102, 255, 0.20);
+}
+
+
+.madoc-sidebar-link[href="/auth/dashboard"] i {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   DROPDOWN SIDEBAR
+   ========================================================= */
+
+.madoc-sidebar-dropdown {
+    width: 100%;
+}
+
+
+.madoc-sidebar-dropdown-toggle {
+    appearance: none;
+
+    border: 1px solid transparent;
+
+    font-family: inherit;
+}
+
+
+.madoc-sidebar-link-left {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    min-width: 0;
+}
+
+
+.madoc-sidebar-chevron {
+    width: auto !important;
+
+    margin-left: auto;
+
+    color: #6f8ba8 !important;
+
+    font-size: 10px !important;
+
+    transition: transform 0.2s ease;
+}
+
+
+.madoc-sidebar-dropdown-toggle[aria-expanded="true"]
+.madoc-sidebar-chevron {
+    transform: rotate(180deg);
+
+    color: #38bdf8 !important;
+}
+
+
+/* =========================================================
+   SUBMENU
+   ========================================================= */
+
+.madoc-sidebar-submenu {
+    padding: 4px 0 3px 35px;
+}
+
+
+.madoc-sidebar-submenu a {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    min-height: 34px;
+
+    padding: 7px 10px;
+
+    border-radius: 7px;
+
+    color: #7f94aa;
+
+    font-size: 11px;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.madoc-sidebar-submenu a i {
+    color: #5f7894;
+
+    font-size: 13px;
+}
+
+
+.madoc-sidebar-submenu a:hover {
+    color: #ffffff;
+
+    background: rgba(0, 191, 255, 0.06);
+}
+
+
+.madoc-sidebar-submenu a:hover i {
+    color: #38bdf8;
+}
+
+
+/* =========================================================
+   PARTE INFERIOR SIDEBAR
+   ========================================================= */
+
+.madoc-sidebar-footer {
+    margin-top: auto;
+
+    padding: 12px 11px 15px;
+
+    border-top: 1px solid rgba(148, 163, 184, 0.07);
+}
+
+
+/* =========================================================
+   TARJETA SOPORTE
+   ========================================================= */
+
+.madoc-sidebar-support {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 10px;
+
+    margin-bottom: 13px;
+
+    border: 1px solid rgba(0, 191, 255, 0.24);
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0, 191, 255, 0.07),
+            rgba(0, 132, 255, 0.025)
+        );
+}
+
+
+.madoc-sidebar-support-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 35px;
+    height: 35px;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: rgba(0, 191, 255, 0.08);
+
+    color: #38bdf8;
+
+    font-size: 18px;
+}
+
+
+.madoc-sidebar-support strong,
+.madoc-sidebar-support span {
+    display: block;
+}
+
+
+.madoc-sidebar-support strong {
+    color: #38bdf8;
+
+    font-size: 11px;
+}
+
+
+.madoc-sidebar-support span {
+    margin-top: 2px;
+
+    color: #7f94aa;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   USUARIO SIDEBAR
+   ========================================================= */
+
+.madoc-sidebar-user {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px 5px;
+
+    margin-bottom: 5px;
+}
+
+
+.madoc-sidebar-user-photo,
+.madoc-sidebar-user-icon {
+    width: 35px;
+    height: 35px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+}
+
+
+.madoc-sidebar-user-photo {
+    object-fit: cover;
+
+    border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+
+.madoc-sidebar-user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 191, 255, 0.10);
+
+    border: 1px solid rgba(56, 189, 248, 0.20);
+
+    color: #38bdf8;
+
+    font-size: 16px;
+}
+
+
+.madoc-sidebar-user-info {
+    min-width: 0;
+}
+
+
+.madoc-sidebar-user-info strong,
+.madoc-sidebar-user-info span {
+    display: block;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.madoc-sidebar-user-info strong {
+    color: #e2e8f0;
+
+    font-size: 11px;
+}
+
+
+.madoc-sidebar-user-info span {
+    margin-top: 2px;
+
+    color: #64748b;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   CERRAR SESION
+   ========================================================= */
+
+.madoc-sidebar-logout {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 8px 5px;
+
+    color: #64748b;
+
+    font-size: 10px;
+
+    text-decoration: none;
+
+    transition: color 0.2s ease;
+}
+
+
+.madoc-sidebar-logout i {
+    font-size: 13px;
+}
+
+
+.madoc-sidebar-logout:hover {
+    color: #f87171;
+}
+
+
+/* =========================================================
+   AREA PRINCIPAL
+   ========================================================= */
+
+.madoc-main {
+    width: calc(100% - 214px);
+
+    min-height: 100vh;
+
+    margin-left: 214px;
+}
+
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.madoc-topbar {
+    position: fixed;
+
+    top: 0;
+    right: 0;
+
+    z-index: 1040;
+
+    width: calc(100% - 214px);
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 24px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(7, 18, 34, 0.97),
+            rgba(8, 27, 48, 0.97)
+        );
+
+    border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+
+    box-shadow:
+        0 5px 25px rgba(0, 0, 0, 0.18);
+
+    backdrop-filter: blur(15px);
+}
+
+
+/* =========================================================
+   BOTON MENU
+   ========================================================= */
+
+.madoc-menu-toggle {
+    display: none;
+
+    width: 38px;
+    height: 38px;
+
+    margin-right: 14px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #7fb9e8;
+
+    font-size: 23px;
+
+    cursor: pointer;
+}
+
+
+.madoc-menu-toggle:hover {
+    background: rgba(0, 191, 255, 0.08);
+
+    color: #38bdf8;
+}
+
+
+/* =========================================================
+   BUSCADOR
+   ========================================================= */
+
+.madoc-topbar-search {
+    display: flex;
+    align-items: center;
+
+    width: 435px;
+    max-width: 45vw;
+    height: 38px;
+
+    padding: 0 13px;
+
+    border: 1px solid rgba(56, 189, 248, 0.10);
+    border-radius: 9px;
+
+    background: rgba(13, 31, 52, 0.72);
+}
+
+
+.madoc-topbar-search i {
+    margin-right: 10px;
+
+    color: #6e9bc5;
+
+    font-size: 14px;
+}
+
+
+.madoc-topbar-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #e2e8f0;
+
+    font-size: 12px;
+}
+
+
+.madoc-topbar-search input::placeholder {
+    color: #607d9d;
+}
+
+
+/* =========================================================
+   ACCIONES TOPBAR
+   ========================================================= */
+
+.madoc-topbar-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    margin-left: auto;
+}
+
+
+.madoc-topbar-icon {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #a7bfd7;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.madoc-topbar-icon:hover {
+    background: rgba(0, 191, 255, 0.08);
+
+    color: #38bdf8;
+}
+
+
+/* =========================================================
+   NOTIFICACION
+   ========================================================= */
+
+.madoc-notification-badge {
+    position: absolute;
+
+    top: -1px;
+    right: -1px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 17px;
+    height: 17px;
+
+    padding: 0 4px;
+
+    border-radius: 50%;
+
+    background: #e83e5b;
+
+    color: #ffffff;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    border: 2px solid #081426;
+}
+
+
+/* =========================================================
+   USUARIO TOPBAR
+   ========================================================= */
+
+.madoc-topbar-user {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 3px 4px 3px 3px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #ffffff;
+}
+
+
+.madoc-topbar-user::after {
+    margin-left: 5px;
+
+    color: #7ca1c4;
+}
+
+
+.madoc-topbar-user-photo {
+    width: 39px;
+    height: 39px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(56, 189, 248, 0.40);
+
+    box-shadow:
+        0 0 12px rgba(0, 191, 255, 0.12);
+}
+
+
+.madoc-topbar-user-default {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 191, 255, 0.08);
+
+    color: #38bdf8;
+
+    font-size: 18px;
+}
+
+
+.madoc-topbar-user-info {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+}
+
+
+.madoc-topbar-user-info strong {
+    color: #f1f5f9;
+
+    font-size: 12px;
+
+    line-height: 1.2;
+}
+
+
+.madoc-topbar-user-info span {
+    margin-top: 3px;
+
+    color: #7890a8;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   MENU USUARIO
+   ========================================================= */
+
+.madoc-user-menu {
+    min-width: 190px;
+
+    margin-top: 10px !important;
+
+    padding: 7px;
+
+    border: 1px solid rgba(56, 189, 248, 0.14);
+    border-radius: 11px;
+
+    background: #0c1727;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.40);
+}
+
+
+.madoc-user-menu .dropdown-item {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 9px 10px;
+
+    border-radius: 7px;
+
+    color: #b7c6d8;
+
+    font-size: 11px;
+}
+
+
+.madoc-user-menu .dropdown-item i {
+    width: 16px;
+
+    color: #6f99c0;
+}
+
+
+.madoc-user-menu .dropdown-item:hover {
+    color: #ffffff;
+
+    background: rgba(0, 191, 255, 0.08);
+}
+
+
+.madoc-user-menu .dropdown-divider {
+    border-color: rgba(148, 163, 184, 0.08);
+}
+
+
+/* =========================================================
+   CONTENIDO
+   ========================================================= */
+
+.madoc-content {
+    min-height: 100vh;
+
+    padding: 88px 28px 35px;
+}
+
+
+/* =========================================================
+   DASHBOARD DENTRO DEL NUEVO LAYOUT
+   ========================================================= */
+
+.madoc-main .madoc-dashboard {
+    width: 100%;
+    max-width: 1500px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   AJUSTES DE ANCHO DEL DASHBOARD
+   ========================================================= */
+
+.madoc-main .dashboard-welcome {
+    min-height: 190px;
+}
+
+
+.madoc-main .dashboard-status-donut {
+    width: 180px;
+    height: 180px;
+}
+
+
+.madoc-main .dashboard-status-donut::before {
+    width: 130px;
+    height: 130px;
+}
+
+
+/* =========================================================
+   RESPONSIVE TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .madoc-sidebar {
+        width: 190px;
+    }
+
+
+    .madoc-main {
+        width: calc(100% - 190px);
+
+        margin-left: 190px;
+    }
+
+
+    .madoc-topbar {
+        width: calc(100% - 190px);
+    }
+
+
+    .madoc-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+
+    .madoc-topbar-search {
+        width: 330px;
+    }
+
+
+    .madoc-topbar-user-info {
+        display: none;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .madoc-sidebar {
+        width: 214px;
+
+        transform: translateX(-100%);
+
+        transition: transform 0.25s ease;
+
+        box-shadow:
+            12px 0 35px rgba(0, 0, 0, 0.45);
+    }
+
+
+    .madoc-sidebar.madoc-sidebar-open {
+        transform: translateX(0);
+    }
+
+
+    .madoc-main {
+        width: 100%;
+
+        margin-left: 0;
+    }
+
+
+    .madoc-topbar {
+        width: 100%;
+
+        padding: 0 15px;
+    }
+
+
+    .madoc-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .madoc-topbar-search {
+        width: auto;
+        max-width: none;
+
+        flex: 1;
+    }
+
+
+    .madoc-topbar-actions {
+        gap: 5px;
+    }
+
+
+    .madoc-topbar-actions > .madoc-topbar-icon:first-child {
+        display: none;
+    }
+
+
+    .madoc-topbar-user-info {
+        display: none;
+    }
+
+
+    .madoc-content {
+        padding: 80px 14px 25px;
+    }
+
+}
+
+
+/* =========================================================
+   OVERLAY MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .madoc-sidebar.madoc-sidebar-open::after {
+        content: "";
+
+        position: fixed;
+
+        top: 0;
+        left: 214px;
+
+        width: 100vw;
+        height: 100vh;
+
+        background: rgba(0, 0, 0, 0.50);
+
+        z-index: -1;
+    }
+
+}
+
+
+/* =========================================================
+   AJUSTES DASHBOARD - LAYOUT LATERAL
+   ========================================================= */
+
+@media (min-width: 1200px) {
+
+    .madoc-main .dashboard-welcome {
+        margin-bottom: 14px !important;
+    }
+
+
+    .madoc-main .dashboard-kpi {
+        min-height: 132px;
+    }
+
+
+    .madoc-main .dashboard-panel-header {
+        padding: 17px 19px;
+    }
+
+
+    .madoc-main .dashboard-panel-body {
+        padding: 18px;
+    }
+
+}
+
+/* =========================================================
+   AJUSTE FINAL - LAYOUT SYSTEM MADOC
+   Proporciones similares al diseño de referencia
+   ========================================================= */
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.madoc-sidebar {
+    width: 225px;
+}
+
+
+/* =========================================================
+   AREA PRINCIPAL
+   ========================================================= */
+
+.madoc-main {
+    width: calc(100% - 225px);
+    margin-left: 225px;
+}
+
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.madoc-topbar {
+    width: calc(100% - 225px);
+
+    height: 64px;
+
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+
+/* =========================================================
+   CONTENIDO
+   ========================================================= */
+
+.madoc-content {
+    padding-top: 82px;
+    padding-left: 28px;
+    padding-right: 28px;
+    padding-bottom: 35px;
+}
+
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+.madoc-main .madoc-dashboard {
+    max-width: 1550px;
+}
+
+
+/* =========================================================
+   BIENVENIDA
+   ========================================================= */
+
+.madoc-main .dashboard-welcome {
+    min-height: 174px;
+
+    padding-left: 35px;
+    padding-right: 35px;
+
+    margin-bottom: 15px !important;
+}
+
+
+.madoc-main .dashboard-welcome-title {
+    font-size: 34px;
+}
+
+
+.madoc-main .dashboard-welcome-text {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   KPI
+   ========================================================= */
+
+.madoc-main .dashboard-kpi {
+    min-height: 125px;
+
+    padding: 21px;
+}
+
+
+.madoc-main .dashboard-kpi-number {
+    font-size: 29px;
+}
+
+
+/* =========================================================
+   PANELES
+   ========================================================= */
+
+.madoc-main .dashboard-panel-header {
+    padding: 17px 19px;
+}
+
+
+.madoc-main .dashboard-panel-body {
+    padding: 19px;
+}
+
+
+/* =========================================================
+   GRAFICO
+   ========================================================= */
+
+.madoc-main .dashboard-status-chart {
+    min-height: 250px;
+
+    gap: 28px;
+}
+
+
+.madoc-main .dashboard-status-donut {
+    width: 175px;
+    height: 175px;
+}
+
+
+.madoc-main .dashboard-status-donut::before {
+    width: 126px;
+    height: 126px;
+}
+
+
+/* =========================================================
+   TABLA
+   ========================================================= */
+
+.madoc-main .dashboard-orders-table thead th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+
+.madoc-main .dashboard-orders-table tbody td {
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .madoc-sidebar {
+        width: 200px;
+    }
+
+
+    .madoc-main {
+        width: calc(100% - 200px);
+        margin-left: 200px;
+    }
+
+
+    .madoc-topbar {
+        width: calc(100% - 200px);
+    }
+
+
+    .madoc-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .madoc-sidebar {
+        width: 225px;
+
+        transform: translateX(-100%);
+    }
+
+
+    .madoc-main {
+        width: 100%;
+        margin-left: 0;
+    }
+
+
+    .madoc-topbar {
+        width: 100%;
+    }
+
+
+    .madoc-content {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+}
+
+/* =========================================================
+   SYSTEM MADOC - NOTIFICACIONES
+   ========================================================= */
+
+.madoc-notification-wrapper {
+    position: relative;
+}
+
+
+/* BOTÓN DE NOTIFICACIONES */
+
+.madoc-notification {
+    position: relative;
+}
+
+
+/* PANEL */
+
+.madoc-notification-panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 360px;
+    max-width: calc(100vw - 30px);
+
+    background: #0f1724;
+    border: 1px solid rgba(56, 189, 248, 0.18);
+    border-radius: 14px;
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.45),
+        0 0 25px rgba(0, 191, 255, 0.08);
+
+    overflow: hidden;
+
+    z-index: 1050;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0.2s ease;
+}
+
+
+/* PANEL ABIERTO */
+
+.madoc-notification-panel.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+
+/* ENCABEZADO */
+
+.madoc-notification-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 16px 18px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.madoc-notification-header > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+
+.madoc-notification-header strong {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+.madoc-notification-header span {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+
+.madoc-notification-header button {
+    border: none;
+    background: transparent;
+
+    color: #38bdf8;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.madoc-notification-header button:hover {
+    color: #7dd3fc;
+}
+
+
+/* LISTA */
+
+.madoc-notification-list {
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+
+/* NOTIFICACIÓN INDIVIDUAL */
+
+.madoc-notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    padding: 14px 18px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+    transition: background 0.2s ease;
+}
+
+
+.madoc-notification-item:hover {
+    background: rgba(56, 189, 248, 0.06);
+}
+
+
+.madoc-notification-item:last-child {
+    border-bottom: none;
+}
+
+
+/* ICONO */
+
+.madoc-notification-item-icon {
+    width: 36px;
+    height: 36px;
+
+    min-width: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: rgba(56, 189, 248, 0.10);
+
+    color: #38bdf8;
+
+    font-size: 17px;
+}
+
+
+/* CONTENIDO */
+
+.madoc-notification-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+
+.madoc-notification-item-content strong {
+    display: block;
+
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    margin-bottom: 3px;
+}
+
+
+.madoc-notification-item-content span {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+}
+
+
+/* NOTIFICACIÓN LEÍDA */
+
+.madoc-notification-item.read {
+    opacity: 0.55;
+}
+
+
+/* ESTADO VACÍO */
+
+.madoc-notification-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 35px 20px;
+
+    color: #94a3b8;
+
+    text-align: center;
+}
+
+
+.madoc-notification-empty i {
+    color: #22c55e;
+    font-size: 30px;
+}
+
+
+.madoc-notification-empty span {
+    font-size: 13px;
+}
+
+
+/* SCROLL */
+
+.madoc-notification-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+.madoc-notification-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.madoc-notification-list::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 10px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 576px) {
+
+    .madoc-notification-panel {
+        position: fixed;
+
+        top: 72px;
+        right: 15px;
+        left: 15px;
+
+        width: auto;
+        max-width: none;
+    }
+
+}

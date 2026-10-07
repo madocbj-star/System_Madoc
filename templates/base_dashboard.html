@@ -12,330 +12,669 @@
         {% block title %}System Madoc{% endblock %}
     </title>
 
-    <!-- ========================================= -->
-    <!-- FAVICON -->
-    <!-- ========================================= -->
+
+    <!-- =====================================================
+         FAVICON
+    ====================================================== -->
 
     <link rel="icon"
         type="image/png"
         href="{{ url_for('static', filename='img/logo.png') }}">
 
-    <!-- ========================================= -->
-    <!-- BOOTSTRAP -->
-    <!-- ========================================= -->
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet">
 
-    <!-- ========================================= -->
-    <!-- BOOTSTRAP ICONS -->
-    <!-- ========================================= -->
 
-    <link rel="stylesheet"
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <!-- ========================================= -->
-    <!-- CSS PERSONALIZADO -->
-    <!-- ========================================= -->
 
-    <link rel="stylesheet"
+    <!-- =====================================================
+         CSS SYSTEM MADOC
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
+
 <body>
 
-    <!-- ========================================= -->
-    <!-- NAVBAR SUPERIOR -->
-    <!-- ========================================= -->
 
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-madoc">
+<div class="madoc-layout">
 
-        <div class="container-fluid">
 
-            <!-- LOGO -->
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
 
-            <a class="navbar-brand text-center"
-                href="/auth/dashboard">
+    <aside class="madoc-sidebar"
+           id="madocSidebar">
 
-                <img src="{{ url_for('static', filename='img/logo2.png') }}"
+
+        <!-- =================================================
+             LOGO
+        ================================================== -->
+
+        <div class="madoc-sidebar-brand">
+
+            <a href="/auth/dashboard"
+               class="madoc-logo-link">
+
+                <img
+                    src="{{ url_for('static', filename='img/logo2.png') }}"
                     alt="System Madoc"
-                    width="110"
-                    class="logo-navbar d-block mx-auto mb-2">
+                    class="madoc-sidebar-logo">
 
-                <small class="text-secondary">
+                <span class="madoc-sidebar-tagline">
                     Soluciones Tecnológicas
-                </small>
+                </span>
 
             </a>
 
-            <!-- BOTON MOBILE -->
+        </div>
 
-            <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarMadoc">
 
-                <span class="navbar-toggler-icon"></span>
+        <!-- =================================================
+             MENU
+        ================================================== -->
 
-            </button>
+        <nav class="madoc-sidebar-nav">
 
-            <!-- MENU -->
 
-            <div class="collapse navbar-collapse justify-content-center"
-                id="navbarMadoc">
+            <!-- INICIO -->
 
-                <ul class="navbar-nav align-items-lg-center gap-lg-3">
+            <a href="/auth/dashboard"
+               class="madoc-sidebar-link">
 
-                    <li class="nav-item">
+                <i class="bi bi-house-door"></i>
 
-                        <a class="nav-link"
-                            href="/auth/dashboard">
+                <span>
+                    Inicio
+                </span>
 
-                            Inicio
+            </a>
 
-                        </a>
 
-                    </li>
+            <!-- CLIENTES -->
 
-                    <li class="nav-item">
+            <a href="/clientes"
+               class="madoc-sidebar-link">
 
-                        <a class="nav-link"
-                            href="/clientes">
+                <i class="bi bi-people"></i>
 
-                            Clientes
+                <span>
+                    Clientes
+                </span>
 
-                        </a>
+            </a>
 
-                    </li>
 
-                    <li class="nav-item">
+            <!-- EQUIPOS -->
 
-                        <a class="nav-link"
-                            href="/equipos">
+            <a href="/equipos"
+               class="madoc-sidebar-link">
 
-                            Equipos
+                <i class="bi bi-pc-display"></i>
 
-                        </a>
+                <span>
+                    Equipos
+                </span>
 
-                    </li>
+            </a>
 
-                    <li class="nav-item">
 
-                        <a class="nav-link"
-                            href="/ordenes">
+            <!-- ORDENES -->
 
-                            Órdenes
+            <a href="/ordenes"
+               class="madoc-sidebar-link">
 
-                        </a>
+                <i class="bi bi-tools"></i>
 
-                    </li>
+                <span>
+                    Órdenes
+                </span>
 
-                    {% if current_user.rol in ['admin', 'almacen'] %}
-                    <li class="nav-item dropdown">
+            </a>
 
-                        <a class="nav-link dropdown-toggle"
-                            href="#"
-                            role="button"
-                            data-bs-toggle="dropdown">
 
+            <!-- =================================================
+                 INVENTARIO
+            ================================================== -->
+
+            {% if current_user.rol in ['admin', 'almacen'] %}
+
+            <div class="madoc-sidebar-dropdown">
+
+
+                <button
+                    class="madoc-sidebar-link madoc-sidebar-dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#menuInventario"
+                    aria-expanded="false">
+
+                    <span class="madoc-sidebar-link-left">
+
+                        <i class="bi bi-box-seam"></i>
+
+                        <span>
                             Inventario
+                        </span>
 
-                        </a>
+                    </span>
 
-                        <ul class="dropdown-menu">
+                    <i class="bi bi-chevron-down madoc-sidebar-chevron"></i>
 
-                            <li>
-                                <a class="dropdown-item" href="/inventario">
-                                    <i class="bi bi-box-seam"></i> Productos
-                                </a>
-                            </li>
+                </button>
 
-                            <li>
-                                <a class="dropdown-item" href="/inventario/agregar-mercancia">
-                                    <i class="bi bi-box-arrow-in-down"></i> Agregar Mercancía
-                                </a>
-                            </li>
 
-                            <li>
-                                <a class="dropdown-item" href="/inventario/kardex">
-                                    <i class="bi bi-clock-history"></i> Kárdex
-                                </a>
-                            </li>
+                <div
+                    class="collapse madoc-sidebar-submenu"
+                    id="menuInventario">
 
-                            <li><hr class="dropdown-divider"></li>
 
-                            <li>
-                                <a class="dropdown-item" href="/proveedores">
-                                    <i class="bi bi-truck"></i> Proveedores
-                                </a>
-                            </li>
+                    <a href="/inventario">
 
-                        </ul>
+                        <i class="bi bi-box"></i>
 
-                    </li>
-                    {% endif %}
+                        Productos
 
-                    <li class="nav-item dropdown">
+                    </a>
 
-                        <a class="nav-link dropdown-toggle"
-                            href="#"
-                            role="button"
-                            data-bs-toggle="dropdown">
 
-                            Ventas
+                    <a href="/inventario/agregar-mercancia">
 
-                        </a>
+                        <i class="bi bi-box-arrow-in-down"></i>
 
-                        <ul class="dropdown-menu">
+                        Agregar Mercancía
 
-                            <li>
-                                <a class="dropdown-item" href="/ventas">
-                                    <i class="bi bi-cash-stack"></i> Ventas
-                                </a>
-                            </li>
+                    </a>
 
-                            {% if current_user.rol in ['admin', 'vendedor'] %}
-                            <li>
-                                <a class="dropdown-item" href="/cotizaciones">
-                                    <i class="bi bi-file-earmark-text"></i> Cotizaciones
-                                </a>
-                            </li>
-                            {% endif %}
 
-                        </ul>
+                    <a href="/inventario/kardex">
 
-                    </li>
+                        <i class="bi bi-clock-history"></i>
 
-                    {% if current_user.rol == 'admin' %}
-                    <li class="nav-item">
+                        Kárdex
 
-                        <a class="nav-link"
-                            href="/reportes/ventas">
+                    </a>
 
-                            Reportes
 
-                        </a>
+                    <a href="/proveedores">
 
-                    </li>
-                    {% endif %}
+                        <i class="bi bi-truck"></i>
 
-                    <!-- DROPDOWN USUARIO -->
+                        Proveedores
 
-                    <li class="nav-item dropdown">
+                    </a>
 
-                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-2"
-                            href="#"
-                            role="button"
-                            data-bs-toggle="dropdown">
 
-                            {% if current_user.foto %}
-
-                            <img src="{{ current_user.foto }}"
-                                class="rounded-circle"
-                                width="35"
-                                height="35"
-                                style="object-fit: cover;">
-
-                            {% else %}
-
-                            <i class="bi bi-person-circle fs-5"></i>
-
-                            {% endif %}
-
-                            <span>
-
-                                {{ current_user.nombre }}
-
-                            </span>
-
-                        </a>
-
-                        <ul class="dropdown-menu">
-
-                            <!-- PERFIL -->
-
-                            <li>
-
-                                <a class="dropdown-item"
-                                    href="/auth/perfil">
-
-                                    Perfil
-
-                                </a>
-
-                            </li>
-
-                            <!-- CONTROL USUARIOS -->
-
-                            {% if current_user.rol == 'admin' %}
-
-                            <li>
-
-                                <a class="dropdown-item"
-                                    href="/usuarios">
-
-                                    Control usuarios
-
-                                </a>
-
-                            </li>
-
-                            {% endif %}
-
-                            <!-- CERRAR SESION -->
-
-                            <li>
-
-                                <a class="dropdown-item text-danger"
-                                    href="/auth/logout">
-
-                                    Cerrar sesión
-
-                                </a>
-
-                            </li>
-
-                        </ul>
-
-                    </li>
-
-                </ul>
+                </div>
 
             </div>
 
+            {% endif %}
+
+
+            <!-- =================================================
+                 VENTAS
+            ================================================== -->
+
+            <div class="madoc-sidebar-dropdown">
+
+
+                <button
+                    class="madoc-sidebar-link madoc-sidebar-dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#menuVentas"
+                    aria-expanded="false">
+
+                    <span class="madoc-sidebar-link-left">
+
+                        <i class="bi bi-cart3"></i>
+
+                        <span>
+                            Ventas
+                        </span>
+
+                    </span>
+
+                    <i class="bi bi-chevron-down madoc-sidebar-chevron"></i>
+
+                </button>
+
+
+                <div
+                    class="collapse madoc-sidebar-submenu"
+                    id="menuVentas">
+
+
+                    <a href="/ventas">
+
+                        <i class="bi bi-cash-stack"></i>
+
+                        Ventas
+
+                    </a>
+
+
+                    {% if current_user.rol in ['admin', 'vendedor'] %}
+
+                    <a href="/cotizaciones">
+
+                        <i class="bi bi-file-earmark-text"></i>
+
+                        Cotizaciones
+
+                    </a>
+
+                    {% endif %}
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 REPORTES
+            ================================================== -->
+
+            {% if current_user.rol == 'admin' %}
+
+            <a href="/reportes/ventas"
+               class="madoc-sidebar-link">
+
+                <i class="bi bi-bar-chart"></i>
+
+                <span>
+                    Reportes
+                </span>
+
+            </a>
+
+            {% endif %}
+
+
+            <!-- CONFIGURACION -->
+
+            {% if current_user.rol == 'admin' %}
+
+            <a href="/usuarios"
+               class="madoc-sidebar-link">
+
+                <i class="bi bi-gear"></i>
+
+                <span>
+                    Configuración
+                </span>
+
+            </a>
+
+            {% endif %}
+
+
+        </nav>
+
+
+        <!-- =====================================================
+             PARTE INFERIOR SIDEBAR
+        ====================================================== -->
+
+        <div class="madoc-sidebar-footer">
+
+
+            <div class="madoc-sidebar-support">
+
+                <div class="madoc-sidebar-support-icon">
+
+                    <i class="bi bi-headset"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Damos vida
+                    </strong>
+
+                    <span>
+                        a tu tecnología
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- USUARIO -->
+
+            <div class="madoc-sidebar-user">
+
+
+                {% if current_user.foto %}
+
+                <img
+                    src="{{ current_user.foto }}"
+                    alt="Usuario"
+                    class="madoc-sidebar-user-photo">
+
+                {% else %}
+
+                <div class="madoc-sidebar-user-icon">
+
+                    <i class="bi bi-person"></i>
+
+                </div>
+
+                {% endif %}
+
+
+                <div class="madoc-sidebar-user-info">
+
+                    <strong>
+                        {{ current_user.nombre }}
+                    </strong>
+
+                    <span>
+                        {{ current_user.rol|capitalize }}
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- CERRAR SESION -->
+
+            <a href="/auth/logout"
+               class="madoc-sidebar-logout">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                Cerrar sesión
+
+            </a>
+
+
         </div>
 
-    </nav>
 
-    <!-- ========================================= -->
-    <!-- CONTENIDO PRINCIPAL -->
-    <!-- ========================================= -->
+    </aside>
 
-    <main class="container-fluid py-4 px-4">
 
-        {% block content %}
-        {% endblock %}
 
-    </main>
+    <!-- =====================================================
+         AREA PRINCIPAL
+    ====================================================== -->
 
-    <!-- ========================================= -->
-    <!-- BOOTSTRAP JS -->
-    <!-- ========================================= -->
+    <div class="madoc-main">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- ========================================= -->
-    <!-- JS PERSONALIZADO -->
-    <!-- ========================================= -->
+        <!-- =================================================
+             BARRA SUPERIOR
+        ================================================== -->
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+        <header class="madoc-topbar">
 
-    <!-- ========================================= -->
-    <!-- JS SWEETALERT -->
-    <!-- ========================================= -->
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <!-- BOTON MENU MOBILE -->
+
+            <button
+                type="button"
+                class="madoc-menu-toggle"
+                id="madocMenuToggle">
+
+                <i class="bi bi-list"></i>
+
+            </button>
+
+            <!-- ESPACIO -->
+
+            <div class="madoc-topbar-actions">
+
+            <!-- =================================================
+                NOTIFICACIONES
+            ================================================== -->
+
+            <div class="madoc-notification-wrapper">
+
+                <button
+                    type="button"
+                    class="madoc-topbar-icon madoc-notification"
+                    id="madocNotificationButton"
+                    aria-expanded="false">
+
+                    <i class="bi bi-bell"></i>
+
+                    <span
+                        class="madoc-notification-badge"
+                        id="madocNotificationBadge">
+                        0
+                    </span>
+
+                </button>
+
+
+                <!-- PANEL DE NOTIFICACIONES -->
+
+                <div
+                    class="madoc-notification-panel"
+                    id="madocNotificationPanel">
+
+                    <div class="madoc-notification-header">
+
+                        <div>
+                            <strong>Notificaciones</strong>
+
+                            <span id="madocNotificationCount">
+                                0 pendientes
+                            </span>
+                        </div>
+
+                        <button
+                            type="button"
+                            id="madocMarkNotificationsRead">
+                            Marcar como leídas
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="madoc-notification-list"
+                        id="madocNotificationList">
+
+                        <div class="madoc-notification-empty">
+
+                            <i class="bi bi-check-circle"></i>
+
+                            <span>
+                                No tienes notificaciones pendientes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+                <!-- USUARIO -->
+
+                <div class="dropdown">
+
+
+                    <button
+                        class="madoc-topbar-user dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+
+
+                        {% if current_user.foto %}
+
+                        <img
+                            src="{{ current_user.foto }}"
+                            alt="Usuario"
+                            class="madoc-topbar-user-photo">
+
+                        {% else %}
+
+                        <div class="madoc-topbar-user-photo madoc-topbar-user-default">
+
+                            <i class="bi bi-person"></i>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <div class="madoc-topbar-user-info">
+
+                            <strong>
+                                {{ current_user.nombre }}
+                            </strong>
+
+                            <span>
+                                {{ current_user.rol|capitalize }}
+                            </span>
+
+                        </div>
+
+
+                    </button>
+
+
+                    <ul class="dropdown-menu dropdown-menu-end madoc-user-menu">
+
+
+                        <li>
+
+                            <a
+                                class="dropdown-item"
+                                href="/auth/perfil">
+
+                                <i class="bi bi-person"></i>
+
+                                Perfil
+
+                            </a>
+
+                        </li>
+
+
+                        {% if current_user.rol == 'admin' %}
+
+                        <li>
+
+                            <a
+                                class="dropdown-item"
+                                href="/usuarios">
+
+                                <i class="bi bi-people"></i>
+
+                                Control usuarios
+
+                            </a>
+
+                        </li>
+
+                        {% endif %}
+
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                class="dropdown-item text-danger"
+                                href="/auth/logout">
+
+                                <i class="bi bi-box-arrow-right"></i>
+
+                                Cerrar sesión
+
+                            </a>
+
+                        </li>
+
+
+                    </ul>
+
+                </div>
+
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTENIDO
+        ================================================== -->
+
+        <main class="madoc-content">
+
+            {% block content %}
+            {% endblock %}
+
+        </main>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     BOOTSTRAP JS
+====================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- =====================================================
+     JS SYSTEM MADOC
+====================================================== -->
+
+<script
+    src="{{ url_for('static', filename='js/main.js') }}">
+</script>
+
+
+<!-- =====================================================
+     SWEETALERT
+====================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+</script>
+
 
 </body>
 
