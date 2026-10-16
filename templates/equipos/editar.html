@@ -182,18 +182,53 @@ Registrar Equipo | System Madoc
 
                     </div>
 
-                    <!-- FOTO -->
+                    <!-- FOTO DEL EQUIPO -->
 
                     <div class="col-md-6 mb-3">
 
                         <label class="form-label">
-                            Foto Evidencia
+                            Foto del equipo
                         </label>
 
-                        <input type="file"
+                        {% if equipo.foto %}
+                            <div class="mb-3">
+                                <p class="text-secondary small mb-2">
+                                    Foto actual
+                                </p>
+
+                                <img
+                                    src="{{ equipo.foto }}"
+                                    id="vistaPreviaFoto"
+                                    alt="Foto actual del equipo"
+                                    class="img-fluid rounded shadow"
+                                    style="max-width: 250px; max-height: 200px; object-fit: contain;">
+                            </div>
+                        {% else %}
+                            <div class="mb-3">
+                                <img
+                                    src=""
+                                    id="vistaPreviaFoto"
+                                    alt="Vista previa de la foto"
+                                    class="img-fluid rounded shadow d-none"
+                                    style="max-width: 250px; max-height: 200px; object-fit: contain;">
+
+                                <p id="sinFoto" class="text-secondary small">
+                                    Este equipo todavía no tiene foto.
+                                </p>
+                            </div>
+                        {% endif %}
+
+                        <input
+                            type="file"
                             name="foto"
+                            id="fotoEquipo"
                             class="form-control"
                             accept="image/*">
+
+                        <small class="text-secondary">
+                            Selecciona una imagen para agregarla o reemplazarla.
+                            Si no seleccionas ninguna, se conservará la foto actual.
+                        </small>
 
                     </div>
 
@@ -255,5 +290,7 @@ Registrar Equipo | System Madoc
     </div>
 
 </div>
+
+<script src="{{ url_for('static', filename='js/equipos.js') }}"></script>
 
 {% endblock %}

@@ -186,6 +186,10 @@ def editar_equipo(id):
 
     if request.method == 'POST':
 
+        # =========================================
+        # ACTUALIZAR DATOS DEL EQUIPO
+        # =========================================
+
         equipo.tipo = request.form['tipo']
         equipo.marca = request.form['marca']
         equipo.modelo = request.form['modelo']
@@ -196,6 +200,26 @@ def editar_equipo(id):
         equipo.password_equipo = request.form['password_equipo']
         equipo.observaciones = request.form['observaciones']
         equipo.cliente_id = request.form['cliente_id']
+
+        # =========================================
+        # ACTUALIZAR FOTO SI SE SELECCIONÓ UNA
+        # =========================================
+
+        foto = request.files.get('foto')
+
+        if foto and foto.filename != '':
+
+            from utils.cloudinary_helper import subir_imagen
+
+            nueva_foto = subir_imagen(foto, 'equipos')
+
+            # Solo reemplazar si Cloudinary devuelve una URL
+            if nueva_foto:
+                equipo.foto = nueva_foto
+
+        # =========================================
+        # GUARDAR CAMBIOS
+        # =========================================
 
         db.session.commit()
 
